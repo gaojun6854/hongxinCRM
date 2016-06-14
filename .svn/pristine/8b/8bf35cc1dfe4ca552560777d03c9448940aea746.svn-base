@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="red_db" match-name="t_auto_repay"/>
+  <table-filter match-catalog="red_db" match-name="t_index_info"/>
+  <table-filter match-catalog="red_db" match-name="t_pact_info"/>
+  <table-filter match-catalog="red_db" match-name="t_pact_seq"/>
+  <table-filter match-catalog="red_db" match-name="t_product_info"/>
+  <table-filter match-catalog="red_db" match-name="t_rebuypact_info"/>
+</hibernate-reverse-engineering>

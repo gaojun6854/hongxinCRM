@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-18 15:48:18 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.User" table="t_user" optimistic-lock="version">
+        <id name="userId" type="string">
+            <column name="user_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <property name="userName" type="string">
+            <column name="userName" length="40" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="userType" type="string">
+            <column name="user_type" length="40" />
+        </property>
+        <property name="employeeId" type="string">
+            <column name="employeeId" length="40" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="40" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;&#195;&#220;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="orgId" type="string">
+            <column name="org_id" length="40" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="40">
+                <comment>&#211;&#202;&#207;&#228;</comment>
+            </column>
+        </property>
+        <property name="mobiePhone" type="string">
+            <column name="Mobie_Phone" length="40">
+                <comment>&#202;&#214;&#187;&#250;&#186;&#197;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="isLocked" type="java.lang.Integer">
+            <column name="IsLocked">
+                <comment>&#202;&#199;&#183;&#241;&#177;&#187;&#203;&#248;</comment>
+            </column>
+        </property>
+        <property name="isEnable" type="java.lang.Integer">
+            <column name="is_enable">
+                <comment>&#202;&#199;&#183;&#241;&#191;&#201;&#211;&#195;</comment>
+            </column>
+        </property>
+        <property name="randNum" type="string">
+            <column name="randNum" length="40">
+                <comment>&#209;&#233;&#214;&#164;&#203;&#230;&#187;&#250;&#202;&#253;</comment>
+            </column>
+        </property>
+        <property name="expireTime" type="timestamp">
+            <column name="expire_Time" length="19">
+                <comment>&#203;&#230;&#187;&#250;&#202;&#253;&#202;&#167;&#208;&#167;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="requirePasswordChange" type="java.lang.Integer">
+            <column name="require_password_change">
+                <comment>&#199;&#235;&#199;&#243;&#184;&#196;&#177;&#228;&#195;&#220;&#194;&#235;&#180;&#206;&#202;&#253;</comment>
+            </column>
+        </property>
+        <property name="lastLocale" type="string">
+            <column name="last_locale" length="40">
+                <comment>&#215;&#238;&#186;&#243;&#210;&#187;&#180;&#206;&#181;&#199;&#194;&#188;&#203;&#249;&#212;&#218;&#181;&#216;</comment>
+            </column>
+        </property>
+        <property name="lastLoginDate" type="timestamp">
+            <column name="Last_Login_date" length="19" not-null="true">
+                <comment>&#215;&#238;&#186;&#243;&#210;&#187;&#180;&#206;&#181;&#199;&#194;&#188;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="operrationUserId" type="string">
+            <column name="operration_user_id" length="40" not-null="true">
+                <comment>&#178;&#217;&#215;&#247;&#200;&#203;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="create_date" length="19" not-null="true">
+                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="updateDate" type="timestamp">
+            <column name="update_date" length="19">
+                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="200">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

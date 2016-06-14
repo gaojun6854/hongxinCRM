@@ -1,0 +1,8 @@
+package com.hongxin.dao;
+
+import com.hongxin.dao.BaseDao;
+import com.hongxin.entity.UserInfo;
+
+public interface UserInfoDao extends BaseDao<UserInfo, Integer>{
+
+}

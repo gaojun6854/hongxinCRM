@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-18 15:48:18 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.Organization" table="organization" catalog="red_db" optimistic-lock="version">
+        <id name="orgId" type="string">
+            <column name="org_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="organization" class="com.hongxin.entity.Organization" fetch="select">
+            <column name="parent_org_id" length="40">
+                <comment>&#215;&#233;&#214;&#175;&#187;&#250;&#185;&#185;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </many-to-one>
+        <property name="orgName" type="string">
+            <column name="org_name" length="40">
+                <comment>&#215;&#233;&#214;&#175;&#187;&#250;&#185;&#185;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="seq" type="java.lang.Integer">
+            <column name="seq">
+                <comment>&#197;&#197;&#208;&#242;</comment>
+            </column>
+        </property>
+        <property name="createTime" type="string">
+            <column name="create_time" length="40">
+                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="creator" type="string">
+            <column name="creator" length="40">
+                <comment>&#180;&#180;&#189;&#168;&#213;&#223;</comment>
+            </column>
+        </property>
+        <property name="updateDate" type="timestamp">
+            <column name="update_date" length="19">
+                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="operationIp" type="string">
+            <column name="operation_ip" length="40">
+                <comment>&#178;&#217;&#215;&#247;&#213;&#223;IP</comment>
+            </column>
+        </property>
+        <property name="orgValue" type="string">
+            <column name="org_value" length="40" />
+        </property>
+        <set name="employStaffs" table="employ_staff" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="org_id" length="40">
+                    <comment>&#215;&#233;&#214;&#175;&#187;&#250;&#185;&#185;&#177;&#224;&#186;&#197;</comment>
+                </column>
+            </key>
+            <one-to-many class="com.hongxin.entity.EmployStaff" />
+        </set>
+        <set name="organizations" table="organization" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="parent_org_id" length="40">
+                    <comment>&#215;&#233;&#214;&#175;&#187;&#250;&#185;&#185;&#177;&#224;&#186;&#197;</comment>
+                </column>
+            </key>
+            <one-to-many class="com.hongxin.entity.Organization" />
+        </set>
+    </class>
+</hibernate-mapping>

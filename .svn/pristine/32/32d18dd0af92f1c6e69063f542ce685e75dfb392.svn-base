@@ -1,0 +1,209 @@
+package com.hongxin.service.impl;
+
+import java.util.Date;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hongxin.dao.AutoRepayDao;
+import com.hongxin.dao.CustomBaseInfoDao;
+import com.hongxin.dao.PactInfoDao;
+import com.hongxin.dao.ProductDao;
+import com.hongxin.entity.CustomBaseInfo;
+import com.hongxin.entity.TAutoRepay;
+import com.hongxin.entity.TPactInfo;
+import com.hongxin.entity.TProductInfo;
+import com.hongxin.entity.TRebuypactInfo;
+import com.hongxin.service.PactInfoService;
+import com.hongxin.utils.Constants;
+import com.hongxin.utils.Date2String8;
+
+@Service("pactInfoService")
+public class PactInfoServiceImpl implements PactInfoService {
+
+	@Autowired
+	private PactInfoDao pactInfoDao;
+	@Autowired
+	private ProductDao productDao;
+	@Autowired
+	private CustomBaseInfoDao customBaseInfoDao; 
+	@Autowired
+	private AutoRepayDao autoRepayDao;
+
+	public TPactInfo load(String id) {
+		return pactInfoDao.load(id);
+	}
+
+	public TPactInfo get(String id) {
+		return pactInfoDao.get(id);
+	}
+
+	public List<TPactInfo> findAll() {
+		return pactInfoDao.findAll();
+		
+	}
+
+	public void persist(TPactInfo entity) {
+		pactInfoDao.persist(entity);
+	}
+
+	public String save(TPactInfo entity) {
+		TProductInfo pro=productDao.getStrId(entity.getProductId());
+		CustomBaseInfo custom=customBaseInfoDao.getByStrId(entity.getCustId()).get(0);
+		entity.setPactDate(Date2String8.date2String(new Date()));
+		entity.setPactTime(Date2String8.time2String());
+		entity.setCustName(custom.getCustname());
+		entity.setPaperType(custom.getPapertype().charAt(0));
+		entity.setPaperNum(custom.getPapernum());
+		entity.setInvestType('1');//默认都是1线上转账
+		entity.setFuyouAccout(pro.getFuyouAccout());
+		entity.setPurchaseDays("60");//暂时
+		entity.setRecruitmentDays("20160908");
+		entity.setPactFlow('2');
+		entity.setCheckStart('1');
+		entity.setBackMoney(0.00);
+		entity.setPactEff(Date2String8.date2String(new Date()));
+		entity.setCountEff(Date2String8.date2String(new Date()));
+		entity.setPactDue("20160907");
+		entity.setRecruitmentDate(0.80);
+		entity.setRateFix(0.00);
+		entity.setRebuyFlag("00");
+		
+		return pactInfoDao.save(entity);
+	}
+
+	public int saveOrUpdateByEntity(TPactInfo entity) {
+		return pactInfoDao.saveOrUpdateByEntity(entity);
+		
+	}
+
+	public int deleteById(String id) {
+		return pactInfoDao.deleteById(id);
+	}
+
+	public void flush() {
+		pactInfoDao.flush();
+	}
+
+	public void saveOrUpdate(TPactInfo entity) {
+		pactInfoDao.saveOrUpdate(entity);
+	}
+
+	public void delete(String id) {
+		pactInfoDao.delete(id);
+	}
+
+	public List<TPactInfo> findAllReviews() {
+		return pactInfoDao.findAllReviews();
+	}
+
+	public int onLineReviewsYN(String id, String param) {
+		TPactInfo pact=pactInfoDao.get(id);
+		if ("yes".equals(param)) {
+			pact.setCheckStart('2');
+			pact.setPactFlow('3');//成功
+		}else if("no".equals(param)){
+			pact.setCheckStart('3');//失败
+			pact.setPactFlow('2');
+		}
+		return pactInfoDao.onLineReviewsYN(pact);
+	}
+
+	public List<TPactInfo> findAllPZReviews() {
+		return pactInfoDao.findAllPZReviews();
+	}
+
+	public int offLineReviewsYN(String id, String param) {
+		TPactInfo pact=pactInfoDao.get(id);
+		if ("yes".equals(param)) {
+			pact.setCheckStart('2');
+			pact.setPactFlow('3');//成功
+		}else if("no".equals(param)){
+			pact.setCheckStart('7');//失败
+			pact.setPactFlow('3');
+		}
+		return pactInfoDao.onLineReviewsYN(pact);
+	}
+
+	public List<TPactInfo> findAllRepayment() {
+		return pactInfoDao.findAllRepayment();
+	}
+
+	public int repaymentYN(String id, String param) {
+		TPactInfo pact=pactInfoDao.get(id);
+		if ("yes".equals(param)) {
+			pact.setCheckStart('2');
+			pact.setPactFlow('4');//成功
+		}else if("no".equals(param)){
+			pact.setCheckStart('3');//失败
+			pact.setPactFlow('4');
+		}
+		
+		TAutoRepay auto=autoRepayDao.get(pact.getPactId());//自动还款表信息
+		auto.setBussStart('1');//成功
+		autoRepayDao.saveOrUpdate(auto);
+		return pactInfoDao.onLineReviewsYN(pact);
+	}
+
+	public TPactInfo findByPactNum(String pactNum) {
+		return pactInfoDao.findByPactNum(pactNum);
+	}
+
+	public List<TPactInfo> findReimbursementToCustom() {
+		return pactInfoDao.findReimbursementToCustom();
+	}
+
+	/**
+	 * 回购到新合约中
+	 */
+	public void pactHG2(TPactInfo pactInfo,TRebuypactInfo rebuy) {
+		TPactInfo entity=new TPactInfo();
+		TProductInfo pro=productDao.getStrId(rebuy.getProductId());
+		CustomBaseInfo custom=customBaseInfoDao.getByStrId(pactInfo.getCustId()).get(0);
+		entity.setPactId(rebuy.getPactId());
+		entity.setAmount(rebuy.getAmount());
+		entity.setBackMoney(0.00);
+		entity.setPactDate(rebuy.getPactDate());
+		entity.setPactTime(rebuy.getPactTime());
+		entity.setCustId(custom.getId());
+		entity.setCustName(custom.getCustname());
+		entity.setPaperType(custom.getPapertype().charAt(0));
+		entity.setPaperNum(custom.getPapernum());
+		entity.setInvestType('1');//默认都是1线上转账
+		entity.setProductId(rebuy.getProductId());
+		entity.setFuyouAccout(pro.getFuyouAccout());
+		
+		entity.setPurchaseDays("60");//暂时购买时间
+		entity.setRecruitmentDays("20160908");//募集期到期日
+		
+		entity.setPactFlow('2');//审批
+		entity.setCheckStart('1');//初审
+		
+		entity.setPactEff(Date2String8.date2String(new Date()));//合同生效日期
+		entity.setCountEff(Date2String8.date2String(new Date()));//合同起息日期
+		entity.setPactDue("20160907");//合同到期日期
+		entity.setContractNumber(rebuy.getContractNumber());
+		entity.setRecruitmentDate(Constants.RATE_FIX);//合同利率
+		entity.setRateFix(Constants.RECRUITMENT_FIX);
+		entity.setRebuyFlag("00");
+		pactInfoDao.save(entity);
+
+		TAutoRepay auto=autoRepayDao.get(pactInfo.getPactId());//自动还款表信息
+		
+		//旧合约数据状态结束
+		if (rebuy.getAmount()==pactInfo.getAmount()+pactInfo.getBackMoney()) {
+			pactInfo.setCheckStart('2');
+			pactInfo.setPactFlow('6');//成功--合同结束
+			auto.setBussStart('1');//表示还款成功了
+		}else{
+			pactInfo.setCheckStart('2');
+			pactInfo.setPactFlow('5');//新的           回购资金 < 旧合约的本金+利息
+			auto.setBussStart('2');//表示还款了一部分到客户富有了
+		}
+		pactInfoDao.saveOrUpdateByEntity(pactInfo);
+		
+		autoRepayDao.saveOrUpdate(auto);//更新数据
+		
+	}
+
+}

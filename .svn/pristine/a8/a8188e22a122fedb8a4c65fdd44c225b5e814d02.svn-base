@@ -1,0 +1,114 @@
+package com.hongxin.service.impl;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hongxin.dao.CheckInfoDao;
+import com.hongxin.dao.CustomBaseInfoDao;
+import com.hongxin.dao.CustomStatusDao;
+import com.hongxin.entity.CheckInfo;
+import com.hongxin.entity.CustomBaseInfo;
+import com.hongxin.entity.CustomStatus;
+import com.hongxin.service.CustomBaseInfoService;
+import com.hongxin.utils.QueryResult;
+
+@Service("customBaseInfoService")
+public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
+
+	@Autowired
+	private CustomBaseInfoDao customBaseInfoDao;
+	@Autowired
+	private CheckInfoDao checkInfoDao;
+	@Autowired
+	private CustomStatusDao customStatusDao;
+	
+	public CustomBaseInfo get(Integer id) {
+		return customBaseInfoDao.get(id);
+	}
+
+	public List<CustomBaseInfo> findAll() {
+		List<CustomBaseInfo> customBaseInfos=customBaseInfoDao.findAll();
+		return customBaseInfos;
+	}
+
+	public void persist(CustomBaseInfo entity) {
+		customBaseInfoDao.persist(entity);
+	}
+
+	public Integer save(CustomBaseInfo entity) {
+		return customBaseInfoDao.save(entity);
+	}
+
+	public void saveOrUpdate(CustomBaseInfo entity) {
+		customBaseInfoDao.save(entity);
+		
+	}
+
+	public void delete(Integer id) {
+		customBaseInfoDao.delete(id);
+	}
+
+	public void flush() {
+		customBaseInfoDao.flush();
+	}
+
+	public CustomBaseInfo load(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String save4StrId(CustomBaseInfo customBaseInfo) {
+		return customBaseInfoDao.save4StrId(customBaseInfo);//保存customBaseInfo
+	}
+	
+	//通过手机号码或者身份证查找该用户信息是否存在
+	public int getByPhonenumOrPapernum(String phonenum,String papernum) {
+		return customBaseInfoDao.getByPhonenumOrPapernum(phonenum,papernum);
+	}
+
+	//通过主键查询用户信息
+	public List<CustomBaseInfo>  getByStrId(String id) {
+		return customBaseInfoDao.getByStrId(id);
+	}
+
+	/**
+	 * 更新用户信息
+	 */
+	public int saveOrUpdateByStr(CustomBaseInfo customBaseInfo,int g) {
+		if (g==1) {
+			//客户出于初审，直接保存
+			return customBaseInfoDao.saveOrUpdateByStr(customBaseInfo);
+		}else{
+			//不管客户出于审核失败还是出于初审成功,强制为客户信息修改了
+			CheckInfo check=checkInfoDao.getByCustomId(customBaseInfo.getId());
+			check.setCheckType('2');
+			check.setCheckFlow('1');
+			checkInfoDao.saveOrUpdate(check);
+			//客户状态中为客户信息修改
+			CustomStatus customStatus=customStatusDao.getByStrId(customBaseInfo.getId());
+			customStatus.setCustStart('5');
+			customStatus.setCustCheckStart('1');
+			customStatusDao.saveOrUpdate(customStatus);
+			return customBaseInfoDao.saveOrUpdateByStr(customBaseInfo);
+		}
+	}
+
+	/**
+	 * 查询全部初审客户信息
+	 */
+	public List<CustomBaseInfo> findAllFirstAudit() {
+		return customBaseInfoDao.findAllFirstAudit();
+	}
+
+	//初审已完成信息
+	public List<CustomBaseInfo> findAudited() {
+		return customBaseInfoDao.findAudited();
+	}
+	//查询已编辑了的客户信息的客户
+	public List<CustomBaseInfo> findEditedInfo() {
+		return customBaseInfoDao.findEditedInfo();
+	}
+
+}

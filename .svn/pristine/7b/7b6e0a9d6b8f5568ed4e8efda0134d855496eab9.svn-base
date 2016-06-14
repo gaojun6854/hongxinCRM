@@ -1,0 +1,29 @@
+package com.hongxin.service;
+
+import java.util.List;
+import com.hongxin.entity.TAutoRepay;
+
+public interface AutoRepayService 
+{
+	TAutoRepay load(String id);
+
+	TAutoRepay get(String id);
+
+	List<TAutoRepay> findAll();
+
+	void persist(TAutoRepay entity);
+
+	String save(TAutoRepay entity);
+
+	void saveOrUpdate(TAutoRepay entity);
+
+	void delete(String id);
+
+	void flush();
+
+	String save4StrId(TAutoRepay entiry);
+	List<TAutoRepay>getByStrId(String Id);
+
+	List<TAutoRepay> findAllRepayment();
+
+}

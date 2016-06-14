@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 所有用户信息  -->
+	<package name="paymentNoticePackage" extends="struts2" namespace="/paymentNotice">
+	<!--需要拦截登录拦截 让它们入 "struts2"-->
+		
+		<action name="findPaymentNoticeList" class="com.hongxin.action.OA.PaymentNoticeAction" method="findPaymentNoticeList">  
+            <result name="paymentNoticeList">/paymentNotice/Payment_Notice_List.jsp</result><!-- 还款通知 -->
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+        
+        <action name="findPaymentToCustomRecord" class="com.hongxin.action.OA.PaymentNoticeAction" method="findPaymentToCustomRecord">  
+            <result name="paymentToCustomRecord">/paymentNotice/Payment_Custom_Record.jsp</result><!-- 还款客户账记录 -->
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+        
+        <action name="findPaymentInfomation" class="com.hongxin.action.OA.PaymentNoticeAction" method="findPaymentInfomation">  
+            <result name="paymentNoticeInfo">/paymentNotice/Payment_Notice_Info.jsp</result>
+           
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+        
+         <action name="paymentToCustom" class="com.hongxin.action.OA.PaymentNoticeAction" method="paymentToCustom">  
+            <result name="findPaymentToCustomRecord" type="redirectAction">findPaymentToCustomRecord</result>
+           
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+	</package>
+</struts>  

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-5-4 10:43:29 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TFundInfo" table="t_fund_info" catalog="red_db" optimistic-lock="version">
+        <id name="workDate" type="string">
+            <column name="work_date" length="8" />
+            <generator class="assigned" />
+        </id>
+        <property name="funds" type="double">
+            <column name="funds" precision="16" not-null="true">
+                <comment>&#187;&#249;&#189;&#240;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

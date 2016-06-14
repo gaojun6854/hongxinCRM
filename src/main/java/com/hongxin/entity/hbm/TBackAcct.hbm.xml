@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-3 15:46:27 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TBackAcct" table="t_back_acct" catalog="red_db" optimistic-lock="version">
+        <id name="pactId" type="string">
+            <column name="pact_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <property name="rebuyAmount" type="double">
+            <column name="rebuy_amount" precision="16" not-null="true">
+                <comment>&#187;&#216;&#185;&#186;&#189;&#240;&#182;&#238;</comment>
+            </column>
+        </property>
+        <property name="backAmount" type="double">
+            <column name="back_amount" precision="16" not-null="true">
+                <comment>&#187;&#185;&#191;&#238;&#189;&#240;&#182;&#238;</comment>
+            </column>
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="2" not-null="true">
+                <comment>&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="remark1" type="string">
+            <column name="remark1" length="32">
+                <comment>&#177;&#184;&#215;&#162;&#210;&#187;</comment>
+            </column>
+        </property>
+        <property name="remark2" type="string">
+            <column name="remark2" length="64">
+                <comment>&#177;&#184;&#215;&#162;&#182;&#254;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,70 @@
+package com.hongxin.service.impl;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hongxin.dao.AutoRepayDao;
+import com.hongxin.entity.TAutoRepay;
+import com.hongxin.service.AutoRepayService;
+
+@Service("autoRepayService")
+public class AutoRepayServiceImpl implements AutoRepayService {
+
+	@Autowired
+	private AutoRepayDao autoRepayDao;
+	
+	public TAutoRepay get(String id) {
+		return autoRepayDao.get(id);
+	}
+
+	public List<TAutoRepay> findAll() {
+		return autoRepayDao.findAll();
+	}
+
+	public void persist(TAutoRepay entity) {
+		autoRepayDao.persist(entity);
+	}
+
+	public String save(TAutoRepay entity) {
+		return autoRepayDao.save(entity);
+	}
+
+	public void saveOrUpdate(TAutoRepay entity) {
+		autoRepayDao.saveOrUpdate(entity);
+		
+	}
+
+	public void delete(String id) {
+		autoRepayDao.delete(id);
+	}
+
+	public void flush() {
+		autoRepayDao.flush();
+	}
+
+	public TAutoRepay load(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String save4StrId(TAutoRepay TAutoRepay) {
+		return autoRepayDao.save4StrId(TAutoRepay);//保存TAutoRepay
+	}
+	/**
+	 * 通过主键查询所有的改信息
+	 * 结果为List
+	 */
+	public List<TAutoRepay> getByStrId(String Id) {
+		return autoRepayDao.getByStrId(Id);//保存TAutoRepay
+	}
+
+	public List<TAutoRepay> getByStrIdType(String id, String no) {
+		return autoRepayDao.getByStrIdType(id,no);//保存TAutoRepay
+	}
+
+	public List<TAutoRepay> findAllRepayment() {
+		return autoRepayDao.findAllRepayment();
+	}
+
+}

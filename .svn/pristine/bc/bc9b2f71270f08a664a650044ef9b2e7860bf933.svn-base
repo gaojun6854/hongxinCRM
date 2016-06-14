@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-5 0:33:06 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TAutoRepay" table="t_auto_repay" catalog="red_db" optimistic-lock="version">
+        <id name="pactId" type="string">
+            <column name="pact_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        
+         <property name="productId" type="string">
+            <column name="product_id" length="128" not-null="true">
+                <comment>&#178;&#250;&#198;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        
+         <property name="workDate" type="string">
+            <column name="work_date" length="128" not-null="true">
+                <comment>&#178;&#250;&#198;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        
+        <property name="productName" type="string">
+            <column name="product_name" length="128" not-null="true">
+                <comment>&#178;&#250;&#198;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="takeEff" type="string">
+            <column name="take_eff" length="8" not-null="true">
+                <comment>&#178;&#250;&#198;&#183;&#201;&#250;&#208;&#167;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="lostEff" type="string">
+            <column name="lost_eff" length="8" not-null="true">
+                <comment>&#178;&#250;&#198;&#183;&#202;&#167;&#208;&#167;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="repayAccout" type="string">
+            <column name="repay_accout" length="20" not-null="true">
+                <comment>&#187;&#185;&#191;&#238;&#213;&#203;&#187;&#167;</comment>
+            </column>
+        </property>
+        <property name="payerAccout" type="string">
+            <column name="payer_accout" length="20" not-null="true">
+                <comment>&#184;&#182;&#191;&#238;&#213;&#203;&#187;&#167;</comment>
+            </column>
+        </property>
+        <property name="capital" type="double">
+            <column name="capital" precision="16" not-null="true">
+                <comment>&#177;&#190;&#189;&#240;</comment>
+            </column>
+        </property>
+        <property name="amount" type="java.lang.Double">
+            <column name="amount" precision="16">
+                <comment>&#192;&#251;&#207;&#162;</comment>
+            </column>
+        </property>
+        <property name="bussDate" type="string">
+            <column name="buss_date" length="8">
+                <comment>&#189;&#187;&#210;&#215;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="bussTime" type="string">
+            <column name="buss_time" length="6">
+                <comment>&#189;&#187;&#210;&#215;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="bussStart" type="char">
+            <column name="buss_start" length="1" not-null="true">
+                <comment>&#189;&#187;&#210;&#215;&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="2" not-null="true">
+                <comment>&#180;&#166;&#192;&#237;&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="backTime" type="string">
+            <column name="back_time" length="2">
+                <comment>&#187;&#185;&#191;&#238;&#180;&#206;&#202;&#253;</comment>
+            </column>
+        </property>
+        <property name="rebuyFlag" type="string">
+            <column name="rebuy_flag" length="2" not-null="true">
+                <comment>&#187;&#216;&#185;&#186;&#177;&#234;&#214;&#190;</comment>
+            </column>
+        </property>
+        <property name="rebuyPactid" type="string">
+            <column name="rebuy_pactid" length="40">
+                <comment>&#187;&#216;&#185;&#186;&#186;&#207;&#205;&#172;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="remark1" type="string">
+            <column name="remark1" length="32">
+                <comment>&#177;&#184;&#215;&#162;&#210;&#187;</comment>
+            </column>
+        </property>
+        <property name="remark2" type="string">
+            <column name="remark2" length="64">
+                <comment>&#177;&#184;&#215;&#162;&#182;&#254;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

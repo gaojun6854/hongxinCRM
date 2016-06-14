@@ -1,0 +1,51 @@
+package com.hongxin.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.hongxin.dao.UserInfoDao;
+import com.hongxin.entity.UserInfo;
+import com.hongxin.service.UserInfoService;
+
+@Service("userInfoService")
+public class UserInfoServiceImpl implements UserInfoService {
+
+	@Autowired
+	private UserInfoDao userInfoDao;
+
+	public UserInfo load(Integer id) {
+		return null;
+	}
+
+	public UserInfo get(Integer id) {
+		return userInfoDao.get(id);
+	}
+
+	public List<UserInfo> findAll() {
+		return userInfoDao.findAll();
+	}
+
+	public void persist(UserInfo entity) {
+		userInfoDao.persist(entity);
+	}
+
+	public Integer save(UserInfo entity) {
+		return userInfoDao.save(entity);
+	}
+
+	public void saveOrUpdate(UserInfo entity) {
+		userInfoDao.save(entity);
+		
+	}
+
+	public void delete(Integer id) {
+		userInfoDao.delete(id);
+		
+	}
+
+	public void flush() {
+		userInfoDao.flush();
+	}
+
+}

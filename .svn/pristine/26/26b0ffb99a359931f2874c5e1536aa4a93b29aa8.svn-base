@@ -1,0 +1,55 @@
+package com.hongxin.action.OA;
+
+import com.hongxin.entity.EmployStaff;
+/**
+ * 员工档案实体类
+ */
+import com.opensymphony.xwork2.ActionSupport;
+
+public class EmployStaffAction extends ActionSupport {
+	private static final long serialVersionUID = 1L;
+	private EmployStaff EmployStaff;
+	@Override
+	public String execute() throws Exception {
+		return SUCCESS;
+	}
+	
+	/**
+	 * 增加员工
+	 */
+	public String addEmployStaff(){
+		
+		return "addEmployStaff";
+	}
+	/**
+	 * 修改员工信息
+	 */
+	
+	/**
+	 * 查询员工档案
+	 */
+	
+	/**
+	 * 员工调职
+	 */
+	
+	/**
+	 * 员工离职
+	 */
+	
+	/**
+	 * 查询所有组织机构及每个部门下的员工
+	 * @return
+	 */
+	/////////////////////////get---set/////////////////////////
+	public EmployStaff getEmployStaff() {
+		return EmployStaff;
+	}
+	public void setEmployStaff(EmployStaff employStaff) {
+		EmployStaff = employStaff;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+}

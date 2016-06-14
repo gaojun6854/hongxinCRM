@@ -1,0 +1,82 @@
+package com.hongxin.action.OA;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.hongxin.entity.UserInfo;
+import com.hongxin.service.UserInfoService;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class UserLoginAction extends ActionSupport{
+
+	/**
+	 * 用户登录Action
+	 */
+	private static final long serialVersionUID = 8051545551005559302L;
+	private static final Logger LOGGER = Logger.getLogger(UserLoginAction.class);
+	private Integer id;
+	private String name;
+	private UserInfo userInfo;
+
+	@Autowired
+	private UserInfoService userInfoService;
+	
+	@Override
+	public String execute() throws Exception {
+		String id = ServletActionContext.getRequest().getParameter("id");
+		String name = ServletActionContext.getRequest().getParameter("name");
+		LOGGER.info("查询登录用户");
+		if (id==null) {
+			return LOGIN;
+		}
+		userInfo = userInfoService.get(Integer.parseInt(id));
+		ServletActionContext.getRequest().setAttribute("logRec", "用户-"+userInfo.getName()+"-登录");
+		
+		if (!userInfo.getName().equals(name)) {
+			LOGGER.info("登录失败，重新登录");
+			return LOGIN;
+		}
+		LOGGER.info("登录成功");
+		ActionContext.getContext().getSession().put("login_user",userInfo);
+		return SUCCESS;
+	}
+	
+	public String logout() throws Exception {
+		ActionContext.getContext().getSession().remove("login_user");
+		return LOGIN;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public UserInfoService getUserInfoService() {
+		return userInfoService;
+	}
+
+	public void setUserInfoService(UserInfoService userInfoService) {
+		this.userInfoService = userInfoService;
+	}
+	
+}

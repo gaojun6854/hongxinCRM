@@ -15,9 +15,9 @@
 <title>红歆财富投资管理</title>
 </head>
 <c:if test="${sessionScope.login_user!=null}">
-<frameset rows="5%,*">
+<frameset rows="3.5%,*">
 	<frame   src="<%=basePath%>token.jsp">
-	<frameset cols="12%,*">
+	<frameset cols="7.785%,*">
 	  <frame src="<%=basePath%>menu.jsp">
 	  <frame src="<%=basePath%>hongxin.jsp" name="content">
 	</frameset>

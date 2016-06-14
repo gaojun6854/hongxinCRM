@@ -399,7 +399,7 @@ $(document).ready(function() {
             
             formData:{ //附带值       
     			'url':'1111',
-    			'custIDS':'${pactId}',
+    			'custIDS':'${pactInfo.pactId}',
     			'picType':'3333',
     			},
         });
@@ -716,7 +716,7 @@ $(document).ready(function() {
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
                         alert( '上传成功,点击返回' );
-                        var url1="pactInfo!repaymentYN.action?id=${pactInfo.pactId}&param=no";
+                       var url1="../autoRepayment/findPaymentInfomation.action?no=2&id=${pactInfo.pactId}&redirect=updateAutoRepay";
                         window.location=url1;
                     } else {
                         // 没有成功的图片，重设

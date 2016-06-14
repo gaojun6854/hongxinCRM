@@ -45,7 +45,8 @@
         </action>
         
         <action name="failPaymentToFirstPayment" class="com.hongxin.action.OA.AutoRepayAction" method="failPaymentToFirstPayment"> 
-             <result name="updateAutoRepayInfoPage" type= "redirectAction">findFailAutoRepayList</result><!-- 还款初审 -->
+             <result name="updateAutoRepayInfoPage" type= "redirectAction">findFailAutoRepayList</result>
+             <result name="updateAutoRepay">/autoRepayment/updateAutoRepay.jsp</result>	<!-- 还款修改信息 -->
             <!-- 拦截器 -->
             <interceptor-ref name="myStack"></interceptor-ref>
             <interceptor-ref name="myLogStack"></interceptor-ref>

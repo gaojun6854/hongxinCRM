@@ -156,9 +156,15 @@
 							</div>
 							<div class="field-box">
 								<label style="color: red">客户购买金额*</label> <input
-									class="span5 inline-input" name='pactInfo.amount' type="text"
+									class="span5 inline-input" name="pactInfo.amount" type="text"
 									value="${pactInfo.amount}" />
 							</div>
+							<c:if test="${pactInfo.rebuyFlag eq '01'}">
+								<div class="field-box">
+									<label style="color: red">回购金额*</label> 
+									<input class="span5 inline-input" name="amount" type="text" value="${rebuyPact.amount}" />
+								</div>
+							</c:if>
 							<div class="field-box">
 								<label>最低收益</label> <input class="span5 inline-input" name=''
 									type="text"

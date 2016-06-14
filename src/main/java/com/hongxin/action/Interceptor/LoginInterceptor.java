@@ -1,5 +1,7 @@
 package com.hongxin.action.Interceptor;
-
+/**
+ * 登录拦截器
+ */
 import com.hongxin.entity.User;
 /**
  * 登录拦截器

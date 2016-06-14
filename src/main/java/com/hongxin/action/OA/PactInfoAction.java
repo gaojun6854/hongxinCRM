@@ -154,7 +154,7 @@ public class PactInfoAction extends ActionSupport{
 				//旧合同
 				TProductInfo productInfo=productService.get(oldPact.getProductId());//productInfo
 				oldPact.setRebuyFlag("01");
-				oldPact.setPactFlow("5");
+				//oldPact.setPactFlow("5");
 				
 				//回购信息
 				TRebuypactInfo rebuyPact=new TRebuypactInfo();
@@ -573,13 +573,19 @@ public class PactInfoAction extends ActionSupport{
 		List<CheckReceipts>receipts=checkReceiptsService.getByStrIdType(id,no);
 		pactInfo.setReceipts(receipts);
 		request.setAttribute("pactInfo",pactInfo);
+		if ("01".equals(pactInfo.getRebuyFlag())) {
+			TRebuypactInfo rebuyPact = reBuyPactService.get(pactInfo.getPactId());
+			request.setAttribute("rebuyPact", rebuyPact);
+		}
 		//select Redirect URL
 		if ("firstCheck".equals(redirect)) {//合同初审
 			return "getPactInfo4online";
 		}else if ("lastCheck".equals(redirect)) {//合同复审
 			return "pactRecheck";
 		}else{
-			return "getPactInfo";
+			List<TProductInfo>products=productService.findAll();
+			request.setAttribute("products", products);
+			return "updateFailPactInfo";
 		}
 	}
 	

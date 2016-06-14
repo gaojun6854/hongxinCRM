@@ -156,21 +156,33 @@ public class AutoRepayAction extends ActionSupport {
 	public String failPaymentToFirstPayment(){
 		HttpServletRequest request=ServletActionContext.getRequest();
 		pactInfo=pactInfoService.get(id);
+		String amount=request.getParameter("amount");
+		TRebuypactInfo rebuyPact=new TRebuypactInfo();
+		if ("01".equals(pactInfo.getRebuyFlag())) {
+			rebuyPact= reBuyPactService.get(pactInfo.getPactId());
+			rebuyPact.setAmount(Double.parseDouble(amount));
+		}
+		
 		TAutoRepay autor=autoRepayService.get(pactInfo.getPactId());
 		try {
+			if ("01".equals(pactInfo.getRebuyFlag())) {
+				reBuyPactService.saveOrUpdate(rebuyPact);
+			}
 			autor.setBussStart('0');
 			pactInfo.setPactFlow("5");
 			autoRepayService.saveOrUpdate(autor);
 			pactInfoService.saveOrUpdateByEntity(pactInfo);
+			request.setAttribute("rebuyPact", rebuyPact);
 		} catch (Exception e) {
 			request.setAttribute("flag", "系统繁忙");
 		}
 		List<TProductInfo>products=new ArrayList<TProductInfo>();
 		pactInfo.setProductInfo(productService.getStrId(pactInfo.getProductId()));
 		pactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(pactInfo.getCustId()).get(0));
+			
 		products=productService.findAll();
 		request.setAttribute("products", products);
-		return "updateAutoRepayInfoPage";
+		return "updateAutoRepay";
 	}
 	
 	/**
@@ -296,6 +308,10 @@ public class AutoRepayAction extends ActionSupport {
 			}
 			return "lastPaymentInfo";
 		} else if ("updateAutoRepay".equals(redirect)) {// 失败还款修改界面
+			if ("01".equals(pactInfo.getRebuyFlag())) {
+				TRebuypactInfo rebuyPact = reBuyPactService.get(pactInfo.getPactId());
+				request.setAttribute("rebuyPact", rebuyPact);
+			}
 			List<TProductInfo> products = new ArrayList<TProductInfo>();
 			products = productService.findAll();
 			request.setAttribute("products", products);

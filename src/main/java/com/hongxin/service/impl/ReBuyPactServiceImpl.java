@@ -39,7 +39,7 @@ public class ReBuyPactServiceImpl implements ReBuyPactService
 	}
 
 	public void saveOrUpdate(TRebuypactInfo entity) {
-		rebuyPactDao.save(entity);
+		rebuyPactDao.saveOrUpdate(entity);
 	}
 
 	public void delete(String id) {

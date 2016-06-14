@@ -399,7 +399,7 @@ $(document).ready(function() {
             
             formData:{ //附带值       
     			'url':'1111',
-    			'custIDS':'${pactId}',
+    			'custIDS':'${pactInfo.pactId}',
     			'picType':'3333',
     			},
         });

@@ -1,7 +1,0 @@
-package com.hongxin.dao;
-
-import com.hongxin.dao.BaseDao;
-import com.hongxin.entity.EmployStaff;
-
-public interface EmployStaffDao extends BaseDao<EmployStaff, String>{
-}

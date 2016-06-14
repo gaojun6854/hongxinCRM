@@ -191,6 +191,12 @@ public class AutoRepayAction extends ActionSupport {
 	 * @return
 	 */
 	public String firstPaymentYN() {
+		synchronized(PactInfoAction.class){
+		TAutoRepay repay=autoRepayService.get(id);
+		if ("2".equals(repay.getBussStart())||"5".equals(repay.getBussStart())) {
+			msg="该还款信息已被处理,请勿重复处理!";
+			return "firstPaymentList";
+		}
 		String param = ServletActionContext.getRequest().getParameter("param");
 		//String id = ServletActionContext.getRequest().getParameter("id");
 		try {
@@ -206,6 +212,7 @@ public class AutoRepayAction extends ActionSupport {
 		}
 		// 在次查询还款到期信息
 		return "firstPaymentList";
+		}
 	}
 
 	
@@ -214,69 +221,68 @@ public class AutoRepayAction extends ActionSupport {
 	 */
 	public String lastPaymentYN() {
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String id = request.getParameter("id");
-		String param = request.getParameter("param");
-		pactInfo = pactInfoService.get(id);
-		TAutoRepay auto = autoRepayService.get(pactInfo.getPactId());
-		double balance = 0.00;
-
-		if ("yes".equals(param)) {
-			if ("7".equals(pactInfo.getPactFlow())) {// 确定是复审状态
-				if ("01".equals(pactInfo.getRebuyFlag())) {// 回购状态
-					TRebuypactInfo rebuy = reBuyPactService.get(pactInfo.getPactId());// 回购表数据
-					balance = pactInfo.getAmount() + pactInfo.getBackMoney() - rebuy.getAmount();
-					try {
-						System.out.println("富友打款-回购金额:" + rebuy.getAmount());
-						/**
-						 * 调用富有接口操作 打款给客户
-						 */
-						if (balance == 0.00) {
-							pactInfo.setPactFlow("12");
-							pactInfo.setCheckStart('2');
-						} else {
-							TBackAcct backAccount=new TBackAcct();
-							backAccount.setPactId(pactInfo.getPactId());
-							backAccount.setRebuyAmount(rebuy.getAmount());
-							backAccount.setBackAmount(balance);
-							backAccount.setState("00");
-							try {
+		synchronized(PactInfoAction.class){
+			TAutoRepay repay=autoRepayService.get(id);
+			if ("7".equals(repay.getBussStart())) {
+				msg="该还款信息已被处理,请勿重复处理!";
+				return "findlastPaymentList";
+			}
+		
+			String param = request.getParameter("param");
+			pactInfo = pactInfoService.get(id);
+			TAutoRepay auto = autoRepayService.get(pactInfo.getPactId());
+			double balance = 0.00;
+	
+			if ("yes".equals(param)) {
+				if ("7".equals(pactInfo.getPactFlow())) {// 确定是复审状态
+					if ("01".equals(pactInfo.getRebuyFlag())) {// 回购状态
+						TRebuypactInfo rebuy = reBuyPactService.get(pactInfo.getPactId());// 回购表数据
+						balance = pactInfo.getAmount() + pactInfo.getBackMoney() - rebuy.getAmount();
+						try {
+							System.out.println("富友打款-回购金额:" + rebuy.getAmount());
+							/**
+							 * 调用富有接口操作 打款给客户
+							 */
+							if (balance == 0.00) {
+								pactInfo.setPactFlow("12");//合同状态结束
+								
+							} else {
+								TBackAcct backAccount=new TBackAcct();
+								backAccount.setPactId(pactInfo.getPactId());
+								backAccount.setRebuyAmount(rebuy.getAmount());
+								backAccount.setBackAmount(balance);
+								backAccount.setState("00");
 								autoRepayService.saveBackAccount(backAccount);
-							} catch (Exception e) {
-								e.printStackTrace();
-								return "findlastPaymentList";
+								pactInfo.setPactFlow("10");//合同状态待还款至客户信息
 							}
-							
-							pactInfo.setPactFlow("10");
-							pactInfo.setCheckStart('2');
+						} catch (Exception e) {
+							msg="系统繁忙,稍后再试!";
 						}
-					} catch (Exception e) {
-
-					}
-				} else if ("00".equals(pactInfo.getRebuyFlag())) {// 不回购
-
-					try {
-						System.out.println("富友打款-全额打款:" + pactInfo.getAmount() + pactInfo.getBackMoney());
-						/**
-						 * 调用富有接口操作 打款给客户
-						 */
-						pactInfo.setPactFlow("12");
-						pactInfo.setCheckStart('2');
-					} catch (Exception e) {
-
+					} else if ("00".equals(pactInfo.getRebuyFlag())) {// 不回购
+	
+						try {
+							System.out.println("富友打款-全额打款:" + pactInfo.getAmount() + pactInfo.getBackMoney());
+							/**
+							 * 调用富有接口操作 打款给客户
+							 */
+							pactInfo.setPactFlow("12");
+						} catch (Exception e) {
+							msg="系统繁忙,稍后再试!";
+						}
 					}
 				}
+				auto.setBussStart('7');
+			} else if ("no".equals(param)) {
+				pactInfo.setPactFlow("8");
+				pactInfo.setCheckStart('2');
+				auto.setBussStart('6');
 			}
-			auto.setBussStart('7');
-		} else if ("no".equals(param)) {
-			pactInfo.setPactFlow("8");
-			pactInfo.setCheckStart('2');
-			auto.setBussStart('6');
-		}
-		try {
-			autoRepayService.saveOrUpdate(auto);
-			pactInfoService.saveOrUpdate(pactInfo);
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				autoRepayService.saveOrUpdate(auto);
+				pactInfoService.saveOrUpdate(pactInfo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return "findlastPaymentList";
 	}

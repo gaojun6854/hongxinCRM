@@ -453,7 +453,7 @@ public class PactInfoAction extends ActionSupport{
 			pageBean=pactInfoService.getPageBean(Constants.FEN_YE_SHU, page,map);
 			pageBean.setActionUrl("pactInfo!findPactNum.action");
 		} catch (Exception e) {
-			request.setAttribute("flag", "您输入的合同编号不存在,请重新输入!");
+			request.setAttribute("flag", "系統繁忙,稍后再试!");
 			return "findPactNum";
 		}
 		return "findPactInfoList";

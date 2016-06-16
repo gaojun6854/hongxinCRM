@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TFuyouTran" table="t_fuyou_tran" catalog="red_db" optimistic-lock="version">
+        <id name="fuyouTran" type="string">
+            <column name="fuyou_tran" length="30" />
+            <generator class="assigned" />
+        </id>
+        <property name="mchntCd" type="string">
+            <column name="mchnt_cd" length="15" not-null="true" />
+        </property>
+        <property name="mchntTxnSsn" type="string">
+            <column name="mchnt_txn_ssn" length="30" not-null="true" />
+        </property>
+        <property name="custNm" type="string">
+            <column name="cust_nm" length="30" />
+        </property>
+        <property name="mobileNo" type="string">
+            <column name="mobile_no" length="11" />
+        </property>
+        <property name="certifId" type="string">
+            <column name="certif_id" length="20" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="60" />
+        </property>
+        <property name="cityId" type="string">
+            <column name="city_id" length="4" />
+        </property>
+        <property name="parentBankId" type="string">
+            <column name="parent_bank_id" length="4" />
+        </property>
+        <property name="bankNm" type="string">
+            <column name="bank_nm" length="260" />
+        </property>
+        <property name="outCustNo" type="string">
+            <column name="out_cust_no" length="60" />
+        </property>
+        <property name="inCustNo" type="string">
+            <column name="in_cust_no" length="60" />
+        </property>
+        <property name="amt" type="java.lang.Double">
+            <column name="amt" precision="16" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="contract_no" length="30" />
+        </property>
+        <property name="respCode" type="string">
+            <column name="resp_code" length="10" />
+        </property>
+        <property name="sendMsg" type="string">
+            <column name="send_msg" length="2048" />
+        </property>
+        <property name="remark1" type="string">
+            <column name="remark1" length="32" />
+        </property>
+        <property name="remark2" type="string">
+            <column name="remark2" length="64" />
+        </property>
+    </class>
+</hibernate-mapping>

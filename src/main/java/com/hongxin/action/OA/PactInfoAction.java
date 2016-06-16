@@ -150,7 +150,7 @@ public class PactInfoAction extends ActionSupport{
 			try {
 				
 				autoRepay.setRebuyFlag("01");
-				autoRepay.setBussStart('3');//回购成功
+				//autoRepay.setBussStart('3');//回购成功
 				//旧合同
 				TProductInfo productInfo=productService.get(oldPact.getProductId());//productInfo
 				oldPact.setRebuyFlag("01");

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-5 0:33:06 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TIndexInfo" table="t_index_info">
+        <id name="workDate" type="string">
+            <column name="work_date" length="8" />
+            <generator class="assigned" />
+        </id>
+        <property name="indexs" type="double">
+            <column name="indexs" precision="16" not-null="true">
+                <comment>&#214;&#184;&#202;&#253;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

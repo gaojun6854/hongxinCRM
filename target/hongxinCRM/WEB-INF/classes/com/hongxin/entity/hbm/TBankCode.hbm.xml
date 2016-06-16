@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TBankCode" table="t_bank_code" catalog="red_db" optimistic-lock="version">
+        <composite-id name="id" class="com.hongxin.entity.TBankCodeId">
+            <key-property name="bankCode" type="string">
+                <column name="bank_code" length="8" />
+            </key-property>
+            <key-property name="bankName" type="string">
+                <column name="bank_name" length="256" />
+            </key-property>
+            <key-property name="remark1" type="string">
+                <column name="remark1" length="32" />
+            </key-property>
+            <key-property name="remark2" type="string">
+                <column name="remark2" length="64" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

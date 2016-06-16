@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.hongxin.entity">
+	<class name="CheckInfo" table="t_check_info">
+
+		<id name="checkId" column="check_id">
+			<generator class="assigned" />
+		</id>
+		<property name="checkSer" type="java.lang.Integer">
+			<column name="check_ser" />
+		</property>
+		<property name="checkSec" type="string">
+			<column name="check_sec" length="64" />
+		</property>
+		<property name="checkType" type="java.lang.Character">
+			<column name="check_type" length="1" />
+		</property>
+		<property name="othId" type="string">
+			<column name="oth_id" length="16" />
+		</property>
+		<property name="checkFlow" type="java.lang.Character">
+			<column name="check_flow" length="1" />
+		</property>
+		<property name="custName" type="string">
+			<column name="cust_name" length="64" />
+		</property>
+		<property name="paperType" type="string">
+			<column name="paper_type" length="1" />
+		</property>
+		<property name="paperNum" type="string">
+			<column name="paper_num" length="32" />
+		</property>
+		<property name="productId" type="string">
+			<column name="product_id" length="16" />
+		</property>
+		<property name="checkManNum" type="string">
+			<column name="check_man_num" length="8" />
+		</property>
+		<property name="checkManName" type="string">
+			<column name="check_man_name" length="64" />
+		</property>
+		<property name="checkStart" type="java.lang.Character">
+			<column name="check_start" length="1" />
+		</property>
+		<property name="checkOpinion" type="string">
+			<column name="check_opinion" length="64" />
+		</property>
+		<property name="checkDesc" type="string">
+			<column name="check_desc" length="64" />
+		</property>
+		<property name="cehckRecId" type="string">
+			<column name="cehck_rec_id" length="16" />
+		</property>
+		<property name="createDate" type="string">
+			<column name="create_date" length="256" />
+		</property>
+		<property name="createTime" type="string">
+			<column name="create_time" length="256" />
+		</property>
+		<property name="remark1" type="string">
+			<column name="remark1" length="32" />
+		</property>
+		<property name="remark2" type="string">
+			<column name="remark2" length="64" />
+
+		</property>
+	</class>
+</hibernate-mapping>

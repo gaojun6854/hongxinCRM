@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TErrCode" table="t_err_code" >
+        <id name="sysName" type="string">
+            <column name="sys_name" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="errCode" type="string">
+            <column name="err_code" length="10" not-null="true" />
+        </property>
+        <property name="errMsg" type="string">
+            <column name="err_msg" length="256" />
+        </property>
+        <property name="errInfo" type="string">
+            <column name="err_info" length="256" />
+        </property>
+        <property name="remark1" type="string">
+            <column name="remark1" length="32" />
+        </property>
+        <property name="remark2" type="string">
+            <column name="remark2" length="64" />
+        </property>
+    </class>
+</hibernate-mapping>

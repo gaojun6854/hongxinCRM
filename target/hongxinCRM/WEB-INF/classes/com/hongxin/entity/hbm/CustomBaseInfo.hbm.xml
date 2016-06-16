@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping package="com.hongxin.entity">  
+    <class name="CustomBaseInfo" table="t_custom_base_info">
+
+	 <id name="id" type="string">
+            <column name="custom_id" length="64" />
+            <generator class="assigned" />
+        </id>
+    <property name="custname" type="string">
+      <column name="cust_name" length="64" not-null="false" />
+    </property>
+    <property name="phonenum" type="string">
+      <column name="phone_num" length="20" not-null="false" />
+    </property>
+    <property name="papertype" type="string">
+      <column name="paper_type"  not-null="false" />
+    </property>
+    <property name="papernum" type="string">
+      <column name="paper_num" length="32"  not-null="false" />
+    </property>
+    <property name="custgender" type="string">
+      <column name="cust_gender" not-null="false" />
+    </property>
+    
+    <property name="custnationality" type="string">
+      <column name="cust_nationality" />
+    </property>
+    
+    <property name="custfrom" type="string">
+      <column name="cust_from" not-null="false" />
+    </property>
+    <property name="qqnum" type="string">
+      <column name="qq_num" length="20" not-null="false" />
+    </property>
+    <property name="weixin" type="string">
+      <column name="weixin" length="32" not-null="false" />
+    </property>
+    <property name="Email" type="string">
+      <column name="E_mail" length="32" not-null="false" />
+    </property>
+    
+        <property name="curAddress" type="string">
+            <column name="cur_address" length="128" />
+        </property>
+        <property name="curAddrPost" type="string">
+            <column name="cur_addr_post" length="10" />
+        </property>
+        <property name="postAddr" type="string">
+            <column name="post_addr" length="128" />
+        </property>
+        <property name="selectPost" type="string">
+            <column name="select_post" length="4" />
+        </property>
+        <property name="openFyAcount" type="string">
+            <column name="open_fy_acount" length="4" />
+        </property>
+        <property name="pastEmail" type="string">
+            <column name="past_email" length="10" />
+        </property>
+        <property name="managerId" type="string">
+            <column name="manager_id" length="10" />
+        </property>
+        <property name="termId" type="string">
+            <column name="term_id" length="10" />
+        </property>
+        <property name="remark1" type="string">
+            <column name="remark1" length="32" />
+        </property>
+        <property name="remark2" type="string">
+            <column name="remark2" length="64" />
+        </property>
+  </class>
+</hibernate-mapping>

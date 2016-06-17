@@ -144,12 +144,12 @@ public class PactInfoAction extends ActionSupport{
 		//回购表信息
 		if ("yes".equals(isRebuy)) {
 			TPactInfo oldPact=pactInfoService.get(pactId);
-			TAutoRepay autoRepay=new TAutoRepay();
-			autoRepay=autoRepayService.get(pactId);
+			//TAutoRepay autoRepay=new TAutoRepay();
+			//autoRepay=autoRepayService.get(pactId);
 			synchronized(PactInfoAction.class){
 			try {
 				
-				autoRepay.setRebuyFlag("01");
+				//autoRepay.setRebuyFlag("01");
 				//autoRepay.setBussStart('3');//回购成功
 				//旧合同
 				TProductInfo productInfo=productService.get(oldPact.getProductId());//productInfo
@@ -180,16 +180,16 @@ public class PactInfoAction extends ActionSupport{
 				if (productInfo.getRecruitmentFix()!=null) {
 					rebuyPact.setRecruitmentDate(productInfo.getRecruitmentFix());//募集期利率
 				}
-				autoRepayService.saveOrUpdate(autoRepay);
+				//autoRepayService.saveOrUpdate(autoRepay);
 				reBuyPactService.saveNewOld(rebuyPact,oldPact);
 				AjaxUtils.ajaxResponse("回购成功");
 			} catch (Exception e) {
-				autoRepay.setBussStart('4');//回购失败
+				//autoRepay.setBussStart('4');//回购失败
 				oldPact.setRebuyFlag("00");
 				oldPact.setPactFlow("6");
 				try {
 					pactInfoService.saveOrUpdate(oldPact);
-					autoRepayService.saveOrUpdate(autoRepay);
+					//autoRepayService.saveOrUpdate(autoRepay);
 				} catch (Exception e2) {
 					AjaxUtils.ajaxResponse("系统繁忙");
 				}
@@ -393,7 +393,7 @@ public class PactInfoAction extends ActionSupport{
 					 * 注释代码区
 					 */
 					if ("yes".equals(param)) {
-						InsertRepay(pactInfoService.get(pactId));//模拟熊健程序
+						//InsertRepay(pactInfoService.get(pactId));//模拟熊健程序
 						//request.setAttribute("flag", "转账成功,富友返回码:"+commonRspData.getResp_code());
 					}
 				} catch (Exception e) {

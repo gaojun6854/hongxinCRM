@@ -393,7 +393,7 @@ public class PactInfoAction extends ActionSupport{
 					 * 注释代码区
 					 */
 					if ("yes".equals(param)) {
-						//InsertRepay(pactInfoService.get(pactId));//模拟熊健程序
+						InsertRepay(pactInfoService.get(pactId));//模拟熊健程序
 						//request.setAttribute("flag", "转账成功,富友返回码:"+commonRspData.getResp_code());
 					}
 				} catch (Exception e) {
@@ -521,6 +521,17 @@ public class PactInfoAction extends ActionSupport{
 		ServletActionContext.getRequest().setAttribute("cust", cust);
 		ServletActionContext.getRequest().setAttribute("pactInfo", pactInfo);//回购标志
 		return "HGPactInfo";
+	}
+	
+	
+	public String pactHGForPaymentNotice(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String id=request.getParameter("id");
+		pactInfo=pactInfoService.get(id);
+		CustomBaseInfo cust=customBaseInfoService.getByStrId(pactInfo.getCustId()).get(0);
+		ServletActionContext.getRequest().setAttribute("cust", cust);
+		ServletActionContext.getRequest().setAttribute("pactInfo", pactInfo);//回购标志
+		return "pactHGForPaymentNotice";
 	}
 	
 ///////////////////////////////////////////回购产品//////////////////////////////////////////////////////////////

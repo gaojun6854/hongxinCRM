@@ -63,5 +63,14 @@
             <!--如果不需要拦截 让它们已入 defaultStack-->
         </action>
         
+        <action name="cancelRebuy" class="com.hongxin.action.OA.AutoRepayAction" method="cancelRebuy">  
+             <result name="paymentNoticeInfo" >/paymentNotice/Payment_Notice_Info.jsp</result>
+              <result name="updateAutoRepay" >/autoRepayment/updateAutoRepay.jsp</result>
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+        
 	</package>
 </struts>  

@@ -30,6 +30,7 @@ import com.hongxin.service.PactInfoService;
 import com.hongxin.service.PactInformService;
 import com.hongxin.service.ProductService;
 import com.hongxin.service.ReBuyPactService;
+import com.hongxin.utils.AjaxUtils;
 import com.hongxin.utils.Constants;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -265,7 +266,14 @@ public class AutoRepayAction extends ActionSupport {
 							/**
 							 * 调用富有接口操作 打款给客户
 							 */
-							pactInfo.setPactFlow("12");
+							TBackAcct backAccount=new TBackAcct();
+							backAccount.setPactId(pactInfo.getPactId());
+							backAccount.setRebuyAmount(0.00);
+							backAccount.setBackAmount(pactInfo.getBackMoney()+pactInfo.getAmount());
+							backAccount.setState("00");
+							autoRepayService.saveBackAccount(backAccount);
+							pactInfo.setPactFlow("10");//合同状态待还款至客户信息
+							//pactInfo.setPactFlow("12");
 						} catch (Exception e) {
 							msg="系统繁忙,稍后再试!";
 						}
@@ -285,6 +293,48 @@ public class AutoRepayAction extends ActionSupport {
 			}
 		}
 		return "findlastPaymentList";
+	}
+	
+	/**
+	 * 取消回购
+	 * 
+	 */
+	public String cancelRebuy(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String redirect=request.getParameter("redirect");
+		//TRebuypactInfo rebuy=reBuyPactService.get(id);
+		TPactInfo pact=pactInfoService.get(id);
+		pact.setRebuyFlag("00");
+		
+		TAutoRepay autoRepay=autoRepayService.get(id);
+		autoRepay.setRebuyFlag("00");
+		try {
+			autoRepayService.saveOrUpdate(autoRepay);
+			pactInfoService.saveOrUpdate(pact);
+			reBuyPactService.delete(id);
+		} catch (Exception e) {
+			
+		}
+		
+		autoRepay = autoRepayService.get(id);
+		pactInfo = pactInfoService.get(id);
+		pactInfo.setProductInfo(productService.getStrId(pactInfo.getProductId()));
+		pactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(pactInfo.getCustId()).get(0));
+		List<CheckReceipts> receipts = checkReceiptsService.getByStrIdType(id, "2");
+		pactInfo.setReceipts(receipts);
+		if ("01".equals(pactInfo.getRebuyFlag())) {
+			TRebuypactInfo rebuyPact = reBuyPactService.get(pactInfo.getPactId());
+			request.setAttribute("rebuyPact", rebuyPact);
+		}
+		List<TProductInfo> products = new ArrayList<TProductInfo>();
+		products = productService.findAll();
+		request.setAttribute("products", products);
+		if (redirect.equals("paymentNoticeInfo")) {
+			return "paymentNoticeInfo";
+		}else if (redirect.equals("updateAutoRepay")) {
+			return "updateAutoRepay";
+		}
+		return "";
 	}
 	
 	/**

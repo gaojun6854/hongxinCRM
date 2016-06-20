@@ -37,6 +37,8 @@
             <result name="reAutoRepay">/pact/reAutoRepay.jsp</result><!-- 还款复审 -->
             <result name="findFailAutoRepay">/pact/findFailAutoRepay.jsp</result>
             <result name="getPactInfo4LastRepayment">/pact/getPactInfo4LastRepayment.jsp</result><!-- 复审详细 -->
+            <result name="pactHGForPaymentNotice">/paymentNotice/pactHGForPaymentNotice.jsp</result><!-- 还款通知内的回购 -->
+            
             <!-- 拦截器 -->
             <interceptor-ref name="myStack"></interceptor-ref>
             <interceptor-ref name="myLogStack"></interceptor-ref>

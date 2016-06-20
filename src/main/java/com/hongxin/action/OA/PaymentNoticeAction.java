@@ -1,5 +1,8 @@
 package com.hongxin.action.OA;
 
+/**
+ * 通知
+ */
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-6-3 15:46:27 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.hongxin.entity.TBackAcct" table="t_back_acct" catalog="red_db" optimistic-lock="version">
+    <class name="com.hongxin.entity.TBackAcct" table="t_back_acct" optimistic-lock="version">
         <id name="pactId" type="string">
             <column name="pact_id" length="40" />
             <generator class="assigned" />

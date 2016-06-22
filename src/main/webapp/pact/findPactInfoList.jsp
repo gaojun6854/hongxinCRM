@@ -89,16 +89,18 @@ table.dataTable tr.marked {
 							value="${pactInfo.amount*(1+pactInfo.recruitmentDate)}"
 							pattern="0.00" /></td>
 					<td><input type="hidden" readonly="readonly" id="checkme1" />
-						<c:if test="${pactInfo.pactFlow=='1'}">初审中</c:if>
-						<c:if test="${pactInfo.pactFlow=='2'}">初审失败</c:if>
-						<c:if test="${pactInfo.pactFlow=='3'}">复审中</c:if>
-						<c:if test="${pactInfo.pactFlow=='4'}">复审失败</c:if>
-						<c:if test="${pactInfo.pactFlow=='5'}">还款中</c:if>
-						<c:if test="${pactInfo.pactFlow=='6'}">回购还款客户</c:if>
-						<c:if test="${pactInfo.pactFlow=='7'}">回购还款客户失败</c:if>
-						<c:if test="${pactInfo.pactFlow=='8'}">回购成功</c:if>
-						<c:if test="${pactInfo.pactFlow=='9'}">回购失败</c:if>
-						<c:if test='${pactInfo.pactFlow=="10"}'>合同正常结束</c:if>	
+						<c:if test="${pactInfo.pactFlow=='1'}">合同初审中</c:if>
+						<c:if test="${pactInfo.pactFlow=='2'}">合同初审失败</c:if>
+						<c:if test="${pactInfo.pactFlow=='3'}">合同复审中</c:if>
+						<c:if test="${pactInfo.pactFlow=='4'}">合同复审失败</c:if>
+						<c:if test="${pactInfo.pactFlow=='5'}">还款初审中</c:if>
+						<c:if test="${pactInfo.pactFlow=='6'}">还款初审失败</c:if>
+						<c:if test="${pactInfo.pactFlow=='7'}">还款复审中</c:if>
+						<c:if test="${pactInfo.pactFlow=='8'}">还款复审失败</c:if>
+						<c:if test="${pactInfo.pactFlow=='10'}">回购还款客户</c:if>
+						<c:if test='${pactInfo.pactFlow=="11"}'>回购还款客户失败</c:if>
+						<c:if test='${pactInfo.pactFlow=="12"}'>合同正常结束</c:if>
+						<c:if test='${pactInfo.pactFlow=="13"}'>合同已作废</c:if>	
 					</td>
 
 				</tr>

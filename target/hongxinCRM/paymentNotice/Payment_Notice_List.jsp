@@ -45,9 +45,6 @@ table.dataTable tr.marked { background-color: #FFD900; }
 	 <th class="dataTableHeader">利息</th>
 	 <th class="dataTableHeader">回购金额</th>
 	 <th class="dataTableHeader">合同到期日</th>
-	 <c:if test="${pactInform.pactInfo.rebuyFlag=='00'}">
-	 <th class="dataTableHeader">操作</th>
-	 </c:if>
     </tr>
   </thead>
   <tbody>
@@ -66,9 +63,6 @@ table.dataTable tr.marked { background-color: #FFD900; }
 	 	 <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="0" pattern="0.00"/></td>
 	  </c:if> 
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />${pactInform.lostEff }</td>
-	   <c:if test="${pactInform.pactInfo.rebuyFlag=='00'}">
-	 	<a href="../pact/pactInfo!pactHG.action?id=${pactInform.pactId}">回购</a>
-	 </c:if>
     </tr>
    </c:forEach>
   </tbody>

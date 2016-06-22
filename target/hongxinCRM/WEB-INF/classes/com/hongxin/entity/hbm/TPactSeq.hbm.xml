@@ -3,18 +3,16 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.hongxin.entity.TPactSeq" table="t_pact_seq" catalog="red_db" optimistic-lock="version">
-        <composite-id name="id" class="com.hongxin.entity.TPactSeqId">
-            <key-property name="seqId" type="string">
-                <column name="seq_id" length="16" />
-            </key-property>
-            <key-property name="pactId" type="string">
+    <class name="com.hongxin.entity.TPactSeq" table="t_pact_seq" >
+	  <id name="seqId" type="string">
+	   <column name="seq_id" length="16" />
+	  </id>
+            <property name="pactId" type="string">
                 <column name="pact_id" length="40" />
-            </key-property>
-            <key-property name="productId" type="string">
+            </property>
+            <property name="productId" type="string">
                 <column name="product_id" length="16" />
-            </key-property>
-        </composite-id>
+            </property>
         <property name="productName" type="string">
             <column name="product_name" length="128" not-null="true">
                 <comment>&#178;&#250;&#198;&#183;&#195;&#251;&#179;&#198;</comment>

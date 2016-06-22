@@ -36,7 +36,8 @@ public class EmployStaffAction extends ActionSupport {
 	 * 增加员工
 	 */
 	public String addEmployStaff(){
-		
+		//查询所有组织及部门信息
+		List<Organization>orgs=organizationService.findAll();
 		return "addEmployStaff";
 	}
 	/**

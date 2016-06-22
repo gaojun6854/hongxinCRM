@@ -348,6 +348,9 @@ public class PactInfoServiceImpl implements PactInfoService {
         int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
         
         List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+        for (TPactInfo tPactInfo : list) {
+        	tPactInfo.setProductInfo(productDao.get(tPactInfo.getProductId()));
+		}
         
         pageBean.setList(list);
         pageBean.setAllRows(allRows);

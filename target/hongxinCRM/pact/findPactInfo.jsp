@@ -46,14 +46,6 @@
 <body>
 	<span style="color: red; font-size: 15px;">${requestScope.flag}<br /></span>
 		<div class="settings-wrapper" id="pad-wrapper">
-		<form action="pactInfo!findPactNum.action" method="post">
-		<table>
-		<tr><td>请输入合同号：</td><td><input type="text" name="pactNum" /></td></tr>
-		<tr><td>请输入客户手机号：</td><td><input type="text" name="customBaseInfo.phonenum" /></td></tr>
-		<tr><td>请输入客户身份证号：</td><td><input type="text" name="customBaseInfo.papernum" /> </td></tr>
-		<tr><td><input type="submit" value="查询" /></td></tr>
-		</table>
-	</form>
 	<c:if test="${pactInfo!=null}">
 			<div class="span3 avatar-box" style="float: right;">
 				<div class="personal-image">
@@ -219,29 +211,24 @@
 						</div>
 						<div class="field-box">
 						<label>合同状态</label>
-				 <c:set var="pactFlow">${pactInfo.pactFlow}</c:set>  
-		 		 <c:set var="checkStart">${pactInfo.checkStart}</c:set>  
-			 		<c:choose>  
-						 <c:when test="${pactFlow==2 && checkStart==1}"><input class="span5 inline-input"  type="text" value="初审中" style="color: red"/></c:when>
-				 		<c:when test="${pactFlow==2 && checkStart==3}"><input class="span5 inline-input"  type="text" value="初审失败" style="color: red" />
-							<br/>
-				 			<label>原因</label><input class="span5 inline-input"  type="text" value="${pactInfo.noPassReson}" />
-				 		</c:when>
-				 		<c:when test="${pactFlow==1 && checkStart==1}"><input class="span5 inline-input"  type="text" value="复审中" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==3 && checkStart==2}"><input class="span5 inline-input"  type="text" value="已通过" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==5 && checkStart==2}"><input class="span5 inline-input"  type="text" value="还款中" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==4 && checkStart==1}"><input class="span5 inline-input"  type="text" value="回购中" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==7 && checkStart==1}"><input class="span5 inline-input"  type="text" value="线下审核中" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==6 && checkStart==2}"><input class="span5 inline-input"  type="text" value="合同结束" style="color: red"/></c:when>
-			 <c:when test="${pactFlow==1 && checkStart==3}"><input class="span5 inline-input"  type="text" value="复审失败" style="color: red"/>
+				 			<c:if test="${pactInfo.pactFlow=='2'}"><input class="span5 inline-input"  type="text" value="合同初审失败" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='3'}"><input class="span5 inline-input"  type="text" value="合同复审中" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='4'}"><input class="span5 inline-input"  type="text" value="合同复审失败" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='5'}"><input class="span5 inline-input"  type="text" value="还款初审中" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='6'}"><input class="span5 inline-input"  type="text" value="还款初审失败" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='7'}"><input class="span5 inline-input"  type="text" value="还款复审中" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='8'}"><input class="span5 inline-input"  type="text" value="还款复审失败" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='10'}"><input class="span5 inline-input"  type="text" value="回购还款客户" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='11'}"><input class="span5 inline-input"  type="text" value="回购还款客户失败" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='12'}"><input class="span5 inline-input"  type="text" value="合同正常结束" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='13'}"><input class="span5 inline-input"  type="text" value="合同已作废" style="color: red"/></c:if>
+			 
 			 <br/>
 				 			<label>原因</label><input class="span5 inline-input"  type="text" value="${pactInfo.noPassReson}" />
-			 </c:when>
-					 </c:choose>
 			</div>	
 						<div class="span11 field-box actions">
-							<input type="submit" class="btn-glow primary" value="保存" /> 
-							<a class="btn-glow primary" href="pactInfo!pactZF.action?id=${pactInfo.pactId}">合同作废</a>
+							<!-- <input type="submit" class="btn-glow primary" value="保存" />  -->
+							<%-- <a class="btn-glow primary" href="pactInfo!pactZF.action?id=${pactInfo.pactId}">合同作废</a> --%>
 						</div>
 					</div>
 				</div>

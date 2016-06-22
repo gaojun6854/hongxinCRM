@@ -188,10 +188,11 @@
 							<div class="span11 field-box actions">
 							 <c:if test="${pactInfo.rebuyFlag=='01'}">
 							 <a class="btn-glow primary" href="#">已回购</a>
+							 <a class="btn-glow primary" href="../autoRepayment/cancelRebuy.action?id=${pactInfo.pactId}&redirect=paymentNoticeInfo">取消回购</a>
 							 </c:if>
 							 
 							 <c:if test="${pactInfo.rebuyFlag=='00'}">
-							 <a class="btn-glow primary" href="../pact/pactInfo!pactHG.action?id=${pactInfo.pactId}">回购</a>
+							 <a class="btn-glow primary" href="../pact/pactInfo!pactHGForPaymentNotice.action?id=${pactInfo.pactId}">回购</a>
 							 </c:if>
 							</div>
 						</div>

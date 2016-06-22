@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.hongxin.entity.TErrCode" table="t_err_code" catalog="red_db" optimistic-lock="version">
+    <class name="com.hongxin.entity.TErrCode" table="t_err_code" >
         <id name="sysName" type="string">
             <column name="sys_name" length="20" />
             <generator class="assigned" />

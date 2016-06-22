@@ -454,7 +454,6 @@ public class PactInfoAction extends ActionSupport{
 			pageBean.setActionUrl("pactInfo!findPactNum.action");
 		} catch (Exception e) {
 			request.setAttribute("flag", "系統繁忙,稍后再试!");
-			return "findPactNum";
 		}
 		return "findPactInfoList";
 	}
@@ -596,7 +595,7 @@ public class PactInfoAction extends ActionSupport{
 		}else{
 			List<TProductInfo>products=productService.findAll();
 			request.setAttribute("products", products);
-			return "updateFailPactInfo";
+			return "findPactInfo";
 		}
 	}
 	

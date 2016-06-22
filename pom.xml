@@ -248,11 +248,11 @@
 				<configuration>
 					<container>
 						<containerId>tomcat6x</containerId>
-						<home>E:\downBei\apache-tomcat-7.0.67-windows-x64\apache-tomcat-7.0.67</home>
+						<home>D:\j2ee\apache-tomcat-7.0.56</home>
 					</container>
 					<configuration>
 						<type>existing</type>
-						<home>E:\downBei\apache-tomcat-7.0.67-windows-x64\apache-tomcat-7.0.67</home>
+						<home>D:\j2ee\apache-tomcat-7.0.56</home>
 					</configuration>
 				</configuration>
 			</plugin>

@@ -188,6 +188,7 @@
 								</c:if>
 								<c:if test="${pactInfo.rebuyFlag eq '01'}">	
 									<input type="button" class="btn-glow primary" value="已回购成功" />
+									<a class="btn-glow primary" href="../autoRepayment/cancelRebuy.action?id=${pactInfo.pactId}&redirect=updateAutoRepay">取消回购</a>
 								</c:if>
 							</div>
 						</div>

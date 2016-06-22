@@ -38,6 +38,7 @@
             <result name="findFailAutoRepay">/pact/findFailAutoRepay.jsp</result>
             <result name="getPactInfo4LastRepayment">/pact/getPactInfo4LastRepayment.jsp</result><!-- 复审详细 -->
             <result name="pactHGForPaymentNotice">/paymentNotice/pactHGForPaymentNotice.jsp</result><!-- 还款通知内的回购 -->
+            <result name="findPactInfo">/pact/findPactInfo.jsp</result>
             
             <!-- 拦截器 -->
             <interceptor-ref name="myStack"></interceptor-ref>

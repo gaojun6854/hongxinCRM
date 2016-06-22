@@ -3,26 +3,24 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.hongxin.entity.TAreaCode" table="t_area_code" catalog="red_db" optimistic-lock="version">
-        <composite-id name="id" class="com.hongxin.entity.TAreaCodeId">
-            <key-property name="provinceCode" type="string">
-                <column name="province_code" length="8" />
-            </key-property>
-            <key-property name="areaCode" type="string">
+    <class name="com.hongxin.entity.TAreaCode" table="t_area_code" >
+       <id name="provinceCode" type="string">
+       <column name="province_code" length="8" />
+       </id>
+            <property name="areaCode" type="string">
                 <column name="area_code" length="8" />
-            </key-property>
-            <key-property name="areaName" type="string">
+            </property>
+            <property name="areaName" type="string">
                 <column name="area_name" length="256" />
-            </key-property>
-            <key-property name="supAreaCode" type="string">
+            </property>
+            <property name="supAreaCode" type="string">
                 <column name="sup_area_code" length="8" />
-            </key-property>
-            <key-property name="remark1" type="string">
+            </property>
+            <property name="remark1" type="string">
                 <column name="remark1" length="32" />
-            </key-property>
-            <key-property name="remark2" type="string">
+            </property>
+            <property name="remark2" type="string">
                 <column name="remark2" length="64" />
-            </key-property>
-        </composite-id>
+            </property>
     </class>
 </hibernate-mapping>

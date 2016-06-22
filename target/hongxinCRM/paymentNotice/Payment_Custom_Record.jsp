@@ -37,7 +37,6 @@ table.dataTable tr.marked { background-color: #FFD900; }
 	 <th class="dataTableHeader">客户姓名</th>
 	 <th class="dataTableHeader">回购金额</th>
 	 <th class="dataTableHeader">还款金额</th>
-	 <th class="dataTableHeader">总还款金额</th>
 	 <th class="dataTableHeader">操作</th>
     </tr>
   </thead>
@@ -48,7 +47,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
       <td><input type="hidden"  readonly="readonly" id="checkme1" />${backAccount.pactInfo.custName}</td>
       <td><input type="hidden"  readonly="readonly" id="checkme1" />${backAccount.rebuyAmount}</td>
       <td><input type="hidden"  readonly="readonly" id="checkme1" />${backAccount.backAmount}</td>
-      <td><input type="hidden"  readonly="readonly" id="checkme1" />${backAccount.pactInfo.backMoney}</td>
+    
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />
 	  	<a href="paymentToCustom.action?id=${backAccount.pactId}">还款客户</a>
     </tr>

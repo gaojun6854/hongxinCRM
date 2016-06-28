@@ -2,10 +2,12 @@ package com.hongxin.dao.impl;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.hongxin.dao.OrganizationDao;
 import com.hongxin.entity.Organization;
 import com.hongxin.utils.QueryResult;
@@ -86,6 +88,15 @@ public class OrganizationDaoImpl implements OrganizationDao{
 	public <T> QueryResult<T> getScrollData(Class<T> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * 通过父id查询下层组织
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Organization> findById(String orgId) {
+		return this.getCurrentSession().createQuery("from Organization").list();
 	}
 
 }

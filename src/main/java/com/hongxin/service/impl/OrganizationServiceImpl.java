@@ -2,6 +2,7 @@ package com.hongxin.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	public void flush() {
 		organizationDao.flush();		
+	}
+/**
+ * 通过父id查询下层组织
+ */
+	public List<Organization> findById(String orgId) {
+		return organizationDao.findById(orgId);
 	}
 	
 }

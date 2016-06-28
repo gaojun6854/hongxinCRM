@@ -12,6 +12,15 @@
             <interceptor-ref name="myLogStack"></interceptor-ref>
             <!--如果不需要拦截 让它们已入 defaultStack-->
         </action>
+        
+        <action name="addEmp" class="com.hongxin.action.OA.EmployStaffAction"  method="addEmployStaff">  
+            <result name="addEmployStaff">/personnelStructure/add_employStaff.jsp</result><!-- 新增员工信息 -->
+            <interceptor-ref name="myStack"></interceptor-ref><!-- 此package已入struts2.这里可以省略 -->
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+        <action name="findById" class="com.hongxin.action.OA.EmployStaffAction"  method="findById">  
+        </action>
 	</package>
 	
 </struts>  

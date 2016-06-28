@@ -1,6 +1,7 @@
 package com.hongxin.service;
 
 import java.util.List;
+
 import com.hongxin.entity.Organization;
 
 public interface OrganizationService 
@@ -20,5 +21,7 @@ public interface OrganizationService
 	void delete(String id);
 
 	void flush();
+	//通过父id查询下层组织
+	List<Organization> findById(String orgId);
 
 }

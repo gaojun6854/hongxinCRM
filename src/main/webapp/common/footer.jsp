@@ -6,10 +6,10 @@
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 
 </head>
-
+<!-- Swift——高军  -->
 <body>
 	<div class="footer">
-    <span>红歆财富</span>
+    <span>红歆财富投资管理有限公司-CRM</span>
     <i>版权所有 2016</i>    
     </div>    
 </body>

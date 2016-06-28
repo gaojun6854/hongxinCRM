@@ -10,8 +10,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script src="<%=basePath%>js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script src="../js/jquery-1.8.0.min.js" type="text/javascript"></script>
 <title>无标题文档</title>
 <script type="text/javascript">
 $(function(){
@@ -34,7 +34,7 @@ $(function(){
     <ul>
     <li><span><img src="/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
     <li><a href="#">关于</a></li>
-    <li><a href="/user/loginout" target="_parent">退出</a></li>
+    <li><a href="../login!logout.action" target="_parent">退出</a></li>
     </ul>
     <div class="user">
      <span>${user.username}</span> 

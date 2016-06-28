@@ -24,22 +24,21 @@ $(function(){
 });
 </script>
 </head>
-<body style="background:url(/images/topbg.gif) repeat-x;">
-
+<body style="background:url(../images/topbg.gif) repeat-x;">
     <div class="topleft">
     <!--  img src="/images/logo.png" title="系统首页" /-->
     </div>
      
     <div class="topright">    
     <ul>
-    <li><span><img src="/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
+    <li><span><img src="..//images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
     <li><a href="#">关于</a></li>
     <li><a href="../login!logout.action" target="_parent">退出</a></li>
     </ul>
     <div class="user">
-     <span>${user.username}</span> 
+     <span><a href="/notice/showMyInfo" target="rightFrame">${sessionScope.login_user.employStaff.fullName}</a></span> 
      <!-- 点击此处显示自己的消息 -->
-    <a href="/notice/showMyNotice" target="rightFrame"><i>消息</i><b>${user.noticeLook }</b></a>
+    <a href="/notice/showMyNotice" target="rightFrame"><i>消息</i><b>3</b></a>
     </div>    
     </div>
 </body>

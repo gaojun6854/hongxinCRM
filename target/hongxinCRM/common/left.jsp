@@ -55,7 +55,7 @@ a{text-decoration:none;}
 		<dl class='${menu.style}'>
 			<dt  >${menu.sourceName}<img src="../images/left/${menu.style}.png"></dt>
 			<c:forEach items="${menu.childMenus}" var="childMenu">
-					<dd><a href="<%=basePath%>${childMenu.sourceUrl}" target="content">${childMenu.sourceName}</a></dd>
+					<dd><a href="<%=basePath%>${childMenu.sourceUrl}" target="rightFrame">${childMenu.sourceName}</a></dd>
 			</c:forEach>
 		</dl>
 	</c:forEach>	

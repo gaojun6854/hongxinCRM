@@ -4,17 +4,14 @@
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.hongxin.entity.TAreaCode" table="t_area_code" >
-       <id name="provinceCode" type="string">
-       <column name="province_code" length="8" />
+       <id name="areaCode" type="string">
+       		<column name="area_code" length="8" />
        </id>
-            <property name="areaCode" type="string">
-                <column name="area_code" length="8" />
+            <property name="provinceCode" type="string">
+                <column name="province_code" length="8" />
             </property>
             <property name="areaName" type="string">
                 <column name="area_name" length="256" />
-            </property>
-            <property name="supAreaCode" type="string">
-                <column name="sup_area_code" length="8" />
             </property>
             <property name="remark1" type="string">
                 <column name="remark1" length="32" />

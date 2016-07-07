@@ -52,5 +52,6 @@
 <p>内容：${myOneNotice.noticeContent }</p>
 </div>
 </c:if> --%>
+<body background="../images/content/hongxin.jpg">
 </body>
 </html>

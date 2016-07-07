@@ -6,6 +6,7 @@ D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\Organization.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\utils\QueryResult.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\action\OA\RepayAction.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\dao\impl\CustomStatusDaoImpl.java
+D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\response\Header.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\dao\ZhishuDao.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\service\impl\PactInfoServiceImpl.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\ProductInfo.java
@@ -90,9 +91,11 @@ D:\j2ee\hongxinCRM\src\main\java\com\hongxin\service\CheckReceiptsService.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\CustomStatus.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\TAreaCode.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\action\OA\UserinfoAction.java
+D:\j2ee\hongxinCRM\src\main\java\com\hongxin\action\OA\OrganizationAction.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\service\impl\MenuServiceImpl.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\TBackAcct.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\action\OA\CustomAccountAction.java
+D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\EmployStaffDetail.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\dao\impl\FundInfoDaoImpl.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\entity\ResourceBak.java
 D:\j2ee\hongxinCRM\src\main\java\com\hongxin\dao\impl\EmployStaffDaoImpl.java

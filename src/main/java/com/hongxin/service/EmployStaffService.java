@@ -21,4 +21,7 @@ public interface EmployStaffService
 
 	void flush();
 
+	//查询部门下员工
+	List<com.hongxin.entity.EmployStaff> findById(String orgId);
+
 }

@@ -4,7 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<!-- 所有用户信息  -->
-	<package name="personnelPackage" extends="struts2" namespace="/org">
+	<package name="empPackage" extends="struts2" namespace="/emp">
 	<!--需要拦截登录拦截 让它们入 "struts2"-->
 		<action name="orgInfo" class="com.hongxin.action.OA.EmployStaffAction">  
             <result name="success">/personnelStructure/orgInfo.jsp</result>
@@ -20,6 +20,8 @@
             <!--如果不需要拦截 让它们已入 defaultStack-->
         </action>
         <action name="findById" class="com.hongxin.action.OA.EmployStaffAction"  method="findById">  
+        </action>
+         <action name="findEmpByEmpId" class="com.hongxin.action.OA.EmployStaffAction"  method="findEmpByEmpId">  
         </action>
 	</package>
 	

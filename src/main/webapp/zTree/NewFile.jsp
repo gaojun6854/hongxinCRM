@@ -18,61 +18,64 @@
 <script type="text/javascript" src="<%=basePath%>zTree/js/jquery-1.4.4.min.js"></script>
 	<link rel="stylesheet" href="<%=basePath%>zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.core.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.excheck.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.exedit.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.exedit.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.exhide.js"></script>
-	<script type="text/javascript" src="<%=basePath%>zTree/js/jquery.ztree.exhide.min.js"></script>
 	
 <title>Insert title here</title>
 </head>
 <body> 
 <script type="text/javascript">
 var setting = {
-		 isSimpleData : true,              //数据是否采用简单 Array 格式，默认false  
-		    treeNodeKey : "id",               //在isSimpleData格式下，当前节点id属性  
-		    treeNodeParentKey : "pId",        //在isSimpleData格式下，当前节点的父节点id属性  
-		    showLine : true,                  //是否显示节点间的连线  
-		    checkable : true,
-
-		    
-		data: {
-			keep: {
-				parent:true,
-				leaf:true
-			},
-			simpleData: {
-				enable: true,
-				idKey: "id",
-				pIdKey: "pId",
-				rootPId: 0
-			}
+		async: {
+			enable: true,
+			url:"<%=basePath%>org/findById.action",
+			autoParam:["id=orgId"]
+			
 		},
+		callback: {
+			beforeClick: beforeClick,//用于捕获单击节点之前的事件回调函数，并且根据返回值确定是否允许单击操作
+			beforeAsync: null,//用于捕获异步加载之前的事件回调函数，zTree 根据返回值确定是否允许进行异步加载
+			onAsyncError: onAsyncError,//用于捕获异步加载出现异常错误的事件回调函数
+			onAsyncSuccess: onAsyncSuccess//用于捕获异步加载正常结束的事件回调函数
+		},
+		 data: {
+	            simpleData: {
+	                enable: true
+	            }
+	        }
 		
 	};
+var nodes = [{ "id":1000000000, "name":"红歆财富",isParent:true}];
+	function beforeClick(treeId, treeNode) {
+		if (!treeNode.isParent) {
+			$.ajax({  
+		         type: 'POST',  
+		         dataType : "json",  
+		         url: "<%=basePath%>org/findEmpByEmpId.action?empId="+treeNode.id,//请求的action路径  
+		         error: function () {//请求失败处理函数  
+		             alert('请求失败');  
+		         },  
+		         success:function(data){ //请求成功后处理函数。    
+		        	 alert("fullName:"+data.fullName+"-employeeId:"+data.employeeId); 
+		         
+		              //把后台封装好的简单Json格式赋给treeNodes  
+		         }  
+		     });  
 
+		} else {
+			return true;
+		}
+	}
+	
+	
+	function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		//showLog("[ "+getTime()+" onAsyncError ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+		alert("加载出错");
+	}
+	function onAsyncSuccess(event, treeId, treeNode, msg) {
+	}
 
-	var zNodes;
-	var zTree; 
-
-	$(function(){  
-	    $.ajax({  
-	        async : false,  
-	        cache:false,  
-	        type: 'POST',  
-	        dataType : "json",  
-	        url: "<%=basePath%>org/findById.action",//请求的action路径  
-	        error: function () {//请求失败处理函数  
-	            alert('请求失败');  
-	        },  
-	        success:function(data){ //请求成功后处理函数。    
-	            zNodes = data;   //把后台封装好的简单Json格式赋给treeNodes  
-	        }  
-	    });  
-	}); 
 	$(document).ready(function(){
-		zTree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		$.fn.zTree.init($("#treeDemo"), setting,nodes);
+		
 	});
 </SCRIPT>
 <div class="zTreeDemoBackground left">

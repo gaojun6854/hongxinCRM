@@ -38,33 +38,18 @@
 		};
 
 		var zNodes =[
-			{ id:0, pId:0, name:"红歆财富总部", open:true},
-			
-			{ id:1, pId:0, name:"华东", open:false},	
-				{ id:111, pId:1, name:"上海",open:false},
-					{ id:121, pId:111, name:"一营业厅",open:false},
-						{ id:131, pId:121, name:"A团队",open:false},
-							{ id:141, pId:131, name:"swift"},
-							{ id:142, pId:131, name:"gao"},
-						{ id:132, pId:121, name:"B团队",open:false},
-						{ id:133, pId:121, name:"C团队",open:false},
-					{ id:122, pId:111, name:"二营业厅",open:false},
-					{ id:123, pId:111, name:"三营业厅",open:false},
-				{ id:112, pId:1, name:"宁波",open:false},
-				{ id:113, pId:1, name:"合肥",open:false},
-				{ id:114, pId:1, name:"无锡",open:false},
-			
-			{ id:2, pId:0, name:"华南", open:false},
+			{ id:1, pId:0, name:"父节点 1", open:true},
+			{ id:11, pId:1, name:"叶子节点 1-1"},
+			{ id:12, pId:1, name:"叶子节点 1-2"},
+			{ id:13, pId:1, name:"叶子节点 1-3"},
+			{ id:2, pId:0, name:"父节点 2", open:true},
 			{ id:21, pId:2, name:"叶子节点 2-1"},
 			{ id:22, pId:2, name:"叶子节点 2-2"},
 			{ id:23, pId:2, name:"叶子节点 2-3"},
-			
-			{ id:3, pId:0, name:"华西", open:false},
-			{ id:31, pId:3, name:"叶子节点 2-1"},
-			{ id:32, pId:3, name:"叶子节点 2-2"},
-			{ id:33, pId:3, name:"叶子节点 2-3"}
-			
-			
+			{ id:3, pId:0, name:"父节点 3", open:true},
+			{ id:31, pId:3, name:"叶子节点 3-1"},
+			{ id:32, pId:3, name:"叶子节点 3-2"},
+			{ id:33, pId:3, name:"叶子节点 3-3"}
 		];
 		var log, className = "dark";
 		function beforeDrag(treeId, treeNodes) {

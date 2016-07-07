@@ -16,6 +16,9 @@ import com.hongxin.entity.CustomAccount;
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.CustomStatus;
 import com.hongxin.entity.PageBean;
+import com.hongxin.entity.TAreaCode;
+import com.hongxin.entity.TBankCode;
+import com.hongxin.service.AreaCodeService;
 import com.hongxin.service.CheckInfoService;
 import com.hongxin.service.CheckReceiptsService;
 import com.hongxin.service.CustomAccountService;
@@ -37,6 +40,8 @@ public class CustomAction extends ActionSupport{
 	private CustomAccountService customAccountService;
 	@Autowired
 	private CustomStatusService customStatusService;
+	@Autowired
+	private AreaCodeService areaCodeService;
 	//单个用户信息  录入--更新操作注入
 	private CustomBaseInfo customBaseInfo;
 	private CustomAccount customAccount;
@@ -48,6 +53,9 @@ public class CustomAction extends ActionSupport{
 	private PageView<CustomBaseInfo> pageView=new PageView<CustomBaseInfo>();
 	private PageBean<CustomBaseInfo> pageBean;
 	private int page;
+	private TAreaCode areaCode;
+	private TBankCode bankCode;
+	private List<TAreaCode>areas;
 	////////////////方法程序体////////////////////
 	/**
 	 * 程序主方法
@@ -74,6 +82,7 @@ public class CustomAction extends ActionSupport{
 		}
 		//保存刚录取的用户信息置session方便事物
 		request.getSession().setAttribute("toAddCustomBaseInfo", customBaseInfo);
+		areas=areaCodeService.getProvinceList(null);//所有省份信息
 		return SUCCESS;
 	}
 	
@@ -329,6 +338,30 @@ public class CustomAction extends ActionSupport{
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public TAreaCode getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(TAreaCode areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	public TBankCode getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(TBankCode bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	public List<TAreaCode> getAreas() {
+		return areas;
+	}
+
+	public void setAreas(List<TAreaCode> areas) {
+		this.areas = areas;
 	}
 	
 }

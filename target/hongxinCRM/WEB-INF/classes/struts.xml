@@ -108,5 +108,6 @@
 	<include file="struts-fundInfo.xml"/>
 	<include file="struts-upload.xml"/>
 	<include file="struts-paymentNotice.xml"/>
-	<include file="struts-autoRepay.xml"/>
+	<include file="struts-autoRepay.xml"/>	
+	<include file="struts-organization.xml"/>
 </struts>

@@ -45,5 +45,12 @@ public class EmployStaffServiceImpl implements EmployStaffService {
 	public void flush() {
 		employStaffDao.flush();		
 	}
+
+	/**
+	 * 查询部门下所有员工
+	 */
+	public List<EmployStaff> findById(String orgId) {
+		return employStaffDao.getByOrgId( orgId);
+	}
 	
 }

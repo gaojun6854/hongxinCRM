@@ -65,6 +65,22 @@
 					<div class="container">
 						<br />
 						<div class="span12 field-box">
+							<label>开户行省份:</label>
+							<div class="ui-select span5">
+								<select name="customAccount.bankHead">
+									<option>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="span12 field-box">
+							<label>开户区县:</label>
+							<div class="ui-select span5">
+								<select name="customAccount.bankHead">
+									<option>请选择</option>
+								</select>
+							</div>
+						</div>
+						<div class="span12 field-box">
 							<label>开户行:</label>
 							<div class="ui-select span5">
 								<select name="customAccount.bankHead">

@@ -55,7 +55,352 @@ public class EmployStaff implements java.io.Serializable {
 	private String remark;
 	
 	private User user;
-	
+
+	@Override
+	public String toString() {
+		return "[staffId=" + staffId + ", organization=" + organization + ", employeeId=" + employeeId
+				+ ", englishName=" + englishName + ", fullName=" + fullName + ", idNumber=" + idNumber + ", sex=" + sex
+				+ ", birthday=" + birthday + ", nationId=" + nationId + ", natives=" + natives + ", policyId="
+				+ policyId + ", height=" + height + ", weight=" + weight + ", telephone=" + telephone + ", address="
+				+ address + ", educationId=" + educationId + ", major=" + major + ", stutas=" + stutas + ", marriageId="
+				+ marriageId + ", stateId=" + stateId + ", diseaseInfo=" + diseaseInfo + ", disabilityInfo="
+				+ disabilityInfo + ", stationCode=" + stationCode + ", gradeCode=" + gradeCode + ", stationDate="
+				+ stationDate + ", cardId=" + cardId + ", urgentContact=" + urgentContact + ", urgentTelephone="
+				+ urgentTelephone + ", urgentRelation=" + urgentRelation + ", calculateWages=" + calculateWages
+				+ ", picPath=" + picPath + ", cardPath=" + cardPath + ", updateTime=" + updateTime + ", updator="
+				+ updator + ", bankPath=" + bankPath + ", wagesType=" + wagesType + ", creator=" + creator
+				+ ", createTime=" + createTime + ", createIp=" + createIp + ", updateIp=" + updateIp + ", remark="
+				+ remark + ", user=" + user + "]";
+	}
+
+	public String getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(String staffId) {
+		this.staffId = staffId;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getNationId() {
+		return nationId;
+	}
+
+	public void setNationId(String nationId) {
+		this.nationId = nationId;
+	}
+
+	public String getNatives() {
+		return natives;
+	}
+
+	public void setNatives(String natives) {
+		this.natives = natives;
+	}
+
+	public String getPolicyId() {
+		return policyId;
+	}
+
+	public void setPolicyId(String policyId) {
+		this.policyId = policyId;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEducationId() {
+		return educationId;
+	}
+
+	public void setEducationId(String educationId) {
+		this.educationId = educationId;
+	}
+
+	public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	public String getStutas() {
+		return stutas;
+	}
+
+	public void setStutas(String stutas) {
+		this.stutas = stutas;
+	}
+
+	public String getMarriageId() {
+		return marriageId;
+	}
+
+	public void setMarriageId(String marriageId) {
+		this.marriageId = marriageId;
+	}
+
+	public String getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(String stateId) {
+		this.stateId = stateId;
+	}
+
+	public String getDiseaseInfo() {
+		return diseaseInfo;
+	}
+
+	public void setDiseaseInfo(String diseaseInfo) {
+		this.diseaseInfo = diseaseInfo;
+	}
+
+	public String getDisabilityInfo() {
+		return disabilityInfo;
+	}
+
+	public void setDisabilityInfo(String disabilityInfo) {
+		this.disabilityInfo = disabilityInfo;
+	}
+
+	public String getStationCode() {
+		return stationCode;
+	}
+
+	public void setStationCode(String stationCode) {
+		this.stationCode = stationCode;
+	}
+
+	public String getGradeCode() {
+		return gradeCode;
+	}
+
+	public void setGradeCode(String gradeCode) {
+		this.gradeCode = gradeCode;
+	}
+
+	public String getStationDate() {
+		return stationDate;
+	}
+
+	public void setStationDate(String stationDate) {
+		this.stationDate = stationDate;
+	}
+
+	public String getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
+
+	public String getUrgentContact() {
+		return urgentContact;
+	}
+
+	public void setUrgentContact(String urgentContact) {
+		this.urgentContact = urgentContact;
+	}
+
+	public String getUrgentTelephone() {
+		return urgentTelephone;
+	}
+
+	public void setUrgentTelephone(String urgentTelephone) {
+		this.urgentTelephone = urgentTelephone;
+	}
+
+	public String getUrgentRelation() {
+		return urgentRelation;
+	}
+
+	public void setUrgentRelation(String urgentRelation) {
+		this.urgentRelation = urgentRelation;
+	}
+
+	public String getCalculateWages() {
+		return calculateWages;
+	}
+
+	public void setCalculateWages(String calculateWages) {
+		this.calculateWages = calculateWages;
+	}
+
+	public String getPicPath() {
+		return picPath;
+	}
+
+	public void setPicPath(String picPath) {
+		this.picPath = picPath;
+	}
+
+	public String getCardPath() {
+		return cardPath;
+	}
+
+	public void setCardPath(String cardPath) {
+		this.cardPath = cardPath;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getUpdator() {
+		return updator;
+	}
+
+	public void setUpdator(String updator) {
+		this.updator = updator;
+	}
+
+	public String getBankPath() {
+		return bankPath;
+	}
+
+	public void setBankPath(String bankPath) {
+		this.bankPath = bankPath;
+	}
+
+	public String getWagesType() {
+		return wagesType;
+	}
+
+	public void setWagesType(String wagesType) {
+		this.wagesType = wagesType;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreateIp() {
+		return createIp;
+	}
+
+	public void setCreateIp(String createIp) {
+		this.createIp = createIp;
+	}
+
+	public String getUpdateIp() {
+		return updateIp;
+	}
+
+	public void setUpdateIp(String updateIp) {
+		this.updateIp = updateIp;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -64,424 +409,9 @@ public class EmployStaff implements java.io.Serializable {
 		this.user = user;
 	}
 
-	public String getOrgID() {
-		return organization.getOrgId();
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public EmployStaff() {
-	}
-
-	public EmployStaff(String staffId, String employeeId, String englishName, String fullName, String idNumber,
-			String sex, String birthday, String nationId, String natives, String policyId, String telephone,
-			String address, String educationId, String stateId, String stationCode, String gradeCode, String cardId,
-			String urgentContact, String urgentTelephone, String picPath, String cardPath, String bankPath,
-			String wagesType) {
-		this.staffId = staffId;
-		this.employeeId = employeeId;
-		this.englishName = englishName;
-		this.fullName = fullName;
-		this.idNumber = idNumber;
-		this.sex = sex;
-		this.birthday = birthday;
-		this.nationId = nationId;
-		this.natives = natives;
-		this.policyId = policyId;
-		this.telephone = telephone;
-		this.address = address;
-		this.educationId = educationId;
-		this.stateId = stateId;
-		this.stationCode = stationCode;
-		this.gradeCode = gradeCode;
-		this.cardId = cardId;
-		this.urgentContact = urgentContact;
-		this.urgentTelephone = urgentTelephone;
-		this.picPath = picPath;
-		this.cardPath = cardPath;
-		this.bankPath = bankPath;
-		this.wagesType = wagesType;
-	}
-
-	public EmployStaff(String staffId, Organization organization, String employeeId, String englishName,
-			String fullName, String idNumber, String sex, String birthday, String nationId, String natives,
-			String policyId, String height, String weight, String telephone, String address, String educationId,
-			String major, String stutas, String marriageId, String stateId, String diseaseInfo, String disabilityInfo,
-			String stationCode, String gradeCode, String stationDate, String cardId, String urgentContact,
-			String urgentTelephone, String urgentRelation, String calculateWages, String picPath, String cardPath,
-			String updateTime, String updator, String bankPath, String wagesType, String creator, Date createTime,
-			String createIp, String updateIp, String remark) {
-		this.staffId = staffId;
-		this.organization = organization;
-		this.employeeId = employeeId;
-		this.englishName = englishName;
-		this.fullName = fullName;
-		this.idNumber = idNumber;
-		this.sex = sex;
-		this.birthday = birthday;
-		this.nationId = nationId;
-		this.natives = natives;
-		this.policyId = policyId;
-		this.height = height;
-		this.weight = weight;
-		this.telephone = telephone;
-		this.address = address;
-		this.educationId = educationId;
-		this.major = major;
-		this.stutas = stutas;
-		this.marriageId = marriageId;
-		this.stateId = stateId;
-		this.diseaseInfo = diseaseInfo;
-		this.disabilityInfo = disabilityInfo;
-		this.stationCode = stationCode;
-		this.gradeCode = gradeCode;
-		this.stationDate = stationDate;
-		this.cardId = cardId;
-		this.urgentContact = urgentContact;
-		this.urgentTelephone = urgentTelephone;
-		this.urgentRelation = urgentRelation;
-		this.calculateWages = calculateWages;
-		this.picPath = picPath;
-		this.cardPath = cardPath;
-		this.updateTime = updateTime;
-		this.updator = updator;
-		this.bankPath = bankPath;
-		this.wagesType = wagesType;
-		this.creator = creator;
-		this.createTime = createTime;
-		this.createIp = createIp;
-		this.updateIp = updateIp;
-		this.remark = remark;
-	}
-
-	public String getStaffId() {
-		return this.staffId;
-	}
-
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
-	}
-
-	public Organization getOrganization() {
-		return this.organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public String getEmployeeId() {
-		return this.employeeId;
-	}
-
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public String getEnglishName() {
-		return this.englishName;
-	}
-
-	public void setEnglishName(String englishName) {
-		this.englishName = englishName;
-	}
-
-	public String getFullName() {
-		return this.fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public String getIdNumber() {
-		return this.idNumber;
-	}
-
-	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
-	}
-
-	public String getSex() {
-		return this.sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public String getBirthday() {
-		return this.birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-	public String getNationId() {
-		return this.nationId;
-	}
-
-	public void setNationId(String nationId) {
-		this.nationId = nationId;
-	}
-
-	public String getNatives() {
-		return this.natives;
-	}
-
-	public void setNatives(String natives) {
-		this.natives = natives;
-	}
-
-	public String getPolicyId() {
-		return this.policyId;
-	}
-
-	public void setPolicyId(String policyId) {
-		this.policyId = policyId;
-	}
-
-	public String getHeight() {
-		return this.height;
-	}
-
-	public void setHeight(String height) {
-		this.height = height;
-	}
-
-	public String getWeight() {
-		return this.weight;
-	}
-
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-
-	public String getTelephone() {
-		return this.telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getEducationId() {
-		return this.educationId;
-	}
-
-	public void setEducationId(String educationId) {
-		this.educationId = educationId;
-	}
-
-	public String getMajor() {
-		return this.major;
-	}
-
-	public void setMajor(String major) {
-		this.major = major;
-	}
-
-	public String getStutas() {
-		return this.stutas;
-	}
-
-	public void setStutas(String stutas) {
-		this.stutas = stutas;
-	}
-
-	public String getMarriageId() {
-		return this.marriageId;
-	}
-
-	public void setMarriageId(String marriageId) {
-		this.marriageId = marriageId;
-	}
-
-	public String getStateId() {
-		return this.stateId;
-	}
-
-	public void setStateId(String stateId) {
-		this.stateId = stateId;
-	}
-
-	public String getDiseaseInfo() {
-		return this.diseaseInfo;
-	}
-
-	public void setDiseaseInfo(String diseaseInfo) {
-		this.diseaseInfo = diseaseInfo;
-	}
-
-	public String getDisabilityInfo() {
-		return this.disabilityInfo;
-	}
-
-	public void setDisabilityInfo(String disabilityInfo) {
-		this.disabilityInfo = disabilityInfo;
-	}
-
-	public String getStationCode() {
-		return this.stationCode;
-	}
-
-	public void setStationCode(String stationCode) {
-		this.stationCode = stationCode;
-	}
-
-	public String getGradeCode() {
-		return this.gradeCode;
-	}
-
-	public void setGradeCode(String gradeCode) {
-		this.gradeCode = gradeCode;
-	}
-
-	public String getStationDate() {
-		return this.stationDate;
-	}
-
-	public void setStationDate(String stationDate) {
-		this.stationDate = stationDate;
-	}
-
-	public String getCardId() {
-		return this.cardId;
-	}
-
-	public void setCardId(String cardId) {
-		this.cardId = cardId;
-	}
-
-	public String getUrgentContact() {
-		return this.urgentContact;
-	}
-
-	public void setUrgentContact(String urgentContact) {
-		this.urgentContact = urgentContact;
-	}
-
-	public String getUrgentTelephone() {
-		return this.urgentTelephone;
-	}
-
-	public void setUrgentTelephone(String urgentTelephone) {
-		this.urgentTelephone = urgentTelephone;
-	}
-
-	public String getUrgentRelation() {
-		return this.urgentRelation;
-	}
-
-	public void setUrgentRelation(String urgentRelation) {
-		this.urgentRelation = urgentRelation;
-	}
-
-	public String getCalculateWages() {
-		return this.calculateWages;
-	}
-
-	public void setCalculateWages(String calculateWages) {
-		this.calculateWages = calculateWages;
-	}
-
-	public String getPicPath() {
-		return this.picPath;
-	}
-
-	public void setPicPath(String picPath) {
-		this.picPath = picPath;
-	}
-
-	public String getCardPath() {
-		return this.cardPath;
-	}
-
-	public void setCardPath(String cardPath) {
-		this.cardPath = cardPath;
-	}
-
-	public String getUpdateTime() {
-		return this.updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public String getUpdator() {
-		return this.updator;
-	}
-
-	public void setUpdator(String updator) {
-		this.updator = updator;
-	}
-
-	public String getBankPath() {
-		return this.bankPath;
-	}
-
-	public void setBankPath(String bankPath) {
-		this.bankPath = bankPath;
-	}
-
-	public String getWagesType() {
-		return this.wagesType;
-	}
-
-	public void setWagesType(String wagesType) {
-		this.wagesType = wagesType;
-	}
-
-	public String getCreator() {
-		return this.creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public Date getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getCreateIp() {
-		return this.createIp;
-	}
-
-	public void setCreateIp(String createIp) {
-		this.createIp = createIp;
-	}
-
-	public String getUpdateIp() {
-		return this.updateIp;
-	}
-
-	public void setUpdateIp(String updateIp) {
-		this.updateIp = updateIp;
-	}
-
-	public String getRemark() {
-		return this.remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
+	
+	
 }

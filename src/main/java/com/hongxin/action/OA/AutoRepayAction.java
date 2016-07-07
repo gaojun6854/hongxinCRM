@@ -306,17 +306,17 @@ public class AutoRepayAction extends ActionSupport {
 		TPactInfo pact=pactInfoService.get(id);
 		pact.setRebuyFlag("00");
 		
-		TAutoRepay autoRepay=autoRepayService.get(id);
-		autoRepay.setRebuyFlag("00");
+		//TAutoRepay autoRepay=autoRepayService.get(id);
+		//autoRepay.setRebuyFlag("00");
 		try {
-			autoRepayService.saveOrUpdate(autoRepay);
+			//autoRepayService.saveOrUpdate(autoRepay);
 			pactInfoService.saveOrUpdate(pact);
 			reBuyPactService.delete(id);
 		} catch (Exception e) {
 			
 		}
 		
-		autoRepay = autoRepayService.get(id);
+		//autoRepay = autoRepayService.get(id);
 		pactInfo = pactInfoService.get(id);
 		pactInfo.setProductInfo(productService.getStrId(pactInfo.getProductId()));
 		pactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(pactInfo.getCustId()).get(0));

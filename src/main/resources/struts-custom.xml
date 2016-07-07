@@ -26,6 +26,13 @@
             <interceptor-ref name="myLogStack"></interceptor-ref>
             <!--如果不需要拦截 让它们已入 defaultStack-->
         </action>
+        
+        <action name="findCity" class="com.hongxin.action.OA.CustomAccountAction" method="findCity">  
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        
+        
+        
         <!-- 客户信息添加最后事务控制 -->
         <action name="addCheckInfo" class="com.hongxin.action.OA.CheckInfoAction">  
             <result name="success">/custom/addCustomBaseInfo.jsp</result>

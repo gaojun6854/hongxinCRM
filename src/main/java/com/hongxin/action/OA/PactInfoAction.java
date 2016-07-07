@@ -105,7 +105,6 @@ public class PactInfoAction extends ActionSupport{
 		CustomBaseInfo cust=customBaseInfoService.getByStrId(id).get(0);
 		ServletActionContext.getRequest().setAttribute("products", products);
 		ServletActionContext.getRequest().setAttribute("cust", cust);
-		//return "showProducts";
 		ServletActionContext.getRequest().setAttribute("pactId", UUID.randomUUID().toString());
 		return "addPactInfo";
 	}
@@ -592,6 +591,10 @@ public class PactInfoAction extends ActionSupport{
 			return "getPactInfo4online";
 		}else if ("lastCheck".equals(redirect)) {//合同复审
 			return "pactRecheck";
+		}else if ("failPact".equals(redirect)) {//
+			List<TProductInfo>products=productService.findAll();
+			request.setAttribute("products", products);
+			return "updateFailPactInfo";
 		}else{
 			List<TProductInfo>products=productService.findAll();
 			request.setAttribute("products", products);

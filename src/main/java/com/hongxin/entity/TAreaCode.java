@@ -10,10 +10,9 @@ public class TAreaCode implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String provinceCode;
 	private String areaCode;
+	private String provinceCode;
 	private String areaName;
-	private String supAreaCode;
 	private String remark1;
 	private String remark2;
 	public String getProvinceCode() {
@@ -34,12 +33,6 @@ public class TAreaCode implements java.io.Serializable {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
-	public String getSupAreaCode() {
-		return supAreaCode;
-	}
-	public void setSupAreaCode(String supAreaCode) {
-		this.supAreaCode = supAreaCode;
-	}
 	public String getRemark1() {
 		return remark1;
 	}
@@ -55,13 +48,5 @@ public class TAreaCode implements java.io.Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	@Override
-	public String toString() {
-		return "[provinceCode=" + provinceCode + ", areaCode="
-				+ areaCode + ", areaName=" + areaName + ", supAreaCode="
-				+ supAreaCode + ", remark1=" + remark1 + ", remark2=" + remark2
-				+ "]";
-	}
-	
 
 }

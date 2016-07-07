@@ -90,8 +90,8 @@ public class EmployStaffDaoImpl implements EmployStaffDao{
 
 	@SuppressWarnings("unchecked")
 	public List<EmployStaff> getByOrgId(String orgId) {
-		List<EmployStaff> EmployStaff = this.getCurrentSession().createQuery("from EmployStaff where organization.orgId='"+orgId+"'").list();
-		return EmployStaff;
+		List<EmployStaff> EmployStaffs = this.getCurrentSession().createSQLQuery("select * from employ_staff where org_id='"+orgId+"'").addEntity(EmployStaff.class).list();
+		return EmployStaffs;
 	}
 
 }

@@ -96,7 +96,12 @@ public class OrganizationDaoImpl implements OrganizationDao{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Organization> findById(String orgId) {
-		return this.getCurrentSession().createQuery("from Organization").list();
+		if (orgId==null) {
+			return this.getCurrentSession().createSQLQuery("select org.* from organization org where parent_org_id is null").addEntity(Organization.class).list();
+		}else {
+			return this.getCurrentSession().createSQLQuery("select org.* from organization org where parent_org_id='"+orgId+"'").addEntity(Organization.class).list();
+		}
+		
 	}
 
 }

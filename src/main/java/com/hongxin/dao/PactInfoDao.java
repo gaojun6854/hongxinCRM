@@ -20,5 +20,5 @@ public interface PactInfoDao extends BaseDao<TPactInfo, String>{
 	int getAllRowCount(String sql);
 	List<TPactInfo> queryByPage(String sql, int offset, int pageSize);
 	void excuteSql(String sql);
-	int getFailPactAllRowCount(String hql);
+	int getPactAllRowCount(String hql);
 }

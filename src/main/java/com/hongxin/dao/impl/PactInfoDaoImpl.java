@@ -216,7 +216,7 @@ public class PactInfoDaoImpl implements PactInfoDao{
 	/**
 	 * 查询失败合同信息条数
 	 */
-	public int getFailPactAllRowCount(String hql) {
+	public int getPactAllRowCount(String hql) {
 		return  this.getCurrentSession().createQuery(hql).list().size();
 	}
 

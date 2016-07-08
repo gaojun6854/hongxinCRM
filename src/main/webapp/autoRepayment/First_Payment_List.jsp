@@ -43,10 +43,8 @@ table.dataTable tr.marked { background-color: #FFD900; }
      <th class="dataTableHeader">合同号</th>
 	 <th class="dataTableHeader">产品名</th>
 	 <th class="dataTableHeader">客户名称</th>
-	 <th class="dataTableHeader">本金</th>
-	 <th class="dataTableHeader">利率</th>
-	 <th class="dataTableHeader">利息</th>
-	 <th class="dataTableHeader">回购金额</th>
+	 <th class="dataTableHeader">总金额</th>
+	 <th class="dataTableHeader">还款金额</th>
 	 <th class="dataTableHeader">合同到期日</th>
 	 <th class="dataTableHeader">客户经理</th>
     </tr>
@@ -57,9 +55,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
       <td><input type="hidden"  readonly="readonly" id="checkme1" /><a href="findPaymentInfomation.action?no=2&id=${autoRepay.pactId}&redirect=firstPayment">${autoRepay.pactInfo.contractNumber}</a></td>
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />${autoRepay.pactInfo.productInfo.productName }</td>
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />${autoRepay.pactInfo.custName }</td>
-	  <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.pactInfo.amount}" pattern="0.00"/></td>
 	  <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.pactInfo.rateFix }" pattern="0.00"/></td>
-	  <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.amount}" pattern="0.00"/></td>
 	  <c:if test="${autoRepay.pactInfo.rebuyFlag=='01'}">
 	 	 <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.pactInfo.rebuypactInfo.amount }" pattern="0.00"/></td>
 	  </c:if> 

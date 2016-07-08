@@ -9,7 +9,7 @@
 		<action name="pactInfo" class="com.hongxin.action.OA.PactInfoAction">  
             <result name="success">/pact/findAllEligibleCustom.jsp</result><!-- 先查询可以购买的客户 -->
             <result name="addPactInfo">/pact/addPactInfo.jsp</result><!-- 带用户到达购买  -->
-            <result name="onLineReviews">/pact/onLineReviews.jsp</result><!-- 查询所有线上线下需要审核的合约 -->
+            <result name="FirstCheck">/pact/onLineReviews.jsp</result><!-- 查询所有初审列表 -->
             <result name="redirectPicUpload">/uploadify/fileup.jsp</result>
             <result name="toPactRecheck">/pact/toPactRecheck.jsp</result><!-- 查询所有的复审信息 -->
             <result name="findPactInfoList">/pact/findPactInfoList.jsp</result><!-- 查询合同集合 -->
@@ -23,7 +23,8 @@
             <result name="getPactInfo4online">/pact/getPactInfo4online.jsp</result><!-- 线上合同信息 -->
              <result name="pactRecheck">/pact/getPactInfo4PactRecheck.jsp</result><!-- 合同复审 -->
             <result name="findPactInfo">/pact/findPactInfo.jsp</result>
-            
+            <result name="AllgetMoneyList">/pact/all_getMoney_List.jsp</result>
+            <result name="getMoney">/pact/getPactInfo_getMoney.jsp</result>
             <!-- 拦截器 -->
             <interceptor-ref name="myStack"></interceptor-ref>
             <interceptor-ref name="myLogStack"></interceptor-ref>

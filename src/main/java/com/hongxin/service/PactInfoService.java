@@ -56,4 +56,10 @@ public interface PactInfoService
 
 	PageBean<TPactInfo> findFailPact(int i, int page);//查询失败的合同信息
 
+	void PactRecheck(TPactInfo pactInfo, String param);
+
+	PageBean<TPactInfo> getMoneyPageBean(int fenYeShu, int page, Map<String, Object> map);
+
+	PageBean<TPactInfo> getFirstCheckList(int fenYeShu, int page, Map<String, Object> map);
+
 }

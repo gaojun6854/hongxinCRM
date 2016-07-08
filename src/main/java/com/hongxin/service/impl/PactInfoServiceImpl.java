@@ -365,7 +365,7 @@ public class PactInfoServiceImpl implements PactInfoService {
 		///////////////////////////////////////////////////////
 		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
 		
-		int allRows = pactInfoDao.getFailPactAllRowCount(hql);
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
 		
 		int totalPage = pageBean.getTotalPages(pageSize, allRows);
 		
@@ -385,4 +385,72 @@ public class PactInfoServiceImpl implements PactInfoService {
 		pageBean.setTotalPage(totalPage);
 		return pageBean;
 	}
+
+	public void PactRecheck(TPactInfo pactInfo, String param) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		pactInfo.setCheckDate(sdf.format(new Date()));
+		pactInfo.setCheckTime(Date2String8.time2String());
+		
+		if ("no".equals(param)) {
+			pactInfo.setPactFlow("4");
+			pactInfo.setCheckStart('3');
+		}else if("yes".equals(param)){
+			pactInfo.setPactFlow("14");
+			pactInfo.setCheckStart('2');
+		}
+		pactInfoDao.saveOrUpdate(pactInfo);
+	}
+
+	public PageBean<TPactInfo> getMoneyPageBean(int pageSize, int page, Map<String, Object> map) {
+		String hql = "from TPactInfo where pactFlow='14'";	
+		///////////////////////////////////////////////////////
+		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
+		
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
+		
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		
+		int currentPage = pageBean.getCurPage(page);
+		
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+		for (TPactInfo pact : list) {
+		pact.setProductInfo(productDao.get(pact.getProductId()));
+		pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+		}
+		
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
+
+	public PageBean<TPactInfo> getFirstCheckList(int pageSize, int page, Map<String, Object> map) {
+		String hql = "from TPactInfo where pactFlow='14'";	
+		///////////////////////////////////////////////////////
+		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
+		
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
+		
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		
+		int currentPage = pageBean.getCurPage(page);
+		
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+		for (TPactInfo pact : list) {
+		pact.setProductInfo(productDao.get(pact.getProductId()));
+		pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+		}
+		
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
+
 }

@@ -198,9 +198,7 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 				<label>合同起息日</label> <input class="span5 inline-input" name='pactInfo.count_eff' type="text" value="${pactInfo.countEff}" />
 			</div>
 							<div class="span11 field-box actions">
-								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal" >复审通过</a>
-								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal1" >复审不通过</a>
-								<a class="btn-glow primary" href="pactInfo!pactZF.action?id=${pactInfo.pactId}">合同作废</a>
+								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal" >确认到账</a>
 							</div>
 						</div>
 					</div>
@@ -209,23 +207,12 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 		</div>
 	</div>
 	<div id="myModal" class="reveal-modal">
-		<form action="pactInfo!pactRecheck.action" method="post" id="yespass">
+		<form action="pactInfo!YNpactRecheck.action" method="post" id="yespass">
 			<h2>谨慎操作</h2>
 			<input type="hidden" name="pactId" value="${pactInfo.pactId}">
 			<input type="hidden" name="param" value="yes">
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input name="sub" type="submit" value="提交"  /></p>
-		</form>
-	</div>
-	<div id="myModal1" class="reveal-modal">
-		<form action="pactInfo!pactRecheck.action" method="post" id="nopass">
-			<h2>请填写未通过原因</h2>
-			<input type="hidden" name="pactId" value="${pactInfo.pactId}">
-			<input type="hidden" name="param" value="no">
-			<textarea id="Reson" rows="3" cols="20"></textarea>
-			<input type="hidden" name="noPassReson" id="noPassReson">
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="sub" type="button" value="提交" onclick="javascript:aa();" /></p>
 		</form>
 	</div>
 <script type="text/javascript">

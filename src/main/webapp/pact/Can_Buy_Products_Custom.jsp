@@ -1,7 +1,11 @@
+<%@page import="com.hongxin.entity.TPactInfo"%>
+<%@page import="java.util.UUID"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@taglib prefix="s" uri="/struts-tags" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
@@ -22,11 +26,24 @@ a:link, a:visited { color: #59B337; }
 a:hover, a:active, a:focus { color: #000000; }
 table.dataTable tr.marked { background-color: #FFD900; }
 </style>
+<style type="text/css">
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+/* reveal-modal */
+.reveal-modal-bg{position:fixed;height:100%;width:100%;background-color:#000;z-index:100;display:none;top:0;left:0;}
+.reveal-modal{visibility:hidden;top:100px;left:50%;margin-left:-300px;width:420px;background:#eee url(../images/modal-gloss.png) no-repeat -200px -80px;position:absolute;z-index:101;padding:30px 40px 34px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;-moz-box-shadow:0 0 10px rgba(0,0,0,.4);-webkit-box-shadow:0 0 10px rgba(0,0,0,.4);-box-shadow:0 0 10px rgba(0,0,0,.4);}
+.reveal-modal .close-reveal-modal {
+font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;text-shadow:0 -1px 1px rbga(0,0,0,.6);font-weight:bold;cursor:pointer;} 
+.reveal-modal h2{font-size:18px;color:#990000;padding:0 0 20px 0;}
+.reveal-modal p{padding:0 0 15px 0;}
+</style>
 <!-- jquery packed -->
 <script type="text/javascript" src="../js/jquery.js"></script>
 <!-- tableRowCheckboxToggle -->
 <script type="text/javascript" src="../js/tableRowCheckboxToggle.js"></script>
-<title>可以购买产品用户</title>
+<script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="../js/jquery.reveal.js"></script>
+<title>合约初审</title>
 </head>
 <body>
 <h1 align="center" style="color: highlight;">可购买产品用户</h1>

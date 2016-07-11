@@ -158,7 +158,7 @@ public class PactInfoDaoImpl implements PactInfoDao{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<TPactInfo> findReimbursementToCustom() {
+	public List<TPactInfo> findRepaymentToCustomList() {
 		return  this.getCurrentSession().createQuery("from TPactInfo where pactFlow in(6,7) ").list();
 	}
 
@@ -200,12 +200,12 @@ public class PactInfoDaoImpl implements PactInfoDao{
 	}
 
 	public int getAllRowCount(String hql) {
-		return  this.getCurrentSession().createQuery(hql).list().size();
+		return  this.getCurrentSession().createSQLQuery(hql).list().size();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<TPactInfo> queryByPage(String sql, int offset, int pageSize) {
-		return  this.getCurrentSession().createQuery(sql).setFirstResult(offset).setMaxResults(pageSize).list();
+		return  this.getCurrentSession().createSQLQuery(sql).addEntity(TPactInfo.class).setFirstResult(offset).setMaxResults(pageSize).list();
 	}
 
 	public void excuteSql(String sql) {
@@ -217,7 +217,7 @@ public class PactInfoDaoImpl implements PactInfoDao{
 	 * 查询失败合同信息条数
 	 */
 	public int getPactAllRowCount(String hql) {
-		return  this.getCurrentSession().createQuery(hql).list().size();
+		return  this.getCurrentSession().createSQLQuery(hql).list().size();
 	}
 
 }

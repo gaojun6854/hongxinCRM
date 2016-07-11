@@ -7,24 +7,28 @@
 	<package name="pactPackage" extends="struts2" namespace="/pact">
 	<!--需要拦截登录拦截 让它们入 "struts2"-->
 		<action name="pactInfo" class="com.hongxin.action.OA.PactInfoAction">  
-            <result name="success">/pact/findAllEligibleCustom.jsp</result><!-- 先查询可以购买的客户 -->
-            <result name="addPactInfo">/pact/addPactInfo.jsp</result><!-- 带用户到达购买  -->
-            <result name="FirstCheck">/pact/onLineReviews.jsp</result><!-- 查询所有初审列表 -->
+            <result name="success">/pact/Can_Buy_Products_Custom.jsp</result><!-- 可以购买产品的客户 -->
+            <result name="buyProducts">/pact/Buy_Products.jsp</result>		 <!-- 购买产品 -->
+            <result name="firstCheckList">/pact/First_Check_List.jsp</result><!-- 初审列表 -->
+            <result name="lastCheckList">/pact/Last_Check_List.jsp</result>  <!-- 复审列表 -->
+            <result name="getMoneyList">/pact/All_getMoney_List.jsp</result> <!-- 到款列表 --> 
+            <result name="failPactList">/pact/Fail_Pact_List.jsp</result>	 <!-- 失败列表 -->
+           
+            <result name="getPactInfo4FitstCheck">/pact/getPactInfo_First_Check.jsp</result><!-- 初审合同信息 -->
+            <result name="getPactInfo4LastCheck">/pact/getPactInfo_Last_Check.jsp</result>	<!-- 复审合同信息 -->
+            <result name="getPactInfo4FailPactInfo">/pact/getPactInfo_Fail_Pact.jsp</result>	<!-- 失败合同 信息-->
+            <result name="getPactInfo4GetMoneyInfo">/pact/getPactInfo_getMoney.jsp</result>	<!-- 到款合同信息 -->
+            <result name="getPactInfo4FindPactInfo">/pact/getPactInfo_Find_Pact_Info.jsp</result>		<!-- 查询合同信息 -->
+            
+            <result name="findRepaymentToCustomList">/pact/Repayment_Custom_List.jsp</result>
             <result name="redirectPicUpload">/uploadify/fileup.jsp</result>
-            <result name="toPactRecheck">/pact/toPactRecheck.jsp</result><!-- 查询所有的复审信息 -->
-            <result name="findPactInfoList">/pact/findPactInfoList.jsp</result><!-- 查询合同集合 -->
-            <result name="updateFailPactInfo">/pact/updateFailPactInfo.jsp</result><!-- 更新失败合同 -->
+            <result name="findPactInfoList">/pact/Find_PactInfo_List.jsp</result><!-- 搜索合同 -->
             <result name="HGPactInfo">/pact/HGPactInfo.jsp</result><!-- 回购页面 -->
+            
             <result name="pactHGForPaymentNotice">/paymentNotice/pactHGForPaymentNotice.jsp</result><!-- 还款通知内的回购 -->
-            <result name="findReimbursementToCustom">/pact/findReimbursementToCustom.jsp</result>
-            <result name="findFailPact">/pact/findFailPact.jsp</result><!-- 查询失败合同信息 -->
-            <result name="findPactNum">/pact/findPactInfo.jsp</result><!--合同号查询合约  -->
             <result name="findCheckReceipt">/pact/findCheckReceipt.jsp</result><!-- 合同凭证信息 -->
-            <result name="getPactInfo4online">/pact/getPactInfo4online.jsp</result><!-- 线上合同信息 -->
-             <result name="pactRecheck">/pact/getPactInfo4PactRecheck.jsp</result><!-- 合同复审 -->
-            <result name="findPactInfo">/pact/findPactInfo.jsp</result>
-            <result name="AllgetMoneyList">/pact/all_getMoney_List.jsp</result>
-            <result name="getMoney">/pact/getPactInfo_getMoney.jsp</result>
+            
+            
             <!-- 拦截器 -->
             <interceptor-ref name="myStack"></interceptor-ref>
             <interceptor-ref name="myLogStack"></interceptor-ref>

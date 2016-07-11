@@ -44,7 +44,7 @@ public interface PactInfoService
 
 	List<TPactInfo> findByPactNum(String pactNum,CustomBaseInfo customBaseInfo);//通过合同号查询信息
 
-	List<TPactInfo> findReimbursementToCustom();//还款到客户账信息
+	List<TPactInfo> findRepaymentToCustomList();//还款到客户账信息
 
 	void pactHG2(TPactInfo pactInfo, TRebuypactInfo rebuy);//回购表回到合同表---回购开始
 
@@ -54,12 +54,14 @@ public interface PactInfoService
 
 	public PageBean<TPactInfo> getPageBean(int pageSize, int page,Map<String, Object> map);
 
-	PageBean<TPactInfo> findFailPact(int i, int page);//查询失败的合同信息
+	PageBean<TPactInfo> findFailPact(int i, int page,Map<String, Object>map);//查询失败的合同信息
 
 	void PactRecheck(TPactInfo pactInfo, String param);
 
 	PageBean<TPactInfo> getMoneyPageBean(int fenYeShu, int page, Map<String, Object> map);
 
 	PageBean<TPactInfo> getFirstCheckList(int fenYeShu, int page, Map<String, Object> map);
+
+	PageBean<TPactInfo> getLastCheckList(int fenYeShu, int page, Map<String, Object> map);
 
 }

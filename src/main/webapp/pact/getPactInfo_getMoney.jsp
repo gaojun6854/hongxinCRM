@@ -109,7 +109,7 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 		</div>
 
 	<div id="pad-wrapper" class="new-user">
-		<span style="color: red; font-size: 15px;">${requestScope.flag}<br />
+		<span style="color: red; font-size: 15px;">${msg}<br /></span>
 				</span>
 			<form class="new_user_form inline-input" method="post" action="pactInfo!updatePactInfo.action">
 				<div class="row-fluid form-wrapper">

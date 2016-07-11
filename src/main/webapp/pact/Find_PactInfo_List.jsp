@@ -46,14 +46,20 @@ table.dataTable tr.marked {
 <script type="text/javascript" src="../js/jquery.js"></script>
 <!-- tableRowCheckboxToggle -->
 <script type="text/javascript" src="../js/tableRowCheckboxToggle.js"></script>
-<title>失败合同</title>
+<title>线上线下合约审核</title>
 </head>
 <body>
 
-	<h1 align="center" style="color: highlight;">合同修改</h1>
-	<span style="color: red; font-size: 15px;">${requestScope.flag}<br /></span>
+	<h1 align="center" style="color: highlight;">合同查询列表</h1>
+	<span style="color: red; font-size: 15px;">${msg}<br /></span>
 	
 	<form action="pactInfo!findPactNum.action" method="post" id="submitForm">
+		<table>
+		<tr><td>请输入合同号：</td><td><input type="text" name="pactNum"  /></td></tr>
+		<tr><td>请输入客户手机号：</td><td><input type="text" name="customBaseInfo.phonenum" value="${customBaseInfo.phonenum}" /></td></tr>
+		<tr><td>请输入客户身份证号：</td><td><input type="text" name="customBaseInfo.papernum" value="${customBaseInfo.papernum}" /> </td></tr>
+		<tr><td><input type="submit" value="查询" /></td></tr>
+		</table>
 	</form>
 	<table border="0" cellspacing="0" cellpadding="0" class="dataTable">
 		<thead>
@@ -72,7 +78,7 @@ table.dataTable tr.marked {
 			<c:forEach items="${pageBean.list}" var="pactInfo">
 				<tr class="odd_row">
 					<td><input type="hidden" readonly="readonly" id="checkme1" /><a
-						href="pactInfo!getPactInfos.action?no=2&redirect=failPact&id=${pactInfo.pactId}">${pactInfo.contractNumber}</a></td>
+						href="pactInfo!getPactInfos.action?no=2&id=${pactInfo.pactId}">${pactInfo.contractNumber}</a></td>
 					<td><input type="hidden" readonly="readonly" id="checkme1" />${pactInfo.productInfo.productName }</td>
 					<td><input type="hidden" readonly="readonly" id="checkme1" />${pactInfo.productInfo.bankAccout }</td>
 					<td><input type="hidden" readonly="readonly" id="checkme1" />${pactInfo.productInfo.fuyouAccout }</td>
@@ -94,7 +100,8 @@ table.dataTable tr.marked {
 						<c:if test="${pactInfo.pactFlow=='10'}">回购还款客户</c:if>
 						<c:if test='${pactInfo.pactFlow=="11"}'>回购还款客户失败</c:if>
 						<c:if test='${pactInfo.pactFlow=="12"}'>合同正常结束</c:if>
-						<c:if test='${pactInfo.pactFlow=="13"}'>合同已作废</c:if>	
+						<c:if test='${pactInfo.pactFlow=="13"}'>合同已作废</c:if>
+						<c:if test='${pactInfo.pactFlow=="14"}'>到款确认中</c:if>	
 					</td>
 
 				</tr>

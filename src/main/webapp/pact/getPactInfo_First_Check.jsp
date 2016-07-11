@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>合约复审详细</title>
+<title>单个合约信息查询</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
@@ -39,6 +39,9 @@
 <link
 	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,600,700,800'
 	rel='stylesheet' type='text/css' />
+
+<link href="../css/custom/bootstrap.css" rel="stylesheet">
+<link href="../css/custom/index.css" rel="stylesheet">
 <style type="text/css">
 *{margin:0;padding:0;list-style-type:none;}
 a,img{border:0;}
@@ -52,8 +55,6 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 </style>
 <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="../js/jquery.reveal.js"></script>
-<link href="../css/custom/bootstrap.css" rel="stylesheet">
-<link href="../css/custom/index.css" rel="stylesheet">
 </head>
 <body>
 	<div class="settings-wrapper" id="pad-wrapper">
@@ -109,7 +110,7 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 		</div>
 
 	<div id="pad-wrapper" class="new-user">
-		<span style="color: red; font-size: 15px;">${requestScope.flag}<br />
+		<span style="color: red; font-size: 15px;">${msg}<br /></span>
 				</span>
 			<form class="new_user_form inline-input" method="post" action="pactInfo!updatePactInfo.action">
 				<div class="row-fluid form-wrapper">
@@ -197,10 +198,14 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 			<div class="field-box">
 				<label>合同起息日</label> <input class="span5 inline-input" name='pactInfo.count_eff' type="text" value="${pactInfo.countEff}" />
 			</div>
+							
 							<div class="span11 field-box actions">
-								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal" >复审通过</a>
-								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal1" >复审不通过</a>
-								<a class="btn-glow primary" href="pactInfo!pactZF.action?id=${pactInfo.pactId}">合同作废</a>
+									<a class="btn-glow primary"
+										href="pactInfo!onLineReviewsYN.action?id=${pactInfo.pactId}&param=yes">通过</a>
+										
+								<a  href="javascript:void(0);"  class="btn-glow primary" data-reveal-id="myModal" >审核不通过</a>
+								<a class="btn-glow primary"
+										href="pactInfo!pactZF.action?id=${pactInfo.pactId}">合同作废</a>
 							</div>
 						</div>
 					</div>
@@ -208,27 +213,20 @@ font-size:22px;line-height:.5;position:absolute;top:8px;right:11px;color:#aaa;te
 			</form>
 		</div>
 	</div>
-	<div id="myModal" class="reveal-modal">
-		<form action="pactInfo!pactRecheck.action" method="post" id="yespass">
-			<h2>谨慎操作</h2>
-			<input type="hidden" name="pactId" value="${pactInfo.pactId}">
-			<input type="hidden" name="param" value="yes">
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="sub" type="submit" value="提交"  /></p>
-		</form>
-	</div>
-	<div id="myModal1" class="reveal-modal">
-		<form action="pactInfo!pactRecheck.action" method="post" id="nopass">
-			<h2>请填写未通过原因</h2>
-			<input type="hidden" name="pactId" value="${pactInfo.pactId}">
-			<input type="hidden" name="param" value="no">
-			<textarea id="Reson" rows="3" cols="20"></textarea>
-			<input type="hidden" name="noPassReson" id="noPassReson">
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="sub" type="button" value="提交" onclick="javascript:aa();" /></p>
-		</form>
-	</div>
-<script type="text/javascript">
+<div id="myModal" class="reveal-modal">
+	<form action="pactInfo!onLineReviewsYN.action" method="post" id="nopass">
+					<h2>请填写未通过原因</h2>
+					<input type="hidden" name="id" value="${pactInfo.pactId}">
+					<input type="hidden" name="param" value="no">
+					<textarea id="Reson" rows="3" cols="20"></textarea>
+					<input type="hidden" name="noPassReson" id="noPassReson">
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input name="sub" type="button" value="提交" onclick="javascript:aa();" /></p>
+					<a class="close-reveal-modal"></a> 
+					
+				</form>
+				</div>
+				<script type="text/javascript">
 	function aa(){
 		var reson=$("#Reson").val();
 		$("#noPassReson").val(reson);

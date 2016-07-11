@@ -144,8 +144,8 @@ public class PactInfoServiceImpl implements PactInfoService {
 		return pactInfoDao.findByPactNum(pactNum,cust);
 	}
 
-	public List<TPactInfo> findReimbursementToCustom() {
-		return pactInfoDao.findReimbursementToCustom();
+	public List<TPactInfo> findRepaymentToCustomList() {
+		return pactInfoDao.findRepaymentToCustomList();
 	}
 
 	/**
@@ -324,16 +324,16 @@ public class PactInfoServiceImpl implements PactInfoService {
 		String pactNum=(String) map.get("pactNum");
 		int all=(Integer) map.get("all");
 		
-		String hql = "from TPactInfo where 1=1";	
+		String hql = "select pact.* from t_pact_info pact where 1=1 ";		
         if ("".equals(custPhone)&&"".equals(custPapernum)&&"".equals(pactNum)||all==1) {
-        	hql="from TPactInfo";
+        	hql="select pact.* from t_pact_info pact where 1=1";
         }else{
         	if (!"".equals(custPhone))
-        		hql=hql+" and phoneNum='"+custPhone+"'";
+        		hql=hql+" and pact.phone_num='"+custPhone+"'";
         	if (!"".equals(custPapernum)) 
-        		hql=hql+" and paperNum='"+custPapernum+"'";
+        		hql=hql+" and pact.paper_num='"+custPapernum+"'";
         	if (!"".equals(pactNum))
-        		hql=hql+" and contractNumber='"+pactNum+"'";
+        		hql=hql+" and pact.contract_number='"+pactNum+"'";
         }
         
         ///////////////////////////////////////////////////////
@@ -359,32 +359,7 @@ public class PactInfoServiceImpl implements PactInfoService {
         return pageBean;
 	}
 
-	public PageBean<TPactInfo> findFailPact(int pageSize, int page) {
-		///////////////////////////////////////////////////////////查询初审与复审失败合同信息
-		String hql = "from TPactInfo where pactFlow in(2,4)";	
-		///////////////////////////////////////////////////////
-		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
-		
-		int allRows = pactInfoDao.getPactAllRowCount(hql);
-		
-		int totalPage = pageBean.getTotalPages(pageSize, allRows);
-		
-		int currentPage = pageBean.getCurPage(page);
-		
-		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
-		
-		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
-		for (TPactInfo pact : list) {
-			pact.setProductInfo(productDao.get(pact.getProductId()));
-			pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
-		}
-		
-		pageBean.setList(list);
-		pageBean.setAllRows(allRows);
-		pageBean.setCurrentPage(currentPage);
-		pageBean.setTotalPage(totalPage);
-		return pageBean;
-	}
+	
 
 	public void PactRecheck(TPactInfo pactInfo, String param) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -401,56 +376,175 @@ public class PactInfoServiceImpl implements PactInfoService {
 		pactInfoDao.saveOrUpdate(pactInfo);
 	}
 
-	public PageBean<TPactInfo> getMoneyPageBean(int pageSize, int page, Map<String, Object> map) {
-		String hql = "from TPactInfo where pactFlow='14'";	
-		///////////////////////////////////////////////////////
-		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
-		
-		int allRows = pactInfoDao.getPactAllRowCount(hql);
-		
-		int totalPage = pageBean.getTotalPages(pageSize, allRows);
-		
-		int currentPage = pageBean.getCurPage(page);
-		
-		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
-		
-		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
-		for (TPactInfo pact : list) {
-		pact.setProductInfo(productDao.get(pact.getProductId()));
-		pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
-		}
-		
-		pageBean.setList(list);
-		pageBean.setAllRows(allRows);
-		pageBean.setCurrentPage(currentPage);
-		pageBean.setTotalPage(totalPage);
-		return pageBean;
-	}
-
+	/**
+	 * 合同初审分页信息
+	 * First Pacts Information and PagesInfo
+	 */
 	public PageBean<TPactInfo> getFirstCheckList(int pageSize, int page, Map<String, Object> map) {
-		String hql = "from TPactInfo where pactFlow='14'";	
+		String pactNum=(String) map.get("pactNum");
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+
+		String hql = "select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='1' ";	
+		if ("".equals(phoneNum)&&"".equals(paperNum)&&"".equals(custName)&&"".equals(pactNum)) {
+			hql="select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='1'";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and pact.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and pact.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and pact.cust_name='"+custName+"'";
+			if (!"".equals(pactNum))
+				hql=hql+" and pact.contract_number='"+pactNum+"'";
+		}
 		///////////////////////////////////////////////////////
 		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
-		
 		int allRows = pactInfoDao.getPactAllRowCount(hql);
-		
 		int totalPage = pageBean.getTotalPages(pageSize, allRows);
-		
 		int currentPage = pageBean.getCurPage(page);
-		
 		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
 		
+		//给合同补全‘产品’及‘客户信息’
 		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
 		for (TPactInfo pact : list) {
-		pact.setProductInfo(productDao.get(pact.getProductId()));
-		pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+			pact.setProductInfo(productDao.get(pact.getProductId()));
+			pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
 		}
-		
 		pageBean.setList(list);
 		pageBean.setAllRows(allRows);
 		pageBean.setCurrentPage(currentPage);
 		pageBean.setTotalPage(totalPage);
 		return pageBean;
 	}
+	
+	/**
+	 * 合同复审分页信息
+	 * Last Pacts Information and PagesInfo
+	 */
+	public PageBean<TPactInfo> getLastCheckList(int pageSize, int page, Map<String, Object> map) {
+		String pactNum=(String) map.get("pactNum");
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
 
+		String hql = "select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='3' ";	
+		if ("".equals(phoneNum)&&"".equals(paperNum)&&"".equals(custName)&&"".equals(pactNum)) {
+			hql="select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='3'";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and pact.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and pact.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and pact.cust_name='"+custName+"'";
+			if (!"".equals(pactNum))
+				hql=hql+" and pact.contract_number='"+pactNum+"'";
+		}
+		///////////////////////////////////////////////////////
+		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		int currentPage = pageBean.getCurPage(page);
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		//给合同补全‘产品’及‘客户信息’
+		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+		for (TPactInfo pact : list) {
+			pact.setProductInfo(productDao.get(pact.getProductId()));
+			pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
+	
+	/**
+	 * 合同确认到款分页信息
+	 * getMoneyInfos for pact
+	 */
+	public PageBean<TPactInfo> getMoneyPageBean(int pageSize, int page, Map<String, Object> map) {
+		String pactNum=(String) map.get("pactNum");
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+
+		String hql = "select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='14'";	
+		if ("".equals(phoneNum)&&"".equals(paperNum)&&"".equals(custName)&&"".equals(pactNum)) {
+			hql="select pact.* from t_pact_info pact where 1=1 and pact.pact_flow='14'";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and pact.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and pact.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and pact.cust_name='"+custName+"'";
+			if (!"".equals(pactNum))
+				hql=hql+" and pact.contract_number='"+pactNum+"'";
+		}
+		///////////////////////////////////////////////////////
+		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		int currentPage = pageBean.getCurPage(page);
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		//给合同补全‘产品’及‘客户信息’
+		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+		for (TPactInfo pact : list) {
+			pact.setProductInfo(productDao.get(pact.getProductId()));
+			pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}	
+	
+	/**
+	 * 失败合同分页信息
+	 * fail pacts information pagesInfo
+	 */
+	public PageBean<TPactInfo> findFailPact(int pageSize, int page,Map<String, Object>map) {
+		String pactNum=(String) map.get("pactNum");
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+
+		String hql = "select pact.* from t_pact_info pact where pact.pact_flow in (2,4)";	
+		if ("".equals(phoneNum)&&"".equals(paperNum)&&"".equals(custName)&&"".equals(pactNum)) {
+			hql="select pact.* from t_pact_info pact where pact.pact_flow in (2,4)";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and pact.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and pact.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and pact.cust_name='"+custName+"'";
+			if (!"".equals(pactNum))
+				hql=hql+" and pact.contract_number='"+pactNum+"'";
+		}
+		///////////////////////////////////////////////////////
+		PageBean<TPactInfo> pageBean = new PageBean<TPactInfo>();
+		int allRows = pactInfoDao.getPactAllRowCount(hql);
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		int currentPage = pageBean.getCurPage(page);
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		//给合同补全‘产品’及‘客户信息’
+		List<TPactInfo> list = pactInfoDao.queryByPage(hql, offset, pageSize);
+		for (TPactInfo pact : list) {
+			pact.setProductInfo(productDao.get(pact.getProductId()));
+			pact.setCustomBaseInfo(customBaseInfoDao.getByStrId(pact.getCustId()).get(0));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
 }

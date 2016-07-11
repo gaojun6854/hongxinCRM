@@ -44,7 +44,7 @@
 <link href="../css/custom/index.css" rel="stylesheet">
 </head>
 <body>
-	<span style="color: red; font-size: 15px;">${requestScope.flag}<br /></span>
+	<span style="color: red; font-size: 15px;">${msg}<br /></span>
 		<div class="settings-wrapper" id="pad-wrapper">
 	<c:if test="${pactInfo!=null}">
 			<div class="span3 avatar-box" style="float: right;">
@@ -222,6 +222,7 @@
 			 				<c:if test="${pactInfo.pactFlow=='11'}"><input class="span5 inline-input"  type="text" value="回购还款客户失败" style="color: red"/></c:if>
 			 				<c:if test="${pactInfo.pactFlow=='12'}"><input class="span5 inline-input"  type="text" value="合同正常结束" style="color: red"/></c:if>
 			 				<c:if test="${pactInfo.pactFlow=='13'}"><input class="span5 inline-input"  type="text" value="合同已作废" style="color: red"/></c:if>
+			 				<c:if test="${pactInfo.pactFlow=='14'}"><input class="span5 inline-input"  type="text" value="到款确认中" style="color: red"/></c:if>
 			 
 			 <br/>
 				 			<label>原因</label><input class="span5 inline-input"  type="text" value="${pactInfo.noPassReson}" />

@@ -56,8 +56,7 @@
 		</script>
 		<div id="pad-wrapper" class="new-user">
 
-			<span style="color: red; font-size: 15px;">${requestScope.flag}<br />
-			</span>
+			<span style="color: red; font-size: 15px;">${msg}<br /></span>
 			<form class="new_user_form inline-input" method="post"
 				action="pactInfo!updatePactInfo.action">
 				<div class="row-fluid form-wrapper">

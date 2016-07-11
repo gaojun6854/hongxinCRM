@@ -21,7 +21,6 @@ a:link, a:visited { color: #59B337; }
 a:hover, a:active, a:focus { color: #000000; }
 table.dataTable tr.marked { background-color: #FFD900; }
 </style>
-<!-- jquery packed -->
 <script type="text/javascript" src="../js/jquery.js"></script>
 <!-- tableRowCheckboxToggle -->
 <script type="text/javascript" src="../js/tableRowCheckboxToggle.js"></script>
@@ -29,7 +28,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
 </head>
 <body>
 <h1 align="center" style="color: highlight;">还款到客户账</h1>
-<span style="color: red; font-size: 15px;">${requestScope.flag}<br/></span>
+<span style="color: red; font-size: 15px;">${msg}<br /></span>
 <table border="0" cellspacing="0" cellpadding="0" class="dataTable">
   <thead>
     <tr>

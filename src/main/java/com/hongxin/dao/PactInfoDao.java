@@ -14,7 +14,7 @@ public interface PactInfoDao extends BaseDao<TPactInfo, String>{
 	List<TPactInfo> findAllPZReviews();
 	List<TPactInfo> findAllRepayment();
 	List<TPactInfo> findByPactNum(String pactNum,CustomBaseInfo cust);
-	List<TPactInfo> findReimbursementToCustom();
+	List<TPactInfo> findRepaymentToCustomList();
 	List<TPactInfo> findAllToPactRecheck();
 	void T1();
 	int getAllRowCount(String sql);

@@ -64,6 +64,7 @@ public class PactInfoAction extends ActionSupport{
 	private TRebuypactInfo rebuypactInfo;
 	private CustomBaseInfo customBaseInfo;
 	private int page;
+	private String msg;
 	private PageBean<TPactInfo> pageBean;
 	private PageBean<TAutoRepay> pageBeanAutoRepay ;
 	private PageBean<CustomBaseInfo> pageBeanBycustom;
@@ -91,7 +92,8 @@ public class PactInfoAction extends ActionSupport{
 	}
 
 	/**
-	 * 查询所有商品信息
+	 * 带着选定的用户选购产品并购买
+	 * With the selected user to buy products
 	 * @return
 	 */
 	public String findAllProducts(){
@@ -106,7 +108,7 @@ public class PactInfoAction extends ActionSupport{
 		ServletActionContext.getRequest().setAttribute("products", products);
 		ServletActionContext.getRequest().setAttribute("cust", cust);
 		ServletActionContext.getRequest().setAttribute("pactId", UUID.randomUUID().toString());
-		return "addPactInfo";
+		return "buyProducts";
 	}
 
 	/**
@@ -279,40 +281,36 @@ public class PactInfoAction extends ActionSupport{
 	 */
 	public String firstCheck(){
 		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
 		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
 		Map<String, Object>map=new HashMap<String, Object>();
-		if (customBaseInfo==null) {
-			map.put("all", 1);
-		}else {
-			map.put("pactNum", pactNum);//合同号
-			map.put("custPhone", customBaseInfo.getPhonenum());//客户手机号
-			map.put("custPapernum", customBaseInfo.getPapernum());//客户身份号
-			request.setAttribute("pactNum", pactNum);
-		map.put("all", 0);
-		}
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+		
 		try {
-			//List<TPactInfo>pactInfos=pactInfoService.findByPactNum(pactNum,customBaseInfo);
-			//查询结果及分页
+			///////////----分页----///////////
 			pageBean=pactInfoService.getFirstCheckList(Constants.FEN_YE_SHU, page,map);
 			pageBean.setActionUrl("pactInfo!firstCheck.action");
 		} catch (Exception e) {
-			request.setAttribute("flag", "系統繁忙,稍后再试!");
+			msg = "系統繁忙,稍后再试!";
 		}
-		
-		
-		List<TPactInfo>pactInfos=pactInfoService.findAllReviews();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		ServletActionContext.getRequest().setAttribute("away","firstCheck");
-		return "FirstCheck";
+		return "firstCheckList";
 	}
 	/**
-	 * 线上审核通过----改为初审
+	 * 初审通过与不通过
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 *  
 	 */
 	public String onLineReviewsYN(){
 		HttpServletRequest request=ServletActionContext.getRequest();
@@ -322,48 +320,51 @@ public class PactInfoAction extends ActionSupport{
 			String noPassReson=request.getParameter("noPassReson");
 			pactInfo=pactInfoService.get(id);
 			if (!"1".equals(pactInfo.getPactFlow())) {
-				List<TPactInfo>pactInfos=pactInfoService.findAllReviews();
-				for (TPactInfo tPactInfo : pactInfos) {
-					tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-					tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-				}
-				ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-				ServletActionContext.getRequest().setAttribute("away","firstCheck");
-				ServletActionContext.getRequest().setAttribute("flag", "合约已经被审核");
-				return "FirstCheck";
+				msg = "合约已经被审核";
+				return firstCheck();
 			}
 			int a=pactInfoService.onLineReviewsYN(id,param,noPassReson);
 			if (a==1) {
-				ServletActionContext.getRequest().setAttribute("flag", "合约审核成功");
+				msg = "合约审核成功";
 			}else if (a==3) {
-				ServletActionContext.getRequest().setAttribute("flag", "合约已经被审核");
+				msg = "合约已经被审核";
 			}else{
-				ServletActionContext.getRequest().setAttribute("flag", "异常,请稍后再试");
+				msg = "异常,请稍后再试";
 			}
-			//再次查询所有的合同线上审核信息
-			List<TPactInfo>pactInfos=pactInfoService.findAllReviews();
-			for (TPactInfo tPactInfo : pactInfos) {
-				tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-				tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-			}
-			ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-			ServletActionContext.getRequest().setAttribute("away","firstCheck");
-			return "FirstCheck";
+			return firstCheck();
 		}
 	}
 	
 	/**
 	 * 查询all合同复审
 	 */
-	public String findAllToPactRecheck(){
-		//查询需要上层领导审核信息
-		List<TPactInfo>pactInfos=pactInfoService.findAllToPactRecheck();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
+	public String lastCheck(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
+		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
+		Map<String, Object>map=new HashMap<String, Object>();
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+		
+		try {
+			///////////----分页----///////////
+			pageBean=pactInfoService.getLastCheckList(Constants.FEN_YE_SHU, page,map);
+			pageBean.setActionUrl("pactInfo!lastCheck.action");
+		} catch (Exception e) {
+			msg = "系統繁忙,稍后再试!";
 		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		return "toPactRecheck";
+		return "lastCheckList";
 	}
 	
 	/**
@@ -378,9 +379,9 @@ public class PactInfoAction extends ActionSupport{
 			String noPassReson=request.getParameter("noPassReson");
 			pactInfo=pactInfoService.get(pactId);
 			if (!"3".equals(pactInfo.getPactFlow())) {
-				request.setAttribute("flag", "该合同已经被审核");
+				msg = "该合同已经被审核";
 				//再次查询需要合同复审审核信息
-				return toPactRecheck();
+				return lastCheck();
 			}
 			pactInfo.setLastNoPassReson(noPassReson);//不通过理由
 			
@@ -403,47 +404,56 @@ public class PactInfoAction extends ActionSupport{
 				transferBmuReqData.setContract_no(result.getContract_no());
 				commonRspData=FuiouService.transferBmu(transferBmuReqData);
 				
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-			
-			//富友返回码为0000
-			if ("0000".equals(commonRspData.getResp_code())) {}*/
-			
-			try {
-				pactInfoService.PactRecheck(pactInfo,param);
-			} catch (Exception e) {
-				request.setAttribute("flag", "合同复审失败");
-				e.printStackTrace();
-			}
-	
-		//再次查询需要合同复审审核信息
-		List<TPactInfo>pactInfos=pactInfoService.findAllToPactRecheck();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				//富友返回码为0000
+				if ("0000".equals(commonRspData.getResp_code())) {}*/
+				
+				try {
+					pactInfoService.PactRecheck(pactInfo,param);
+				} catch (Exception e) {
+					msg = "合同复审失败";
+					e.printStackTrace();
+				}
+			return lastCheck();
 		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		return toPactRecheck();
 	}
-	}
+	
 	
 	/**
 	 * 查询所有到款确定合同
 	 */
 	public String findAllgetMoney(){
 		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
+		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
 		Map<String, Object>map=new HashMap<String, Object>();
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+
 		try {
-			//List<TPactInfo>pactInfos=pactInfoService.findByPactNum(pactNum,customBaseInfo);
 			//查询结果及分页
 			pageBean=pactInfoService.getMoneyPageBean(Constants.FEN_YE_SHU, page,map);
 			pageBean.setActionUrl("pactInfo!findAllgetMoney.action");
 		} catch (Exception e) {
-			request.setAttribute("flag", "系統繁忙,稍后再试!");
+			msg = "系統繁忙,稍后再试!";
 		}
-		return "AllgetMoneyList";
+		return "getMoneyList";
 	}
+	
 	
 	/**
 	 * 到款确认
@@ -457,61 +467,57 @@ public class PactInfoAction extends ActionSupport{
 			String noPassReson=request.getParameter("noPassReson");
 			pactInfo=pactInfoService.get(pactId);
 			if (!"14".equals(pactInfo.getPactFlow())) {
-				request.setAttribute("flag", "该合同已经被审核");
+				msg = "该合同已经被审核";
 				//再次查询需要合同复审审核信息
-				return pactRecheck();
+				return findAllgetMoney();
 			}
 			pactInfo.setLastNoPassReson(noPassReson);//不通过理由
 			try {
 				pactInfoService.YNPactRecheck(pactInfo,param);
 				if ("yes".equals(param)) {
 					//InsertRepay(pactInfoService.get(pactId));//模拟熊健程序
-					//request.setAttribute("flag", "转账成功,富友返回码:"+commonRspData.getResp_code());
 				}
 			} catch (Exception e) {
-				request.setAttribute("flag", "到款确认失败,稍后再试");
+				msg = "到款确认失败,稍后再试";
 				e.printStackTrace();
 			}
-			request.setAttribute("flag", "到款确认成功");
-			return toPactRecheck();
+			msg = "到款确认成功,合同正式生效!";
+			return findAllgetMoney();
 		}
 	}
 	
-	//再次查询需要合同复审审核信息
-	private String toPactRecheck(){
-		List<TPactInfo>pactInfos=pactInfoService.findAllToPactRecheck();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		return "toPactRecheck";
-	}
+
 	/**
-	 * 合同查询
+	 * 合同失败后修正维护中心
 	 */
-	public String findPactNum(){
+	public String findFailPact(){
+		//查询失败了的合同信息
 		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
 		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
 		Map<String, Object>map=new HashMap<String, Object>();
-		if (customBaseInfo==null) {
-			map.put("all", 1);
-		}else {
-			map.put("pactNum", pactNum);//合同号
-			map.put("custPhone", customBaseInfo.getPhonenum());//客户手机号
-			map.put("custPapernum", customBaseInfo.getPapernum());//客户身份号
-			request.setAttribute("pactNum", pactNum);
-		map.put("all", 0);
-		}
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+	
 		try {
-			//List<TPactInfo>pactInfos=pactInfoService.findByPactNum(pactNum,customBaseInfo);
 			//查询结果及分页
-			pageBean=pactInfoService.getPageBean(Constants.FEN_YE_SHU, page,map);
-			pageBean.setActionUrl("pactInfo!findPactNum.action");
+			pageBean=pactInfoService.findFailPact(Constants.FEN_YE_SHU, page,map);
+			pageBean.setActionUrl("pactInfo!findFailPact.action");
 		} catch (Exception e) {
-			request.setAttribute("flag", "系統繁忙,稍后再试!");
+			msg = "维护中...!";
 		}
-		return "findPactInfoList";
+		return "failPactList";
 	}
 	
 	/**
@@ -554,10 +560,62 @@ public class PactInfoAction extends ActionSupport{
 		
 		pactInfo.setReceipts(receipts);
 		request.setAttribute("products", products);
-		request.setAttribute("flag", "合同编号修改成功");
-		return "updateFailPactInfo";
+		msg = "操作成功";
+		return findFailPact();
 	}
 	
+	
+	/**
+	 * 合同查询
+	 */
+	public String findPactNum(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String pactNum=request.getParameter("pactNum");//合同号
+		Map<String, Object>map=new HashMap<String, Object>();
+		if (customBaseInfo==null) {
+			map.put("all", 1);
+		}else {
+			map.put("pactNum", pactNum);//合同号
+			map.put("custPhone", customBaseInfo.getPhonenum());//客户手机号
+			map.put("custPapernum", customBaseInfo.getPapernum());//客户身份号
+			request.setAttribute("pactNum", pactNum);
+		map.put("all", 0);
+		}
+		try {
+			//查询结果及分页
+			pageBean=pactInfoService.getPageBean(Constants.FEN_YE_SHU, page,map);
+			pageBean.setActionUrl("pactInfo!findPactNum.action");
+		} catch (Exception e) {
+			msg = "系統繁忙,稍后再试!";
+		}
+		return "findPactInfoList";
+	}
+	
+	
+	/**
+	 * 合同作废
+	 * @return
+	 */
+	public String pactZF(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String id=request.getParameter("id");
+		TPactInfo pact=pactInfoService.get(id);
+		if (!(pact.getPactFlow().equals("1")||pact.getPactFlow().equals("2")||pact.getPactFlow().equals("3")||pact.getPactFlow().equals("4"))) {
+			msg="操作失败";
+			return firstCheck();//默认返回初审信息列表
+		}
+		try {
+			//作废操作处理
+			pact.setPactFlow("13");
+			pact.setCheckStart('2');
+			pactInfoService.saveOrUpdateByEntity(pact);
+			msg="操作成功";
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg="操作失败";
+		}
+		return firstCheck();//默认返回初审信息列表
+	}
 	
 	/////////////////////////////////////////////////////////////还款管理/////////////////////////////////////////////////////////////////
 	
@@ -594,31 +652,14 @@ public class PactInfoAction extends ActionSupport{
 	/**
 	 * 查询还款到客户账(4-2-----5-2)
 	 */
-	public String findReimbursementToCustom(){
-		List<TPactInfo> pactInfos=pactInfoService.findReimbursementToCustom();
+	public String findRepaymentToCustom(){
+		List<TPactInfo> pactInfos=pactInfoService.findRepaymentToCustomList();
 		for (TPactInfo tPactInfo : pactInfos) {
 			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
 			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
 		}
 		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		return "findReimbursementToCustom";
-	}
-	/**
-	 * 合同失败后修正维护中心
-	 */
-	public String findFailPact(){
-		//查询失败了的合同信息
-		HttpServletRequest request=ServletActionContext.getRequest();
-		try {
-			//List<TPactInfo>pactInfos=pactInfoService.findByPactNum(pactNum,customBaseInfo);
-			//查询结果及分页
-			pageBean=pactInfoService.findFailPact(Constants.FEN_YE_SHU, page);
-			pageBean.setActionUrl("pactInfo!findFailPact.action");
-		} catch (Exception e) {
-			request.setAttribute("flag", "维护中...!");
-			return "findFailPact";
-		}
-		return "findFailPact";
+		return "findRepaymentToCustomList";
 	}
 	
 
@@ -644,60 +685,22 @@ public class PactInfoAction extends ActionSupport{
 			request.setAttribute("rebuyPact", rebuyPact);
 		}
 		//select Redirect URL
-		if ("firstCheck".equals(redirect)) {//合同初审
-			return "getPactInfo4online";
-		}else if ("lastCheck".equals(redirect)) {//合同复审
-			return "pactRecheck";
-		}else if ("failPact".equals(redirect)) {//
-			List<TProductInfo>products=productService.findAll();
-			request.setAttribute("products", products);
-			return "updateFailPactInfo";
-		}else if ("getMoney".equals(redirect)) {//
-			List<TProductInfo>products=productService.findAll();
-			request.setAttribute("products", products);
-			return "getMoney";
-		}else{
-			List<TProductInfo>products=productService.findAll();
-			request.setAttribute("products", products);
-			return "findPactInfo";
-		}
+		List<TProductInfo>products=productService.findAll();
+		request.setAttribute("products", products);
+	
+		if ("firstCheck".equals(redirect)) 
+			return "getPactInfo4FitstCheck";//初审合同信息
+		else if ("lastCheck".equals(redirect)) 
+			return "getPactInfo4LastCheck";//复审合同信息
+		else if ("failPact".equals(redirect))
+			return "getPactInfo4FailPactInfo";//失败合同信息
+		else if ("getMoney".equals(redirect)) 
+			return "getPactInfo4GetMoneyInfo";//到款合同信息
+		else
+			return "getPactInfo4FindPactInfo";//查询_合同信息
+		
 	}
 	
-	
-	
-	/**
-	 * 合同作废
-	 * @return
-	 */
-	public String pactZF(){
-		HttpServletRequest request=ServletActionContext.getRequest();
-		String id=request.getParameter("id");
-		TPactInfo pact=pactInfoService.get(id);
-		if (!pact.getPactFlow().equals("1")||pact.getPactFlow().equals("2")||pact.getPactFlow().equals("3")||pact.getPactFlow().equals("4")) {
-			List<TPactInfo>pactInfos=pactInfoService.findAllReviews();
-			for (TPactInfo tPactInfo : pactInfos) {
-				tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-				tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-			}
-			ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-			ServletActionContext.getRequest().setAttribute("flag", "合同作废操作成功");
-			ServletActionContext.getRequest().setAttribute("away","online");
-			return "FirstCheck";
-		}
-		pact.setPactFlow("11");
-		pact.setCheckStart('2');
-		pactInfoService.saveOrUpdateByEntity(pact);
-		List<TPactInfo>pactInfos=pactInfoService.findAllReviews();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		ServletActionContext.getRequest().setAttribute("flag", "合同作废操作成功");
-		ServletActionContext.getRequest().setAttribute("away","online");
-		return "FirstCheck";
-	}
-
 	/**
 	 * 查询checkReceip凭证照片等信息
 	 */
@@ -799,6 +802,14 @@ public class PactInfoAction extends ActionSupport{
 
 	public void setPageBeanAutoRepay(PageBean<TAutoRepay> pageBeanAutoRepay) {
 		this.pageBeanAutoRepay = pageBeanAutoRepay;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 	
 }

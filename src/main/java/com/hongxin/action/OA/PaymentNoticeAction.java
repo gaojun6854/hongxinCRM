@@ -32,6 +32,7 @@ import com.hongxin.service.PactInfoService;
 import com.hongxin.service.PactInformService;
 import com.hongxin.service.ProductService;
 import com.hongxin.service.ReBuyPactService;
+import com.hongxin.utils.Constants;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class PaymentNoticeAction extends ActionSupport {
@@ -79,10 +80,29 @@ public class PaymentNoticeAction extends ActionSupport {
 	 * @return
 	 */
 	public String findPaymentNoticeList() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		pageBean = pactInformService.getPageBean(5, page, map);
-		pageBean.setActionUrl("findPaymentNoticeList.action");
-		//pactInforms = pactInformService.findAll();
+		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
+		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
+		Map<String, Object>map=new HashMap<String, Object>();
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		
+		try {
+			pageBean = pactInformService.getPageBean(Constants.FEN_YE_SHU, page, map);
+			pageBean.setActionUrl("findPaymentNoticeList.action");
+		} catch (Exception e) {
+			msg="系统繁忙,稍后再试";
+		}
 		return "paymentNoticeList";
 	}
 
@@ -92,11 +112,29 @@ public class PaymentNoticeAction extends ActionSupport {
 	 * @return
 	 */
 	public String findPaymentToCustomRecord() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		pageBean4backAcct = pactInformService.getPaymentToCustomRecord(5, page, map);
-		pageBean4backAcct.setActionUrl("findPaymentToCustomRecord.action");
-		for (TBackAcct backAccount : pageBean4backAcct.getList()) {
-			backAccount.setPactInfo(pactInfoService.get(backAccount.getPactId()));
+		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
+		String pactNum=request.getParameter("pactNum");//合同号
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
+		Map<String, Object>map=new HashMap<String, Object>();
+		
+		map.put("pactNum", pactNum==null?"":pactNum);//合同号
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		request.setAttribute("pactNum", pactNum);
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+		
+		try {
+			pageBean4backAcct = pactInformService.getPaymentToCustomRecord(Constants.FEN_YE_SHU, page, map);
+			pageBean4backAcct.setActionUrl("findPaymentToCustomRecord.action");
+		} catch (Exception e) {
+			msg="系统繁忙,稍后再试";
 		}
 		return "paymentToCustomRecord";
 	}

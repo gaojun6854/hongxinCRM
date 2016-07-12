@@ -13,54 +13,65 @@
 			+ path;
 %>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="content-script-type" content="text/javascript">
-<meta http-equiv="content-style-type" content="text/css">
-<meta http-equiv="content-language" content="en-gb">
-<meta http-equiv="imagetoolbar" content="no" />
+<script type="text/javascript" src="../js/jquery-date.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/dateTime/jquery.datetimepicker.css"/>
+<script src="../js/jquery.datetimepicker.js"></script>
 <link rel="stylesheet" href="../css/custom/dataTable.css" media="screen">
 <style type="text/css">
-body, th, td {
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 0.9em;
-}
-
-a:link, a:visited {
-	color: #59B337;
-}
-
-a:hover, a:active, a:focus {
-	color: #000000;
-}
-
-table.dataTable tr.marked {
-	background-color: #FFD900;
-}
+body, th, td {font-family: Arial, Verdana, sans-serif;font-size: 0.9em;}
+a:link, a:visited {color: #59B337;}
+a:hover, a:active, a:focus { color: #000000;}
+table.dataTable tr.marked {background-color: #FFD900;}
 </style>
-<%
-	request.setAttribute("picType", 2);
-	request.setAttribute("url", "pact/pactInfo!offLineReviewsUpload.action");//上传图片后跳转的地址
-	;
-%>
-<!-- jquery packed -->
 <script type="text/javascript" src="../js/jquery.js"></script>
-<!-- tableRowCheckboxToggle -->
 <script type="text/javascript" src="../js/tableRowCheckboxToggle.js"></script>
+
+<script type="text/javascript" src="../js/jquery-date.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/dateTime/jquery.datetimepicker.css"/>
+<script src="../js/jquery.datetimepicker.js"></script>
+
 <title>线上线下合约审核</title>
 </head>
 <body>
-
-	<h1 align="center" style="color: highlight;">合同查询列表</h1>
-	<span style="color: red; font-size: 15px;">${msg}<br /></span>
+<span style="color: red; font-size: 15px;">${msg}</span>
+	<h4 align="center" style="color: highlight;">合同查询</h4>
 	
 	<form action="pactInfo!findPactNum.action" method="post" id="submitForm">
 		<table>
-		<tr><td>请输入合同号：</td><td><input type="text" name="pactNum"  /></td></tr>
-		<tr><td>请输入客户手机号：</td><td><input type="text" name="customBaseInfo.phonenum" value="${customBaseInfo.phonenum}" /></td></tr>
-		<tr><td>请输入客户身份证号：</td><td><input type="text" name="customBaseInfo.papernum" value="${customBaseInfo.papernum}" /> </td></tr>
-		<tr><td><input type="submit" value="查询" /></td></tr>
+		<tr><td>请输入合同号：</td><td><input type="text" name="pactNum" id="pactNum" value="${pactNum}" /></td>
+			<td>请输入姓名：</td><td><input type="text" id="custname" name="customBaseInfo.custname" value="${customBaseInfo.custname}" /></td>
+		</tr>
+		<tr><td>请输入客户手机号：</td><td><input type="text" id="phonenum" name="customBaseInfo.phonenum" value="${customBaseInfo.phonenum}" /></td>
+			<td>请输入客户身份证号：</td><td><input type="text" id="papernum" name="customBaseInfo.papernum" value="${customBaseInfo.papernum}" /> </td>
+		</tr>
+		<tr><td>起始时间：</td><td><input type="text" name="startTime" value="${startTime}" id="startTime" > </td>
+			<td>终止时间：</td><td><input type="text" name="endTime" value="${endTime}" id="endTime" > </td>
+		</tr>
+		<tr><td><input type="button" value="清空" onclick="javascript:clearText();" /></td><td><input type="submit" value="查询" /></td></tr>
 		</table>
-	</form>
+	</form><script type="text/javascript">
+				$('#startTime').datetimepicker({
+					format:'Ymd',
+					formatDate:'Y/m/d',
+					timepicker:false,
+					lang:'ch',
+				});
+				$('#endTime').datetimepicker({
+					format:'Ymd',
+					formatDate:'Y/m/d',
+					timepicker:false,
+					lang:'ch',
+				});
+				//清空操作
+				function clearText() {
+					$('#pactNum').val("");
+					$('#custname').val("");
+					$('#phonenum').val("");
+					$('#papernum').val("");
+					$('#startTime').val("");
+					$('#endTime').val("");
+				}
+			</script>
 	<table border="0" cellspacing="0" cellpadding="0" class="dataTable">
 		<thead>
 			<tr>

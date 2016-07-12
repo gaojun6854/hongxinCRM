@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -177,7 +178,7 @@
 				<label>客户购买金额</label> <input class="span5 inline-input" name='pactInfo.amount' type="text" value="${pactInfo.amount}" />
 			</div>
 			<div class="field-box">
-				<label>最低收益</label> <input class="span5 inline-input" name='' type="text" value="${pactInfo.amount*(1+pactInfo.recruitmentDate)}" />
+				<label>最低收益</label> <input class="span5 inline-input" name='' type="text" value="<fmt:formatNumber value='${pactInfo.amount*(pactInfo.rateFix/100)}'  pattern='0.00'/> " />
 			</div>
 			<div class="field-box">
 				<label>合同书编号</label> <input class="span5 inline-input" name='pactInfo.contractNumber' type="text" value="${pactInfo.contractNumber}" style="color: red"/>

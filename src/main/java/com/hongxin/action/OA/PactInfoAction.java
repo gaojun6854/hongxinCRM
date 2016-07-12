@@ -1,5 +1,4 @@
 package com.hongxin.action.OA;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 /**
@@ -39,7 +38,6 @@ import com.hongxin.service.ReBuyPactService;
 import com.hongxin.utils.AjaxUtils;
 import com.hongxin.utils.Constants;
 import com.hongxin.utils.Date2String8;
-import com.hongxin.utils.TimeId;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -485,7 +483,6 @@ public class PactInfoAction extends ActionSupport{
 			return findAllgetMoney();
 		}
 	}
-	
 
 	/**
 	 * 合同失败后修正维护中心
@@ -571,14 +568,21 @@ public class PactInfoAction extends ActionSupport{
 	public String findPactNum(){
 		HttpServletRequest request=ServletActionContext.getRequest();
 		String pactNum=request.getParameter("pactNum");//合同号
+		String startTime=request.getParameter("startTime");//合同号
+		String endTime=request.getParameter("endTime");//合同号
 		Map<String, Object>map=new HashMap<String, Object>();
 		if (customBaseInfo==null) {
 			map.put("all", 1);
 		}else {
 			map.put("pactNum", pactNum);//合同号
 			map.put("custPhone", customBaseInfo.getPhonenum());//客户手机号
+			map.put("custName", customBaseInfo.getCustname());//客户手机号
 			map.put("custPapernum", customBaseInfo.getPapernum());//客户身份号
+			map.put("startTime", startTime);//客户身份号
+			map.put("endTime", endTime);//客户身份号
 			request.setAttribute("pactNum", pactNum);
+			request.setAttribute("startTime", startTime);
+			request.setAttribute("endTime", endTime);
 		map.put("all", 0);
 		}
 		try {
@@ -649,21 +653,6 @@ public class PactInfoAction extends ActionSupport{
 	
 ///////////////////////////////////////////回购产品//////////////////////////////////////////////////////////////
 
-	/**
-	 * 查询还款到客户账(4-2-----5-2)
-	 */
-	public String findRepaymentToCustom(){
-		List<TPactInfo> pactInfos=pactInfoService.findRepaymentToCustomList();
-		for (TPactInfo tPactInfo : pactInfos) {
-			tPactInfo.setProductInfo(productService.getStrId(tPactInfo.getProductId()));
-			tPactInfo.setCustomBaseInfo(customBaseInfoService.getByStrId(tPactInfo.getCustId()).get(0));
-		}
-		ServletActionContext.getRequest().setAttribute("pactInfos", pactInfos);
-		return "findRepaymentToCustomList";
-	}
-	
-
-	
 	/**
 	 * 合同明细查询
 	 * @return

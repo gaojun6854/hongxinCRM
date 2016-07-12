@@ -31,8 +31,13 @@ table.dataTable tr.marked { background-color: #FFD900; }
 </head>
 <body>
 <h1 align="center" style="color: highlight;">还款通知</h1>
-<span style="color: red; font-size: 15px;">${requestScope.flag}<br /></span>
-<form action="pactInfo!findPactNum.action" method="post" id="submitForm">
+<span style="color: red; font-size: 15px;">${requestScope.flag}</span>
+<form  action="findPaymentNoticeList.action" method="post" id="submitForm">
+	合同号:<input type="text" id="pactNum" name="pactNum" value="${pactNum}" />
+	客户名:<input type="text" id="custName" name="custName" value="${custName}" />
+	客户手机号:<input type="text" id="phoneNum" name="phoneNum" value="${phoneNum}"  />
+	客户身份证:<input type="text" id="paperNum" name="paperNum" value="${paperNum}"   />
+	<input type="submit" value="查询" />
 </form>
 <table border="0" cellspacing="0" cellpadding="0" class="dataTable">
   <thead>
@@ -80,13 +85,17 @@ table.dataTable tr.marked { background-color: #FFD900; }
         <s:else>
         
         <input type="button" value="首页" onclick="jumpNormalPage(1);"/>
+           <%--  <a href="${pageBean.actionUrl}">首页</a> --%>
             &nbsp;&nbsp;&nbsp;
+            <%-- <a href="${pageBean.actionUrl}?page=<s:property value="#request.pageBean.currentPage - 1"/>">上一页</a> --%>
             <input type="button" value="上一页"  onclick="jumpNormalPage('<s:property value="#request.pageBean.currentPage - 1"/>');"/>
         </s:else>
         
         <s:if test="#request.pageBean.currentPage != #request.pageBean.totalPage">
+            <%-- <a href="${pageBean.actionUrl}?page=<s:property value="#request.pageBean.currentPage + 1"/>">下一页</a> --%>
             <input type="button" value="下一页" onclick="jumpNormalPage('<s:property value="#request.pageBean.currentPage + 1"/>');" />
             &nbsp;&nbsp;&nbsp;
+            <%-- <a href="${pageBean.actionUrl}?page=<s:property value="#request.pageBean.totalPage"/>">尾页</a> --%>
             <input type="button" value="尾页" onclick="jumpNormalPage('<s:property value="#request.pageBean.totalPage"/>');" />
         </s:if>
         

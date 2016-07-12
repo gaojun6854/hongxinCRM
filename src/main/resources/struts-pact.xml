@@ -19,8 +19,7 @@
             <result name="getPactInfo4FailPactInfo">/pact/getPactInfo_Fail_Pact.jsp</result>	<!-- 失败合同 信息-->
             <result name="getPactInfo4GetMoneyInfo">/pact/getPactInfo_getMoney.jsp</result>	<!-- 到款合同信息 -->
             <result name="getPactInfo4FindPactInfo">/pact/getPactInfo_Find_Pact_Info.jsp</result>		<!-- 查询合同信息 -->
-            
-            <result name="findRepaymentToCustomList">/pact/Repayment_Custom_List.jsp</result>
+        
             <result name="redirectPicUpload">/uploadify/fileup.jsp</result>
             <result name="findPactInfoList">/pact/Find_PactInfo_List.jsp</result><!-- 搜索合同 -->
             <result name="HGPactInfo">/pact/HGPactInfo.jsp</result><!-- 回购页面 -->

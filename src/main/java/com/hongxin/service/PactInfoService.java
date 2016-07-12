@@ -2,10 +2,7 @@ package com.hongxin.service;
 
 import java.util.List;
 import java.util.Map;
-
-import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.PageBean;
-import com.hongxin.entity.TAutoRepay;
 import com.hongxin.entity.TPactInfo;
 import com.hongxin.entity.TRebuypactInfo;
 
@@ -38,17 +35,9 @@ public interface PactInfoService
 
 	int offLineReviewsYN(String id, String param,String noPassReson);
 
-	List<TPactInfo> findAllRepayment();
-
 	int repaymentYN(String id, String param);
 
-	List<TPactInfo> findByPactNum(String pactNum,CustomBaseInfo customBaseInfo);//通过合同号查询信息
-
-	List<TPactInfo> findRepaymentToCustomList();//还款到客户账信息
-
 	void pactHG2(TPactInfo pactInfo, TRebuypactInfo rebuy);//回购表回到合同表---回购开始
-
-	List<TPactInfo> findAllToPactRecheck();//查询状态为1复审中的合同信息
 
 	void YNPactRecheck(TPactInfo pactInfo, String param );
 

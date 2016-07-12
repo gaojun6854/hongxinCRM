@@ -32,7 +32,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
 </head>
 <body>
 <h1 align="center" style="color: highlight;">还款维护修改</h1>
-<span style="color: red; font-size: 15px;">${requestScope.flag}<br /></span>
+<span style="color: red; font-size: 15px;">${requestScope.flag}</span>
 <form action="findFailAutoRepayList.action" method="post" id="submitForm">
 	客户名称:<input type="text" name="custName" value="${custName}">
 	到期日:<input type="text" name="pactDue" value="${pactDue}">

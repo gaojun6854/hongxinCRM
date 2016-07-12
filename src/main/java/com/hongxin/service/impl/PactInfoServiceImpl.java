@@ -34,7 +34,7 @@ public class PactInfoServiceImpl implements PactInfoService {
 	private CustomBaseInfoDao customBaseInfoDao; 
 	@Autowired
 	private AutoRepayDao autoRepayDao;
-	private byte[] lock = new byte[0];  // 特殊的instance变量
+
 	public TPactInfo load(String id) {
 		return pactInfoDao.load(id);
 	}
@@ -81,6 +81,9 @@ public class PactInfoServiceImpl implements PactInfoService {
 		return pactInfoDao.findAllReviews();
 	}
 
+	/**
+	 * 初审审核
+	 */
 	public  int  onLineReviewsYN(String id, String param,String noPassReson) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		TPactInfo pact=pactInfoDao.get(id);
@@ -98,6 +101,9 @@ public class PactInfoServiceImpl implements PactInfoService {
 		
 	}
 
+	/**
+	 * 凭证信息
+	 */
 	public List<TPactInfo> findAllPZReviews() {
 		return pactInfoDao.findAllPZReviews();
 	}
@@ -115,10 +121,9 @@ public class PactInfoServiceImpl implements PactInfoService {
 		return pactInfoDao.onLineReviewsYN(pact);
 	}
 
-	public List<TPactInfo> findAllRepayment() {
-		return pactInfoDao.findAllRepayment();
-	}
-
+	/**
+	 * 还款初审
+	 */
 	public int repaymentYN(String id, String param) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		TPactInfo pact=pactInfoDao.get(id);
@@ -140,13 +145,6 @@ public class PactInfoServiceImpl implements PactInfoService {
 		return pactInfoDao.onLineReviewsYN(pact);
 	}
 
-	public List<TPactInfo> findByPactNum(String pactNum,CustomBaseInfo cust) {
-		return pactInfoDao.findByPactNum(pactNum,cust);
-	}
-
-	public List<TPactInfo> findRepaymentToCustomList() {
-		return pactInfoDao.findRepaymentToCustomList();
-	}
 
 	/**
 	 * 回购到新合约中
@@ -205,12 +203,6 @@ public class PactInfoServiceImpl implements PactInfoService {
 		
 	}
 
-	/**
-	 * 查询状态为1复审中合同信息
-	 */
-	public List<TPactInfo> findAllToPactRecheck() {
-		return pactInfoDao.findAllToPactRecheck();
-	}
 
 	/**
 	 * 合同复审
@@ -322,10 +314,13 @@ public class PactInfoServiceImpl implements PactInfoService {
 		String custPhone=(String) map.get("custPhone");
 		String custPapernum=(String) map.get("custPapernum");
 		String pactNum=(String) map.get("pactNum");
+		String custName=(String) map.get("custName");
+		String startTime=(String) map.get("startTime");
+		String endTime=(String) map.get("endTime");
 		int all=(Integer) map.get("all");
 		
 		String hql = "select pact.* from t_pact_info pact where 1=1 ";		
-        if ("".equals(custPhone)&&"".equals(custPapernum)&&"".equals(pactNum)||all==1) {
+        if ("".equals(custPhone)&&"".equals(custPapernum)&&"".equals(pactNum)&&"".equals(custName)&&"".equals(startTime)&&"".equals(endTime)||all==1) {
         	hql="select pact.* from t_pact_info pact where 1=1";
         }else{
         	if (!"".equals(custPhone))
@@ -334,6 +329,12 @@ public class PactInfoServiceImpl implements PactInfoService {
         		hql=hql+" and pact.paper_num='"+custPapernum+"'";
         	if (!"".equals(pactNum))
         		hql=hql+" and pact.contract_number='"+pactNum+"'";
+        	if (!"".equals(custName))
+        		hql=hql+" and pact.cust_name='"+custName+"'";
+        	if (!"".equals(startTime))
+        		hql=hql+" and pact.count_eff >='"+startTime+"'";
+        	if (!"".equals(endTime))
+        		hql=hql+" and pact.count_eff <='"+endTime+"'";
         }
         
         ///////////////////////////////////////////////////////

@@ -16,7 +16,7 @@
 <body>
 <script type="text/javascript">
 	$(function () {
-		window.top.location.href="<%=basePath%>/404.jsp";
+		<%-- window.top.location.href="<%=basePath%>/404.jsp"; --%>
 	})
 </script>
 </body>

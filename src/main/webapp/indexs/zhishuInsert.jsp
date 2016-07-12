@@ -42,15 +42,14 @@ $(function(){
 <input type="submit" value="录入">
 </form>
 <script>
-
-$('#datetimepicker9').datetimepicker({
-	
-	format:'Ymd',
-	formatDate:'Y/m/d',
-	timepicker:false,
-	lang:'ch',
-	
-});
+	$('#datetimepicker9').datetimepicker({
+		
+		format:'Ymd',
+		formatDate:'Y/m/d',
+		timepicker:false,
+		lang:'ch',
+		
+	});
 </script>
 </body>
 </html>

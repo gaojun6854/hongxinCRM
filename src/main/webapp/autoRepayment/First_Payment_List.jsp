@@ -31,7 +31,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
 </head>
 <body>
 <h1 align="center" style="color: highlight;">还款初审</h1>
-<span style="color: red; font-size: 15px;">${msg}<br /></span>
+<span style="color: red; font-size: 15px;">${msg}</span>
 <form action="findFirstPaymentList.action" method="post" id="submitForm">
 	客户名称:<input type="text" name="custName" value="${custName}">
 	到期日:<input type="text" name="pactDue" value="${pactDue}">
@@ -51,13 +51,18 @@ table.dataTable tr.marked { background-color: #FFD900; }
   </thead>
   <tbody>
    <c:forEach items="${pageBeanAutoRepay.list}" var="autoRepay">
+    
     <tr class="odd_row">
+    
       <td><input type="hidden"  readonly="readonly" id="checkme1" /><a href="findPaymentInfomation.action?no=2&id=${autoRepay.pactId}&redirect=firstPayment">${autoRepay.pactInfo.contractNumber}</a></td>
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />${autoRepay.pactInfo.productInfo.productName }</td>
 	  <td><input type="hidden" readonly="readonly" id="checkme1" />${autoRepay.pactInfo.custName }</td>
-	  <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.pactInfo.rateFix }" pattern="0.00"/></td>
+	  
+	 
+	  
+	  <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${(autoRepay.pactInfo.rateFix/100+1)*autoRepay.pactInfo.amount}" pattern="0.00"/></td>
 	  <c:if test="${autoRepay.pactInfo.rebuyFlag=='01'}">
-	 	 <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${autoRepay.pactInfo.rebuypactInfo.amount }" pattern="0.00"/></td>
+	 	 <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="${(autoRepay.pactInfo.rateFix/100+1)*autoRepay.pactInfo.amount-autoRepay.pactInfo.rebuypactInfo.amount }" pattern="0.00"/></td>
 	  </c:if> 
 	  <c:if test="${autoRepay.pactInfo.rebuyFlag=='00'}">
 	 	 <td><input type="hidden" readonly="readonly" id="checkme1" /><fmt:formatNumber value="0" pattern="0.00"/></td>

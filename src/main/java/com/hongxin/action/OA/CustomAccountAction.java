@@ -9,14 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fuiou.data.CommonRspData;
+import com.fuiou.data.RegReqData;
 import com.hongxin.entity.CustomAccount;
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.TAreaCode;
 import com.hongxin.entity.TBankCode;
 import com.hongxin.service.AreaCodeService;
+import com.hongxin.service.BankCodeService;
 import com.hongxin.service.CustomAccountService;
 import com.hongxin.service.CustomBaseInfoService;
 import com.hongxin.utils.AjaxUtils;
+import com.hongxin.utils.Constants;
+import com.hongxin.utils.TimeId;
 import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("unused")
 public class CustomAccountAction extends ActionSupport{
@@ -26,6 +31,8 @@ public class CustomAccountAction extends ActionSupport{
 	private CustomAccountService customAccountService;
 	@Autowired
 	private AreaCodeService areaCodeService;
+	@Autowired
+	private BankCodeService bankCodeService;
 	private CustomAccount customAccount;
 	private TAreaCode areaCode;
 	private TBankCode bankCode;
@@ -33,15 +40,15 @@ public class CustomAccountAction extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		HttpServletRequest request=ServletActionContext.getRequest();
-		//保存刚录取的用户信息置session方便事物
-		String provinceCode=request.getParameter("provinceCode");//省份
-		String cityCode=request.getParameter("cityCode");//城市
-		String bankCode=request.getParameter("bankCode");//银行代码
-		String bankName=request.getParameter("bankName");//支行机构名
+
+		//修改用户本地信息
+		TBankCode bank=bankCodeService.get(customAccount.getPayBank());//银行总行信息
+		customAccount.setBankHead(bank.getBankName());//总行名称
+		
 		request.getSession().setAttribute("toAddCustomAccount", customAccount);
 		request.setAttribute("url", "custom/addCheckInfo.action");//上传图片后跳转的地址
 		request.setAttribute("custIDS", UUID.randomUUID().toString());//上传图片后跳转的地址
-		request.getSession().setAttribute("picType", "1");
+		
 		return SUCCESS;
 	}
 

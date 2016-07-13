@@ -55,7 +55,7 @@
 						<div class="span12 field-box">
 							<label>开户行省份:</label>
 							<div class="ui-select span5">
-								<select name="provinceCode" onchange="findCity(this.value);">
+								<select name="customAccount.remark1" onchange="findCity(this.value);">
 									<option>请选择</option>
 									<c:forEach items="${areas}" var="area">
 										<option value="${area.areaCode}">${area.areaName}</option>
@@ -86,7 +86,7 @@
 						<div class="span12 field-box">
 							<label>开户区县:</label>
 							<div class="ui-select span5">
-								<select name="cityCode" id="cityCode">
+								<select name="customAccount.remark2" id="cityCode">
 									<option>请选择</option>
 								</select>
 							</div>
@@ -94,37 +94,15 @@
 						<div class="span12 field-box">
 							<label>开户行行别:</label>
 							<div class="ui-select span5">
-								<select name="bankCode">
-								   <c:forEach items="${areas}" var="areas">
-									<option value="0">国家开发银行</option>
+								<select name="customAccount.payBank">
+								   <c:forEach items="${banks}" var="bank">
+									<option value="${bank.bankCode}">${bank.bankName}</option>
 								   </c:forEach>
-									<option value="1" selected="selected">中国进出口银行</option>
-									<option value="2">中国农业发展银行</option>
-									<option value="3">中国工商银行</option>
-									<option value="4">中国农业银行</option>
-									<option value="5">中国银行</option>
-									<option value="6">中国建设银行</option>
-									<option value="7">交通银行</option>
-									<option value="8">中信银行</option>
-									<option value="9">中国光大银行</option>
-									<option value="10">华夏银行</option>
-									<option value="11">中国民生银行</option>
-									<option value="12">招商银行</option>
-									<option value="13">兴业银行</option>
-									<option value="14">广发银行</option>
-									<option value="15">平安银行</option>
-									<option value="16">上海浦东发展银行</option>
-									<option value="17">杭州银行</option>
-									<option value="18">浙商银行</option>
-									<option value="19">渤海银行</option>
-									<option value="20">广东发展银行</option>
-									<option value="21">平安银行股份有限公司</option>
-									<option value="22">国家邮政局邮政储汇行</option>
 								</select>
 							</div>
 						</div>
 						<div class="span12 field-box">
-							<label>开户行支行名称:</label> <input class="span9" type="text" name="bankName" />
+							<label>开户行支行名称:</label> <input class="span9" type="text" name="customAccount.payBankName" />
 						</div>
 						<div class="span12 field-box">
 							<label>银行卡号:</label> <input class="span9" type="text" name="customAccount.accountBank" />

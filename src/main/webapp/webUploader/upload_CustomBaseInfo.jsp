@@ -1,321 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="../css/pact/jquery.fullPage.css">
-<link rel="stylesheet" href="../css/pact/style.css">
-<script src="../js/jquery-1.8.0.min.js"></script>
-<script src="../js/pact/jquery-ui-1.10.3.min.js"></script>
-<script src="../js/pact/jquery.fullPage.min.js"></script>
-<!-- table -->
-<meta http-equiv="content-script-type" content="text/javascript">
-<meta http-equiv="content-style-type" content="text/css">
-<meta http-equiv="content-language" content="en-gb">
-<meta http-equiv="imagetoolbar" content="no" />
-<link rel="stylesheet" href="../css/custom/dataTable.css" media="screen">
-<style type="text/css">
-body, th, td {
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 0.9em;}
-a:link, a:visited {
-	color: #59B337;}
-a:hover, a:active, a:focus {
-	color: #000000;}
-table.dataTable tr.marked {
-	background-color: #FFD900;}
-</style>
-<link rel="stylesheet" type="text/css" href="../webUploader/css/webuploader.css">
-<link rel="stylesheet" type="text/css" href="../webUploader/css/style.css">
-<link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.css">
-<c:if test="${empty sessionScope.login_user}">
-	<script type="text/javascript">
-	$(function () {
-		window.top.location.href="/index.jsp";
-	})
-</script>
-</c:if>
-<script type="text/javascript">
-$(document).ready(function() {
-	$.fn.fullpage({
-		slidesColor: ['#C2E5FF', '#C2E5FF', '#FDF6E1', '#E9E9E9', '#F3F3F3', '#F9F3DC'],
-		anchors: ['page1', 'page2', 'page3', 'page4', 'page5', 'page6'],
-		menu: '#menu',
-		afterRender: function(){
-			$('.screen-main span').each(function(){
-				var $rel = $(this).attr('rel');
-				var $arr = $rel.split(',');
-				$(this).animate({
-					left: $arr[2] + 'px',
-					top: $arr[3] + 'px'
-				}, 500);
-			});
-			$('.inner a').each(function(){
-				var $rel = $(this).attr('rel');
-				var $arr = $rel.split(',');
-				$(this).animate({
-					left: $arr[0] + 'px',
-					top: $arr[1] + 'px'
-				}, 500);
-			});
-		},
-		afterLoad: function(anchorLink, index){
-			if(index == 1){
-				$('.screen-main span').each(function(){
-					var $rel = $(this).attr('rel');
-					var $arr = $rel.split(',');
-					$(this).animate({
-						left: $arr[2] + 'px',
-						top: $arr[3] + 'px'
-					}, 500);
-				});
-			}
-			if(index == 2 || index == 3 || index == 4 || index == 5){
-				$('.inner').eq(index - 2).find('a').each(function(){
-					var $rel = $(this).attr('rel');
-					var $arr = $rel.split(',');
-					$(this).animate({
-						left: $arr[2] + 'px',
-						top: $arr[3] + 'px'
-					}, 500);
-				});
-			}
-			if(index == 6){
-				$('.zanzhu-con a').fadeIn(1000);
-			}
-		},
-		onLeave: function(index, direction){
-			if(index == 1){
-				$('.screen-main span').each(function(){
-					var $rel = $(this).attr('rel');
-					var $arr = $rel.split(',');
-					$(this).animate({
-						left: $arr[0] + 'px',
-						top: $arr[1] + 'px'
-					}, 500);
-				});
-			}
-			if(index == 2 || index == 3 || index == 4 || index == 5){
-				$('.inner').eq(index - 2).find('a').each(function(){
-					var $rel = $(this).attr('rel');
-					var $arr = $rel.split(',');
-					$(this).animate({
-						left: $arr[0] + 'px',
-						top: $arr[1] + 'px'
-					}, 500);
-				});
-			}
-			if(index == 6){
-				$('.zanzhu-con a').fadeOut(1000);
-			}
-		}
-	});
-});
-</script>
+<title>红歆财富图片上传</title>
+<link rel="stylesheet" type="text/css" href="css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/webuploader.js"></script>
 </head>
-
 <body>
-
-<ul id="menu">
-	<li data-menuanchor="page1" class="active"><a href="#page1">客户信息</a></li>
-	<li data-menuanchor="page2"><a href="#page2">选择产品</a></li>
-	<li data-menuanchor="page3"><a href="#page3">上传凭证信息</a></li>
-	<!-- <li data-menuanchor="page4"><a href="#page4">购买合约</a></li>
-	<li data-menuanchor="page5"><a href="#page5">TOP5</a></li>
-	<li data-menuanchor="page6"><a href="#page6">TOP6</a></li> -->
-</ul>
-
-<div class="section section1">
-	<div class="screen-main" style="width: 60%;height: 80%;">
-		<table border="0" cellspacing="0" cellpadding="0" class="dataTable" style="color: black;">
-		<tbody>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />姓名</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.custname}</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />联系方式</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.phonenum}</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />证件编号</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.papernum}</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />客户居住地址</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.curAddress}</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />客户Email</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.curAddress}</td>
-				</tr><tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />性别</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.custgender}</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />邮寄地址</td>
-					<td><input type="hidden" readonly="readonly" id="checkme1" />${cust.postAddr}</td>
-				</tr>
-		</tbody>
-	</table>
-	</div>
-</div>
-
-<div class="section">
-	<div class="science-inner inner">
-		<div class="screen-main" style="width: 60%;height: 80%;margin-top: 40px;">
-		
-		<table border="0" cellspacing="0" cellpadding="0" class="dataTable" style="color: black;">
-		<tbody>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品名称</td>
-					<td id="productName"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品类型</td>
-					<td id="productType"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品固定利率</td>
-					<td id="rateFix"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品募集期</td>
-					<td id="recruitmentDate"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品初始指数</td>
-					<td id="initIndex"> <input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr><tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品融资方公司名称</td>
-					<td id="companyName"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品融资方营业代码</td>
-					<td id="companyCode"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品融资方开户行号</td>
-					<td id="bankNo"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品融资方开户行账号</td>
-					<td id="bankAccout"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-				<tr class="odd_row">
-					<td><input type="hidden" readonly="readonly" id="checkme1" />产品融资方富友账号</td>
-					<td id="fuyouAccout"><input type="hidden" readonly="readonly" id="checkme1" />暂无数据</td>
-				</tr>
-		</tbody>
-	</table>
-		<div style="color: black;">
-			<form>
-				<table>
-					<tr>
-						<td>选择产品:</td>
-						<td>
-							<select onchange="findProductInfo(this.value);">
-							<option>请选择产品</option>
-							<c:forEach items="${products}" var="product">
-								<option value='${product.productId}'>${product.productName}</option>
-							</c:forEach>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>金额:</td>
-						<td><input type="text" id="amount"  /></td>
-					</tr>
-					<tr>
-						<td>合同书编号:</td>
-						<td><input type="text" id="pactNumber"  /></td>
-					</tr>
-					<tr>
-						<td>请选择打款渠道-默认POS打款</td>
-						<td>
-							<select name="backFlag" id="backFlag">
-								<option value="01">富友打款</option>
-								<option value="02" selected="selected">POS打款</option>
-								<option value="03">自行转账</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: center;"><input type="button" value="确定购买" onclick="javascript:buyProduct()" /></td>
-					</tr>
-				</table>
-				<input type="hidden" id="proId" value="0" /><br/>
-				<input type="hidden" id="pactId" value='${pactId}' /><br/>
-				
-				
-				
-			</form>
-		</div>
-	</div>
-	</div>
-	<script type="text/javascript">
-		//select one Product,
-		function findProductInfo(productId){
-			$("#proId").val(productId);
-			$.ajax({ 
-		       type: "post", 
-		       url: "pactInfo!findProductInfo.action?productId="+productId, 
-		       cache:false, 
-		       dataType :'json',
-		       success: function(data){
-		    	   var pro=eval(data);
-		    	   $("#productName").html(pro.productName);
-		    	   $("#productType").html(pro.productType);
-		    	   $("#rateFix").html(pro.rateFix);
-		    	   $("#recruitmentDate").html(pro.recruitmentDate);
-		    	   $("#initIndex").html(pro.initIndex);
-		    	   $("#companyName").html(pro.companyName);
-		    	   $("#companyCode").html(pro.companyCode);
-		    	   $("#bankNo").html(pro.bankNo);
-		    	   $("#bankAccout").html(pro.bankAccout);
-		    	   $("#fuyouAccout").html(pro.fuyouAccout);
-		       } 
-		});
-		}
-		
-		function buyProduct(){
-			var backFlag=$("#backFlag").val();
-			var proId=$("#proId").val();
-			var amount=$("#amount").val();
-			var contractNumber=$("#pactNumber").val();
-			var pactId=$("#pactId").val();
-			if(amount==""){
-				alert("金额不能为空!");
-				return 0;
-			}else if(amount%10000!=0||amount<100000){
-				alert("金额大于100000,只能增加10000倍数!");
-				return 0;
-			}else if(proId==0){
-				alert("请选择产品!");
-				return 0;
-			}
-			
-			 $.ajax({ 
-		       type: "post", 
-		       url: "pactInfo!addPactInfo.action?productId="+proId+"&amount="+amount+"&custId=${cust.id}"+"&contractNumber="+contractNumber+"&pactId="+pactId+"&isRebuy=${isRebuy}"+"&backFlag="+backFlag, 
-		       cache:false, 
-		       async:false, 
-		       dataType:"text",
-		       success: function(data){
-		    	   alert(data);
-		    	   window.location="#page3";
-		       }  
-		});
-		}
-	</script>
-</div>
-
-<div class="section">
-	<div class="famous-inner inner">
-		<div id="wrapper">
+	<div id="wrapper">
 		<div id="container">
 			<!--头部，相册选择和格式选择-->
 			<div id="uploader">
@@ -338,7 +34,6 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="../webUploader/js/webuploader.js"></script>
 <script type="text/javascript">
 (function( $ ){
     // 当domReady的时候开始初始化
@@ -479,6 +174,7 @@ $(document).ready(function() {
             return;
         }
 
+      
         // 实例化
         uploader = WebUploader.create({
             pick: {
@@ -490,10 +186,10 @@ $(document).ready(function() {
             },
             dnd: '#dndArea',
             paste: '#uploader',
-            swf: '../webUploader/swf/Uploader.swf',
+            swf: '/swf/Uploader.swf',
             chunked: false,
             chunkSize: 512 * 1024,
-            server: '../webUploader/ajaxupload.action',
+            server: 'ajaxupload.action',
             // runtimeOrder: 'flash',
 
             // accept: {
@@ -510,8 +206,8 @@ $(document).ready(function() {
             
             formData:{ //附带值       
     			'url':'1111',
-    			'custIDS':'${pactId}',
-    			'picType':'3',
+    			'custIDS':${custIDS},
+    			'picType':'1',
     			},
         });
 
@@ -826,8 +522,8 @@ $(document).ready(function() {
                 case 'finish':
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
-                        alert( '上传成功,点击返回' );
-                        var url1='../pact/pactInfo.action';
+                        alert( '上传成功,返回' );
+                        var url1=${url};
                         window.location=url1;
                     } else {
                         // 没有成功的图片，重设
@@ -841,8 +537,6 @@ $(document).ready(function() {
         }
         //当文件上传成功时触发
         uploader.on('uploadSuccess', function(file, data) {
-        	//alert(file.id+"-----"+data.code);
-        	
         });
         //上传过程中触发，携带上传进度
         uploader.onUploadProgress = function( file, percentage ) {
@@ -934,25 +628,5 @@ $(document).ready(function() {
 
 })( jQuery );
 </script>
-	</div>
-</div>
-<div class="section">
-	<div class="social-inner inner">
-	
-	</div>
-</div>
-
-<div class="section">
-	<div class="net-inner inner">
-		TOP5
-	</div>
-</div>
-
-<div class="section">
-	<div class="zanzhu">
-		<h2>TOP6</h2>
-	</div>
-</div>
-
 </body>
 </html>

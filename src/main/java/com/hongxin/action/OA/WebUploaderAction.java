@@ -44,7 +44,7 @@ public class WebUploaderAction extends ActionSupport {
                 UploadCommon upload = new UploadCommon();
                 String fps="";
 				try {
-					fps = upload.singleUpload(file, this.getFileFileName(),custIDS,checkReceiptsService);
+					fps = upload.singleUpload(file, this.getFileFileName(),custIDS,checkReceiptsService,picType);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

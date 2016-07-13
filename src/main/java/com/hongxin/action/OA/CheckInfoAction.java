@@ -94,13 +94,14 @@ public class CheckInfoAction extends ActionSupport implements ServletRequestAwar
 	public static void main(String[] args) {
 		CustomBaseInfo toAddCustomBaseInfo=new CustomBaseInfo();
 		toAddCustomBaseInfo.setCustname("测试用户1");
-		toAddCustomBaseInfo.setPapernum("340222198810022900");
-		toAddCustomBaseInfo.setPhonenum("15385538900");
+		toAddCustomBaseInfo.setPapernum("340222198810022901");
+		toAddCustomBaseInfo.setPhonenum("15385538902");
 		toAddCustomBaseInfo.setEmail("gaojun6854@126.com");
 		
 		CustomAccount toAddCustomAccount=new CustomAccount();
 		toAddCustomAccount.setPayBankName("招商银行股份有限公司上海安亭支行");
-		toAddCustomAccount.setAccountBank("6214831217827878");
+		toAddCustomAccount.setAccountBank("6214831217827000");
+		
 		CommonRspData comrsd=new CommonRspData();
 		RegReqData regData=new RegReqData();
 		regData.setMchnt_cd(Constants.MCHNT_CD);//商户代码
@@ -120,9 +121,10 @@ public class CheckInfoAction extends ActionSupport implements ServletRequestAwar
 		} catch (Exception e) {
 			
 		}
-		if ("0000".equals(comrsd.getResp_code())) {
-			
-		}
+		if ("0000".equals(comrsd.getResp_code())) 
+			System.err.println("注册成功,返回码："+comrsd.getResp_code());
+		else
+			System.err.println("注册失败,返回码："+comrsd.getResp_code());
 	}
 	
 	public HttpServletRequest getRequest() {

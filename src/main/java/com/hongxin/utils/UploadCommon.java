@@ -87,7 +87,7 @@ public class UploadCommon {
      * @return 上传文件的路径
      * @throws Exception 
      */
-    public String singleUpload(File fa, String fna,String CPID, CheckReceiptsService checkReceiptsService) throws Exception {
+    public String singleUpload(File fa, String fna,String CPID, CheckReceiptsService checkReceiptsService,String picType) throws Exception {
         String path = "";
         ActionContext ac = ActionContext.getContext();
         ServletContext sc = (ServletContext) ac.get(ServletActionContext.SERVLET_CONTEXT);
@@ -134,14 +134,19 @@ public class UploadCommon {
         //保存数据---MySQL
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         CheckReceipts checkReceipts=new CheckReceipts();
-        checkReceipts.setRecNum(UUID.randomUUID().toString());//ID
+        checkReceipts.setRecNum(UUID.randomUUID().toString().replace("-", "").toString());//ID
         checkReceipts.setRecId(CPID);//编号信息
         checkReceipts.setRecSer(1);
-        checkReceipts.setRecDesc("Image");
-        checkReceipts.setRecType("3");
+        
+        if ("1".equals(picType)) 
+        	checkReceipts.setRecDesc("签约客户信息图片");
+        else if ("3".equals(picType)) 
+        	checkReceipts.setRecDesc("合约及打款凭证信息图片");
+       
+        checkReceipts.setRecType(picType);//图片类型
         checkReceipts.setRecPath(Constants.FILE_SAVE_ADDRESS);
         checkReceipts.setRecFile(newNm);
-        checkReceipts.setRecRealFile("uploads/"+newNm);
+        checkReceipts.setRecRealFile(Constants.FILE_SAVE_ADDRESS+"/"+newNm);
         checkReceipts.setCreateDate(sdf.format(new Date()));
         checkReceipts.setCreateTime(Date2String8.time2String());
         try {

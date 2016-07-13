@@ -21,7 +21,7 @@
         </action>
         <!-- 添加客户信息账户信息 -->
         <action name="addCustomAccount" class="com.hongxin.action.OA.CustomAccountAction">  
-            <result name="success">/uploadify/fileup.jsp</result>
+            <result name="success">/webUploader/upload_CustomBaseInfo.jsp</result>
             <interceptor-ref name="myStack"></interceptor-ref>
             <interceptor-ref name="myLogStack"></interceptor-ref>
             <!--如果不需要拦截 让它们已入 defaultStack-->

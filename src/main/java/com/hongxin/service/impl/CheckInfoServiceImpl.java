@@ -87,9 +87,8 @@ public class CheckInfoServiceImpl implements CheckInfoService {
 	public int createCustomInfos(CustomBaseInfo toAddCustomBaseInfo, CustomAccount toAddCustomAccount) {
 		//保存基础用户信息
 		String strId=toAddCustomBaseInfo.getId();//客户编号
-		String checkId=UUID.randomUUID().toString();//审批编号
-		String checkReceiptsId=UUID.randomUUID().toString();//审批编号
-		toAddCustomBaseInfo.setId(strId);
+		String checkId=UUID.randomUUID().toString().replace("-", "").toString();//审批编号
+		String checkReceiptsId=UUID.randomUUID().toString().replace("-", "").toString();//审批编号
 		
 		try {
 			customBaseInfoDao.save4StrId(toAddCustomBaseInfo);

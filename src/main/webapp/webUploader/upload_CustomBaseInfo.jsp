@@ -5,10 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>红歆财富图片上传</title>
-<link rel="stylesheet" type="text/css" href="css/webuploader.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/webuploader.js"></script>
+<link rel="stylesheet" type="text/css" href="../webUploader/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="../webUploader/css/style.css">
+<script type="text/javascript" src="../webUploader/js/jquery.js"></script>
+<script type="text/javascript" src="../webUploader/js/webuploader.js"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -189,7 +189,7 @@
             swf: '/swf/Uploader.swf',
             chunked: false,
             chunkSize: 512 * 1024,
-            server: 'ajaxupload.action',
+            server: '../webUploader/ajaxupload.action',
             // runtimeOrder: 'flash',
 
             // accept: {
@@ -206,9 +206,9 @@
             
             formData:{ //附带值       
     			'url':'1111',
-    			'custIDS':${custIDS},
-    			'picType':'1',
-    			},
+    			'custIDS':'${custIDS}',
+    			'picType':'1'
+    			}
         });
 
         // 拖拽时不接受 js, txt 文件。
@@ -523,8 +523,7 @@
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
                         alert( '上传成功,返回' );
-                        var url1=${url};
-                        window.location=url1;
+                        window.location="${url}";
                     } else {
                         // 没有成功的图片，重设
                         state = 'done';

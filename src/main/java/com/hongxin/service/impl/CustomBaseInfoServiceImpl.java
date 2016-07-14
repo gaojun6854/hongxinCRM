@@ -13,6 +13,7 @@ import com.hongxin.entity.CheckInfo;
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.CustomStatus;
 import com.hongxin.entity.PageBean;
+import com.hongxin.entity.TFuyouTran;
 import com.hongxin.entity.User;
 import com.hongxin.service.CustomBaseInfoService;
 import com.hongxin.utils.Date2String8;
@@ -243,6 +244,10 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 	public List<CustomBaseInfo> findFailInfo() {
 		String hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1  AND sta.cust_start in (2,4) ";
 		return customBaseInfoDao.findFailInfo(hql);
+	}
+
+	public void ReqFuyouResAPISsn(TFuyouTran tran) {
+		customBaseInfoDao.ReqFuyouResAPISsn(tran);
 	}
 
 }

@@ -98,7 +98,7 @@
 
 		<div id="pad-wrapper" class="new-user">
 			<span style="color: red; font-size: 15px;">${requestScope.flag}<br />
-				<a href="addCustomInfo!findAll.action">点击返回</a></span>
+				</span>
 			<form class="new_user_form inline-input" method="post"
 				action="addCustomInfo!updateCustomInfo.action">
 				<div class="row-fluid form-wrapper">

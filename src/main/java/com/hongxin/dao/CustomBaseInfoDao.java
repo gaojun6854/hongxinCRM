@@ -5,6 +5,7 @@ import java.util.List;
 import com.hongxin.dao.BaseDao;
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.CustomStatus;
+import com.hongxin.entity.TFuyouTran;
 import com.hongxin.entity.TPactInfo;
 
 public interface CustomBaseInfoDao extends BaseDao<CustomBaseInfo, Integer>{
@@ -35,5 +36,7 @@ public interface CustomBaseInfoDao extends BaseDao<CustomBaseInfo, Integer>{
 	List<CustomBaseInfo> queryByPageByHql(String hql, int offset, int pageSize);
 
 	List<CustomBaseInfo> findFailInfo(String hql);
+
+	void ReqFuyouResAPISsn(TFuyouTran tran);
 
 }

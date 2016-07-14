@@ -514,6 +514,7 @@ import com.hongxin.utils.TimeId;
 		try {
 			condata=FuiouService.transferBmu(transdata);
 			System.out.println(condata.getResp_code());
+			System.out.println();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

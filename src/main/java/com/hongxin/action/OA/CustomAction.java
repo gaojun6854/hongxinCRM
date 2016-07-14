@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fuiou.data.CommonRspData;
+import com.fuiou.data.RegReqData;
 import com.hongxin.entity.CheckInfo;
 import com.hongxin.entity.CheckReceipts;
 import com.hongxin.entity.CustomAccount;
@@ -18,6 +20,8 @@ import com.hongxin.entity.CustomStatus;
 import com.hongxin.entity.PageBean;
 import com.hongxin.entity.TAreaCode;
 import com.hongxin.entity.TBankCode;
+import com.hongxin.entity.TErrCode;
+import com.hongxin.entity.TFuyouTran;
 import com.hongxin.service.AreaCodeService;
 import com.hongxin.service.BankCodeService;
 import com.hongxin.service.CheckInfoService;
@@ -25,7 +29,11 @@ import com.hongxin.service.CheckReceiptsService;
 import com.hongxin.service.CustomAccountService;
 import com.hongxin.service.CustomBaseInfoService;
 import com.hongxin.service.CustomStatusService;
+import com.hongxin.service.ErrorCodeService;
+import com.hongxin.service.FuiouService;
+import com.hongxin.utils.Constants;
 import com.hongxin.utils.PageView;
+import com.hongxin.utils.TimeId;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CustomAction extends ActionSupport{
@@ -45,6 +53,8 @@ public class CustomAction extends ActionSupport{
 	private AreaCodeService areaCodeService;
 	@Autowired
 	private BankCodeService bankCodeService;
+	@Autowired
+	private ErrorCodeService errorCodeService;
 	//单个用户信息  录入--更新操作注入
 	private CustomBaseInfo customBaseInfo;
 	private CustomAccount customAccount;
@@ -60,6 +70,7 @@ public class CustomAction extends ActionSupport{
 	private TBankCode bankCode;
 	private List<TBankCode>banks;
 	private List<TAreaCode>areas;
+	private String msg;
 	////////////////方法程序体////////////////////
 	/**
 	 * 程序主方法
@@ -253,23 +264,84 @@ public class CustomAction extends ActionSupport{
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
 			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
+			return findAllAudited();//回到复审查询界面
 		}
+		CustomAccount customAccount=customAccountService.getStrId(customBaseInfo.getId());
 		String param=ServletActionContext.getRequest().getParameter("param");
-		if ("yes".equals(param)) {
+		String resCode="";
+		if ("yes".equals(param)){ 
+			resCode=ORGCustom(customBaseInfo, customAccount, customBaseInfoService);
+			
 			code=2;
+			if ("0000".equals(resCode)){
+				try {
+					checkInfoService.EditedInfoYN(id,code);
+				} catch (Exception e) {
+					msg="系统异常";
+				}
+			}else{
+				TErrCode errorCode=new TErrCode(); 
+				errorCode=errorCodeService.get(resCode);
+				msg="创建客户:"+customBaseInfo.getCustname()+"失败,返回信息："+errorCode.getErrMsg();
+			}
 		}else if("no".equals(param)){
 			code=3;
-		}else {
+			checkInfoService.EditedInfoYN(id,code);
+		}else{ 
 			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
 		}
-		int a=checkInfoService.EditedInfoYN(id,code);
-		if (a==1) {
-			ServletActionContext.getRequest().setAttribute("flag", "客户:"+customBaseInfo.getCustname()+"操作成功");
+		return findAllAudited();//回到复审查询界面
+	}
+	
+	
+	/**
+	 * 富有RegAPI
+	 * 富有注册信息
+	 * @return
+	 */
+	private static String ORGCustom(CustomBaseInfo custom,CustomAccount account, CustomBaseInfoService customBaseInfoService ){
+		//本地流水信息注册用户
+		TFuyouTran tran=new TFuyouTran();
+		tran.setFuyouTran("reg");
+		tran.setMchntCd(Constants.MCHNT_CD);//商户代码
+		tran.setMchntTxnSsn("REDFORTUNE"+TimeId.generateSequenceNo());//流水号
+		tran.setCustNm(custom.getCustname());
+		tran.setMobileNo(custom.getPhonenum());
+		tran.setCertifId(custom.getPapernum());
+		tran.setEmail(custom.getEmail());
+		tran.setCityId(account.getRemark2());
+		tran.setParentBankId(account.getPayBank());
+		tran.setBankNm(account.getPayBankName());
+		tran.setOutCustNo(account.getAccountBank());
+		tran.setRemark1("用户注册");
+		
+		//富有注册信息
+		CommonRspData RspData=new CommonRspData();
+		RegReqData regData=new RegReqData();
+			regData.setMchnt_cd(tran.getMchntCd());//商户代码
+			regData.setMchnt_txn_ssn(tran.getMchntTxnSsn());//流水号
+			regData.setCust_nm(tran.getCustNm());//客户姓名
+			regData.setCertif_id(tran.getCertifId());//客户身份证
+			regData.setMobile_no(tran.getMobileNo());//客户手机号码
+			regData.setEmail(tran.getEmail());//邮箱
+			regData.setCity_id(tran.getCityId());//开户地区代码--附件
+			regData.setParent_bank_id(tran.getParentBankId());//开户行
+			regData.setBank_nm(tran.getBankNm());//支行名
+			regData.setCapAcntNm(tran.getCustNm());//银行户名
+			regData.setCapAcntNo(tran.getOutCustNo());//账号
+			regData.setRem(tran.getRemark1());//备注
+		
+		try {
+			RspData=FuiouService.reg(regData);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		//再次查询所有未初审通过信息
-		List<CustomBaseInfo>customBaseInfos=customBaseInfoService.findEditedInfo();
-		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
-		return "findEditedInfo";
+		tran.setRespCode(RspData.getResp_code());
+		tran.setSendMsg(regData.createSignValueForReg());//发送签名
+		tran.setRespCode(RspData.toString());//接受签名
+		customBaseInfoService.ReqFuyouResAPISsn(tran);
+		
+		return RspData.getResp_code();
 	}
 	
 	///////////get--set//////////////
@@ -375,6 +447,14 @@ public class CustomAction extends ActionSupport{
 
 	public void setBanks(List<TBankCode> banks) {
 		this.banks = banks;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 	
 }

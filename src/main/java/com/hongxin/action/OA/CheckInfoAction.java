@@ -47,50 +47,21 @@ public class CheckInfoAction extends ActionSupport implements ServletRequestAwar
 		CustomBaseInfo toAddCustomBaseInfo=(CustomBaseInfo)request.getSession().getAttribute("toAddCustomBaseInfo");//得到用户基础信息
 		toAddCustomBaseInfo.setId(custIDS);
 		CustomAccount toAddCustomAccount=(CustomAccount)request.getSession().getAttribute("toAddCustomAccount");//得到用户基础信息
-		/**
-		 * 富友API->>>>>>>>>>>>>>
-		 */
-		boolean fuyou=false;
 		
-		/*
-		 * API
-		 */
-		CommonRspData comrsd=new CommonRspData();
-		RegReqData regData=new RegReqData();
-		regData.setMchnt_cd(Constants.MCHNT_CD);//商户代码
-		regData.setMchnt_txn_ssn("sinorfc"+TimeId.generateSequenceNo());//流水号
-		regData.setCust_nm(toAddCustomBaseInfo.getCustname());//客户姓名
-		regData.setCertif_id(toAddCustomBaseInfo.getPapernum());//客户身份证
-		regData.setMobile_no(toAddCustomBaseInfo.getPhonenum());//客户手机号码
-		regData.setEmail(toAddCustomBaseInfo.getEmail());//邮箱
-		regData.setCity_id("2900");//开户地区代码--附件
-		regData.setParent_bank_id("0308");//开户行
-		regData.setBank_nm(toAddCustomAccount.getPayBankName());//支行名
-		regData.setCapAcntNm(toAddCustomBaseInfo.getCustname());//银行户名
-		regData.setCapAcntNo("6214831217828899");//账号
-		regData.setRem("sinorfc创建客户:"+toAddCustomBaseInfo.getCustname());//备注
-		try {
-			comrsd=FuiouService.reg(regData);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("flag", "富友内部错误，代码："+comrsd.getResp_code());
-			return SUCCESS;
-		}
-		if ("0000".equals(comrsd.getResp_code())) {
-			int a=checkInfoService.createCustomInfos(toAddCustomBaseInfo,toAddCustomAccount);
-			if(a==1){
-				msg= "客户:"+toAddCustomBaseInfo.getCustname()+"信息添加成功";
-			}else{
-				msg="客户:"+toAddCustomBaseInfo.getCustname()+"信息添加失败,请稍后再试";
-			}
-		}
-		//<<<<<<<<<<-
+		int a=checkInfoService.createCustomInfos(toAddCustomBaseInfo,toAddCustomAccount);
 		
+		if(a==1)
+			msg= "客户:"+toAddCustomBaseInfo.getCustname()+"信息添加成功";
+		else
+			msg="客户:"+toAddCustomBaseInfo.getCustname()+"信息添加失败,请稍后再试";
+
 		return SUCCESS;
 	}
 
-	
-	
+	/**
+	 * 富有注册信息测试
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		CustomBaseInfo toAddCustomBaseInfo=new CustomBaseInfo();
 		toAddCustomBaseInfo.setCustname("测试用户1");

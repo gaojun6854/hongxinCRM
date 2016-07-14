@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.PageBean;
+import com.hongxin.entity.TFuyouTran;
 import com.hongxin.entity.TPactInfo;
 
 public interface CustomBaseInfoService 
@@ -45,4 +46,6 @@ public interface CustomBaseInfoService
 	PageBean<CustomBaseInfo> findBuyCust(int i, int page, Map<String, Object> map);
 
 	List<CustomBaseInfo> findFailInfo();//查询需要更改的客户信息
+
+	void ReqFuyouResAPISsn(TFuyouTran tran);//富有用户信息流水
 }

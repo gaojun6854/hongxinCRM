@@ -45,14 +45,18 @@ public class CustomAccountAction extends ActionSupport{
 		TBankCode bank=bankCodeService.get(customAccount.getPayBank());//银行总行信息
 		customAccount.setBankHead(bank.getBankName());//总行名称
 		
-		request.getSession().setAttribute("toAddCustomAccount", customAccount);
-		request.setAttribute("url", "custom/addCheckInfo.action");//上传图片后跳转的地址
-		request.setAttribute("custIDS", UUID.randomUUID().toString());//上传图片后跳转的地址
+		String custIDS=UUID.randomUUID().toString().replace("-", "").toString();
 		
+		request.getSession().setAttribute("toAddCustomAccount", customAccount);
+		request.setAttribute("url", "addCheckInfo.action?param="+custIDS);//上传图片后跳转的地址
+		request.setAttribute("custIDS",custIDS );//上传图片后跳转的地址
+
 		return SUCCESS;
 	}
 
-	
+	/**
+	 * 查找所区县
+	 */
 	public void findCity(){
 		HttpServletRequest request=ServletActionContext.getRequest();
 		String areaId=request.getParameter("areaId");
@@ -61,6 +65,10 @@ public class CustomAccountAction extends ActionSupport{
 	}
 	
 	
+	
+	
+	///////////////////////////get-set/////////////////////////////////
+	///////////////////////////get-set/////////////////////////////////
 	public CustomAccount getCustomAccount() {
 		return customAccount;
 	}

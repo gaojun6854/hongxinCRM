@@ -11,6 +11,7 @@ import com.hongxin.dao.CustomBaseInfoDao;
 import com.hongxin.entity.CheckInfo;
 import com.hongxin.entity.CustomBaseInfo;
 import com.hongxin.entity.CustomStatus;
+import com.hongxin.entity.TFuyouTran;
 import com.hongxin.utils.QueryResult;
 
 @Repository("customBaseInfoDao")
@@ -165,5 +166,12 @@ public class CustomBaseInfoDaoImpl implements CustomBaseInfoDao{
 	@SuppressWarnings("unchecked")
 	public List<CustomBaseInfo> findFailInfo(String hql) {
 		return this.getCurrentSession().createSQLQuery(hql).addEntity(CustomBaseInfo.class).list();
+	}
+	/**
+	 * 富有信息流水信息
+	 * SAVE
+	 */
+	public void ReqFuyouResAPISsn(TFuyouTran tran) {
+			this.getCurrentSession().save(tran);
 	}
 }

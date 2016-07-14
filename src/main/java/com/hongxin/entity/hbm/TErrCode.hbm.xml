@@ -4,12 +4,12 @@
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.hongxin.entity.TErrCode" table="t_err_code" >
-        <id name="sysName" type="string">
-            <column name="sys_name" length="20" />
+        <id name="errCode" type="string">
+            <column name="err_code" length="10" />
             <generator class="assigned" />
         </id>
-        <property name="errCode" type="string">
-            <column name="err_code" length="10" not-null="true" />
+        <property name="sysName" type="string">
+            <column name="sys_name" length="20" not-null="true" />
         </property>
         <property name="errMsg" type="string">
             <column name="err_msg" length="256" />

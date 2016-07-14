@@ -42,7 +42,7 @@
 				</span></li>
 			</ul>
 		</div>
-		<span style="color: red;font-size: 15px;">${requestScope.flag}</span>
+		<span style="color: red;font-size: 15px;">${requestScope.msg}</span>
 		<form class="new_user_form inline-input" method="post" action="addCustomInfo.action" onsubmit="return validate_form(this)">
 			<div class="row-fluid form-wrapper">
 				<!-- left column -->

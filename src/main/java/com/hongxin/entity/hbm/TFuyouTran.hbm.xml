@@ -4,15 +4,15 @@
 <!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="com.hongxin.entity.TFuyouTran" table="t_fuyou_tran" >
-        <id name="fuyouTran" type="string">
-            <column name="fuyou_tran" length="30" />
+        <id name="mchntTxnSsn" type="string">
+            <column name="mchnt_txn_ssn" length="30" />
             <generator class="assigned" />
         </id>
         <property name="mchntCd" type="string">
             <column name="mchnt_cd" length="15" not-null="true" />
         </property>
-        <property name="mchntTxnSsn" type="string">
-            <column name="mchnt_txn_ssn" length="30" not-null="true" />
+        <property name="fuyouTran" type="string">
+            <column name="fuyou_tran" length="30" not-null="true" />
         </property>
         <property name="custNm" type="string">
             <column name="cust_nm" length="30" />
@@ -48,7 +48,7 @@
             <column name="contract_no" length="30" />
         </property>
         <property name="respCode" type="string">
-            <column name="resp_code" length="10" />
+            <column name="resp_code" length="2048" />
         </property>
         <property name="sendMsg" type="string">
             <column name="send_msg" length="2048" />

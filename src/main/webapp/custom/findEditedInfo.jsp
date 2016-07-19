@@ -29,6 +29,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
 </head>
 <body>
 <h1 align="center" style="color: highlight;">复审客户信息</h1>
+<span style="color: red; font-size: 15px;">${msg}</span>
 <table border="0" cellspacing="0" cellpadding="0" class="dataTable">
   <thead>
     <tr>

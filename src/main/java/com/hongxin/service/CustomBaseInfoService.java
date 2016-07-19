@@ -48,4 +48,6 @@ public interface CustomBaseInfoService
 	List<CustomBaseInfo> findFailInfo();//查询需要更改的客户信息
 
 	void ReqFuyouResAPISsn(TFuyouTran tran);//富有用户信息流水
+
+	PageBean<CustomBaseInfo> findAllFirstCheck(int fenYeShu, int page, Map<String, Object> map);
 }

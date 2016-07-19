@@ -223,7 +223,7 @@ public class CheckInfoServiceImpl implements CheckInfoService {
 		CustomStatus customStatus=customStatusDao.getByStrId(id);//客户状态
 		if (code==2) {
 			checkInfo.setCheckStart('1');//成功
-			customStatus.setCustStart('6');//进入复审阶段
+			customStatus.setCustStart('6');//
 			customStatus.setCustCheckStart('2');
 		}else{
 			checkInfo.setCheckStart('2');//失败

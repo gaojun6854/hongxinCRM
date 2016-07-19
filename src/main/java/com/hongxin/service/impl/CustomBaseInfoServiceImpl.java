@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hongxin.dao.CheckInfoDao;
+import com.hongxin.dao.CheckReceiptsDao;
+import com.hongxin.dao.CustomAccountDao;
 import com.hongxin.dao.CustomBaseInfoDao;
 import com.hongxin.dao.CustomStatusDao;
 import com.hongxin.entity.CheckInfo;
@@ -28,7 +30,10 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 	private CheckInfoDao checkInfoDao;
 	@Autowired
 	private CustomStatusDao customStatusDao;
-	
+	@Autowired
+	private CheckReceiptsDao checkReceiptsDao;
+	@Autowired
+	private CustomAccountDao customAccountDao;
 	public CustomBaseInfo get(Integer id) {
 		return customBaseInfoDao.get(id);
 	}
@@ -248,6 +253,53 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 
 	public void ReqFuyouResAPISsn(TFuyouTran tran) {
 		customBaseInfoDao.ReqFuyouResAPISsn(tran);
+	}
+
+	/**
+	 * 分页  所有初审信息
+	 */
+	public PageBean<CustomBaseInfo> findAllFirstCheck(int pageSize, int page, Map<String, Object> map) {
+
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+		
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1";
+		
+		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
+		hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1";
+		}else{
+		if (!"".equals(phoneNum))
+		hql=hql+" and cust.phone_num='"+phoneNum+"'";
+		if (!"".equals(paperNum)) 
+		hql=hql+" and cust.paper_num='"+paperNum+"'";
+		if (!"".equals(custName))
+		hql=hql+" and cust.cust_name='"+custName+"'";
+		}
+		
+		///////////////////////////////////////////////////////
+		PageBean<CustomBaseInfo> pageBean = new PageBean<CustomBaseInfo>();
+		
+		int allRows = customBaseInfoDao.getAllRowCount(hql);
+		
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		
+		int currentPage = pageBean.getCurPage(page);
+		
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		List<CustomBaseInfo> list = customBaseInfoDao.queryByPage(hql, offset, pageSize);
+		for (CustomBaseInfo customBaseInfo :list) {
+		customBaseInfo.setCheckInfos(checkInfoDao.getByCustomId(customBaseInfo.getId()));
+		customBaseInfo.setCheckReceipts(checkReceiptsDao.getByStrId(customBaseInfo.getId()));
+		customBaseInfo.setCustomStatus(customStatusDao.getByStrId(customBaseInfo.getId()));
+		customBaseInfo.setCustomAccount(customAccountDao.getStrId(customBaseInfo.getId()));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
 	}
 
 }

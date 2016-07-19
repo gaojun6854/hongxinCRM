@@ -200,8 +200,26 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String findAllFirstAudit(){
-		List<CustomBaseInfo>customBaseInfos=customBaseInfoService.findAllFirstAudit();
-		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
+		HttpServletRequest request=ServletActionContext.getRequest();
+		///////////----分页查询参数----///////////
+		String phoneNum=request.getParameter("phoneNum");
+		String custName=request.getParameter("custName");
+		String paperNum=request.getParameter("paperNum");
+		
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		
+		request.setAttribute("custName", custName);
+		request.setAttribute("phoneNum", phoneNum);
+		request.setAttribute("paperNum", paperNum);
+		///////////----分页查询参数----///////////
+		
+		pageBean=customBaseInfoService.findAllFirstCheck(Constants.FEN_YE_SHU, page,map);
+		pageBean.setActionUrl("addCustomInfo!findAll.action");
+		
+		customBaseInfos=customBaseInfoService.findAllFirstAudit();
 		return "findAllFirstAudit";
 	}
 	
@@ -214,24 +232,26 @@ public class CustomAction extends ActionSupport{
 		String id=ServletActionContext.getRequest().getParameter("id");
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
-			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
+			msg = "非法参数";
+			return findAllFirstAudit();
 		}
 		String param=ServletActionContext.getRequest().getParameter("param");
-		if ("yes".equals(param)) {
+		if ("yes".equals(param)) 
 			code=2;
-		}else if("no".equals(param)){
+		else if("no".equals(param))
 			code=3;
-		}else {
-			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
-		}
+		else 
+			msg = "非法参数";
+		
 		int a=checkInfoService.auditYN(id,code);
-		if (a==1) {
-			ServletActionContext.getRequest().setAttribute("flag", "客户:"+customBaseInfo.getCustname()+"操作成功");
-		}
+		
+		if (a==1)
+			msg = "客户:"+customBaseInfo.getCustname()+"操作成功";
+		else
+			msg = "系统故障,稍后再试";
+		
 		//再次查询所有未初审通过信息
-		List<CustomBaseInfo>customBaseInfos=customBaseInfoService.findAllFirstAudit();
-		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
-		return "findAllFirstAudit";
+		return findAllFirstAudit();
 	}
 	
 	/**
@@ -239,8 +259,7 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String findAllAudited(){
-		List<CustomBaseInfo>customBaseInfos=customBaseInfoService.findAudited();
-		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
+		customBaseInfos=customBaseInfoService.findAudited();
 		return "findAll";
 	}
 	
@@ -249,8 +268,7 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String findEditedInfo(){
-		List<CustomBaseInfo>customBaseInfos=customBaseInfoService.findEditedInfo();
-		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
+		customBaseInfos=customBaseInfoService.findEditedInfo();
 		return "findEditedInfo";
 	}
 	
@@ -264,35 +282,38 @@ public class CustomAction extends ActionSupport{
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
 			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
-			return findAllAudited();//回到复审查询界面
+			return findEditedInfo();//回到复审查询界面
 		}
 		CustomAccount customAccount=customAccountService.getStrId(customBaseInfo.getId());
 		String param=ServletActionContext.getRequest().getParameter("param");
 		String resCode="";
 		if ("yes".equals(param)){ 
-			resCode=ORGCustom(customBaseInfo, customAccount, customBaseInfoService);
+			if (customBaseInfo.getOpenFyAcount().equals("1")) 
+				resCode=ORGCustom(customBaseInfo, customAccount, customBaseInfoService);
+			else if (customBaseInfo.getOpenFyAcount().equals("0")) 
+				resCode="0000";
 			
 			code=2;
 			if ("0000".equals(resCode)){
 				try {
 					checkInfoService.EditedInfoYN(id,code);
+					msg="复审客户:"+customBaseInfo.getCustname()+"成功";
 				} catch (Exception e) {
 					msg="系统异常";
 				}
 			}else{
 				TErrCode errorCode=new TErrCode(); 
 				errorCode=errorCodeService.get(resCode);
-				msg="创建客户:"+customBaseInfo.getCustname()+"失败,返回信息："+errorCode.getErrMsg();
+				msg="复审客户:"+customBaseInfo.getCustname()+"失败,返回信息："+errorCode.getErrMsg();
 			}
 		}else if("no".equals(param)){
 			code=3;
 			checkInfoService.EditedInfoYN(id,code);
 		}else{ 
-			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
+			msg = "非法参数,请求失败";
 		}
-		return findAllAudited();//回到复审查询界面
+		return findEditedInfo();//回到复审查询界面
 	}
-	
 	
 	/**
 	 * 富有RegAPI
@@ -338,8 +359,12 @@ public class CustomAction extends ActionSupport{
 		}
 		tran.setRespCode(RspData.getResp_code());
 		tran.setSendMsg(regData.createSignValueForReg());//发送签名
-		tran.setRespCode(RspData.toString());//接受签名
-		customBaseInfoService.ReqFuyouResAPISsn(tran);
+		tran.setRespCode(RspData.getResp_code());//接受签名
+		try {
+			customBaseInfoService.ReqFuyouResAPISsn(tran);
+		} catch (Exception e) {
+			return "5019";//数据校验失败。失败则默认
+		}
 		
 		return RspData.getResp_code();
 	}

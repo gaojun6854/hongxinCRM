@@ -50,13 +50,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-sm-4 col-md-3 fancybox img-responsive">
-							<a class="fancy" href="../uploads/${custom.checkReceipts[0].recFile}" 
+							<a class="fancy" href="../uploads/${customBaseInfo.checkReceipts[0].recFile}" 
 								data-fancybox-group="gallery" title="客户合同信息">
-								<img src="../uploads/${custom.checkReceipts[0].recFile}" />
+								<img src="../uploads/${customBaseInfo.checkReceipts[0].recFile}" />
 							</a>
 						</div>
 						
-  				 <c:forEach items="${custom.checkReceipts}" var="receipt">
+  				 <c:forEach items="${customBaseInfo.checkReceipts}" var="receipt">
 						<div class="col-xs-12 col-sm-4 col-md-3 fancybox img-responsive" style="display:none;">
 							<a class="fancy" href="../uploads/${receipt.recFile}" 
 								data-fancybox-group="gallery" title="${receipt.recFile}">
@@ -103,86 +103,86 @@
 				action="addCustomInfo!updateCustomInfo.action">
 				<div class="row-fluid form-wrapper">
 					<!-- left column -->
-					<input type="hidden" value="${custom.id}" name="customBaseInfo.id" />
+					<input type="hidden" value="${customBaseInfo.id}" name="customBaseInfo.id" />
 					<div class="span9 with-sidebar">
 						<div class="container">
 							<br />
 							<div class="span12 field-box">
 								<label>客户名称:</label> <input class="span9" type="text"
-									value="${custom.custname}" name="customBaseInfo.custname" />
+									value="${customBaseInfo.custname}" name="customBaseInfo.custname" />
 							</div>
 							<div class="span12 field-box">
 								<label>客户电话:</label> <input class="span9" type="text"
-									value="${custom.phonenum}" name="customBaseInfo.phonenum" />
+									value="${customBaseInfo.phonenum}" name="customBaseInfo.phonenum" />
 							</div>
 							<div class="span12 field-box">
 								<label>证件类型:</label>
 								<div class="ui-select span5">
 									<select name="customBaseInfo.papertype">
-										<option value="${custom.papertype}"
-											<c:if test="${custom.papertype=='0'}">selected="selected"</c:if>>身份证</option>
-										<option value="${custom.papertype}"
-											<c:if test="${custom.papertype=='1'}">selected="selected"</c:if>>护照</option>
-											<option value="${custom.papertype}"
-											<c:if test="${custom.papertype=='2'}">selected="selected"</c:if>>其他</option>
+										<option value="${customBaseInfo.papertype}"
+											<c:if test="${customBaseInfo.papertype=='0'}">selected="selected"</c:if>>身份证</option>
+										<option value="${customBaseInfo.papertype}"
+											<c:if test="${customBaseInfo.papertype=='1'}">selected="selected"</c:if>>护照</option>
+											<option value="${customBaseInfo.papertype}"
+											<c:if test="${customBaseInfo.papertype=='2'}">selected="selected"</c:if>>其他</option>
 									</select>
 								</div>
 							</div>
 							<div class="span12 field-box">
 								<label>证件号码:</label> <input class="span9" type="text"
-									value="${custom.papernum}" name="customBaseInfo.papernum" />
+									value="${customBaseInfo.papernum}" name="customBaseInfo.papernum" />
 							</div>
 							<div class="span12 field-box">
 								<label>性别:</label>
 								<div class="ui-select span5">
 									<select name="customBaseInfo.custgender">
 										<option
-											<c:if test="${custom.custgender=='0'}">selected="selected"</c:if>
-											value="${custom.custgender}">男</option>
+											<c:if test="${customBaseInfo.custgender=='0'}">selected="selected"</c:if>
+											value="${customBaseInfo.custgender}">男</option>
 										<option
-											<c:if test="${custom.custgender=='1'}">selected="selected"</c:if>
-											value="${custom.custgender}" selected="selected">女</option>
+											<c:if test="${customBaseInfo.custgender=='1'}">selected="selected"</c:if>
+											value="${customBaseInfo.custgender}" selected="selected">女</option>
 									</select>
 								</div>
 							</div>
 							<div class="span12 field-box">
-								<label>邮箱:</label> <input class="span9" value="${custom.email}"
+								<label>邮箱:</label> <input class="span9" value="${customBaseInfo.email}"
 									type="text" name="customBaseInfo.email" />
 							</div>
 							<div class="span12 field-box">
 								<label>客户经理工号:</label> <input class="span9" type="text"
-									value="${custom.managerId}" name="customBaseInfo.managerId" />
+									value="${customBaseInfo.managerId}" name="customBaseInfo.managerId" />
 							</div>
 							<div class="span12 field-box">
-								<label>QQ:</label> <input class="span9" value="${custom.qqnum}"
+								<label>QQ:</label> <input class="span9" value="${customBaseInfo.qqnum}"
 									type="text" name="customBaseInfo.qqnum" />
 							</div>
 							<div class="span12 field-box">
-								<label>微信:</label> <input class="span9" value="${custom.weixin}"
+								<label>微信:</label> <input class="span9" value="${customBaseInfo.weixin}"
 									type="text" name="customBaseInfo.weixin" />
 							</div>
 							<div class="span12 field-box">
 								<label>客户当前地址:</label> <input class="span9" type="text"
-									value="${custom.curAddress}" name="customBaseInfo.curAddress" />
+									value="${customBaseInfo.curAddress}" name="customBaseInfo.curAddress" />
 							</div>
 							<div class="span12 field-box">
 								<label>当前地址邮编:</label> <input class="span9" type="text"
-									value="${custom.curAddrPost}" name="customBaseInfo.curAddrPost" />
+									value="${customBaseInfo.curAddrPost}" name="customBaseInfo.curAddrPost" />
 							</div>
 							<div class="span12 field-box">
 								<label>邮寄地址:</label> <input class="span9" type="text"
-									value="${custom.postAddr}" name="customBaseInfo.postAddr" />
+									value="${customBaseInfo.postAddr}" name="customBaseInfo.postAddr" />
 							</div>
 							<div class="span12 field-box">
 								<label>是否邮寄地址:</label>
 								<div class="ui-select span5">
 									<select name="customBaseInfo.selectPost">
 										<option
-											<c:if test="${custom.selectPost=='1'}">selected="selected"</c:if>
-											value="${custom.selectPost}" selected="selected">选择邮寄</option>
+											<c:if test="${customBaseInfo.selectPost=='1'}">selected="selected"</c:if>
+											value="${customBaseInfo.selectPost}" selected="selected">选择邮寄</option>
 										<option
-											<c:if test="${custom.selectPost=='0'}">selected="selected"</c:if>
-											value="${custom.selectPost}">暂时不用邮寄</option>
+											<c:if test="${customBaseInfo.selectPost=='0'}">selected="selected"</c:if>
+											value="${customBaseInfo.selectPost}">暂时不用邮寄</option>
 									</select>
 								</div>
 							</div>
@@ -191,33 +191,33 @@
 								<div class="ui-select span5">
 									<select name="customBaseInfo.openFyAcount">
 										<option
-											<c:if test="${custom.openFyAcount=='1'}">selected="selected"</c:if>
-											value="${custom.openFyAcount}" selected="selected">开通</option>
+											<c:if test="${customBaseInfo.openFyAcount=='1'}">selected="selected"</c:if>
+											value="${customBaseInfo.openFyAcount}" selected="selected">开通</option>
 										<option
-											<c:if test="${custom.openFyAcount=='0'}">selected="selected"</c:if>
-											value="${custom.openFyAcount}">不开通</option>
+											<c:if test="${customBaseInfo.openFyAcount=='0'}">selected="selected"</c:if>
+											value="${customBaseInfo.openFyAcount}">不开通</option>
 									</select>
 								</div>
 							</div>
 							<div class="span12 field-box">
 								<label>邮寄地址邮编:</label>
 								<div class="address-fields">
-									<input class="span9" value="${custom.pastEmail}" type="text"
+									<input class="span9" value="${customBaseInfo.pastEmail}" type="text"
 										name="customBaseInfo.pastEmail" />
 								</div>
 							</div>
 							<div class="span11 field-box actions">
-								<c:if test="${requestScope.redirect == 'EditedInfoYN'}">
+								<c:if test="${requestScope.redirect == 'FirstCheckYN'}">
 									<a class="btn-glow primary"
-										href="addCustomInfo!EditedInfoYN.action?param=yes&id=${custom.id}">通过</a>
+										href="addCustomInfo!FirstCheckYN.action?param=yes&id=${customBaseInfo.id}">通过</a>
 									<a class="btn-glow primary"
-										href="addCustomInfo!EditedInfoYN.action?param=no&id=${custom.id}">不通过</a>
+										href="addCustomInfo!EditedInfoYN.action?param=no&id=${customBaseInfo.id}">不通过</a>
 								</c:if>
-								<c:if test="${requestScope.redirect == 'auditYN'}">
+								<c:if test="${requestScope.redirect == 'LastCheckYN'}">
 									<a class="btn-glow primary"
-										href="addCustomInfo!auditYN.action?param=yes&id=${custom.id}">通过</a>
+										href="addCustomInfo!LastCheckYN.action?param=yes&id=${customBaseInfo.id}">通过</a>
 									<a class="btn-glow primary"
-										href="addCustomInfo!auditYN.action?param=no&id=${custom.id}">不通过</a>
+										href="addCustomInfo!LastCheckYN.action?param=no&id=${customBaseInfo.id}">不通过</a>
 								</c:if>
 								<c:if test="${requestScope.redirect == 'updateCustomInfo'}">
 									<input type="submit" class="btn-glow primary" value="保存" />

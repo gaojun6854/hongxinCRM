@@ -32,7 +32,7 @@ public class CustomAccountServiceImpl implements CustomAccountService {
 	}
 
 	public void saveOrUpdate(CustomAccount entity) {
-		customAccountDao.save(entity);
+		customAccountDao.saveOrUpdate(entity);
 		
 	}
 

@@ -52,7 +52,7 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 	}
 
 	public void saveOrUpdate(CustomBaseInfo entity) {
-		customBaseInfoDao.save(entity);
+		customBaseInfoDao.saveOrUpdate(entity);
 		
 	}
 
@@ -129,15 +129,6 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 	 */
 	public List<CustomBaseInfo> findAllFirstAudit() {
 		return customBaseInfoDao.findAllFirstAudit();
-	}
-
-	//初审已完成信息
-	public List<CustomBaseInfo> findAudited() {
-		return customBaseInfoDao.findAudited();
-	}
-	//查询已编辑了的客户信息的客户
-	public List<CustomBaseInfo> findEditedInfo() {
-		return customBaseInfoDao.findAudited();
 	}
 
 	public PageBean<CustomBaseInfo> getPageBean(int pageSize, int page, Map<String, Object> map) {
@@ -264,17 +255,17 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 		String phoneNum=(String) map.get("phoneNum");
 		String paperNum=(String) map.get("paperNum");
 		
-		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1";
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='1'";
 		
 		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
-		hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1";
+			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='1'";
 		}else{
-		if (!"".equals(phoneNum))
-		hql=hql+" and cust.phone_num='"+phoneNum+"'";
-		if (!"".equals(paperNum)) 
-		hql=hql+" and cust.paper_num='"+paperNum+"'";
-		if (!"".equals(custName))
-		hql=hql+" and cust.cust_name='"+custName+"'";
+			if (!"".equals(phoneNum))
+				hql=hql+" and cust.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and cust.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and cust.cust_name='"+custName+"'";
 		}
 		
 		///////////////////////////////////////////////////////
@@ -290,10 +281,99 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 		
 		List<CustomBaseInfo> list = customBaseInfoDao.queryByPage(hql, offset, pageSize);
 		for (CustomBaseInfo customBaseInfo :list) {
-		customBaseInfo.setCheckInfos(checkInfoDao.getByCustomId(customBaseInfo.getId()));
-		customBaseInfo.setCheckReceipts(checkReceiptsDao.getByStrId(customBaseInfo.getId()));
-		customBaseInfo.setCustomStatus(customStatusDao.getByStrId(customBaseInfo.getId()));
-		customBaseInfo.setCustomAccount(customAccountDao.getStrId(customBaseInfo.getId()));
+			customBaseInfo.setCheckInfos(checkInfoDao.getByCustomId(customBaseInfo.getId()));
+			customBaseInfo.setCheckReceipts(checkReceiptsDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomStatus(customStatusDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomAccount(customAccountDao.getStrId(customBaseInfo.getId()));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
+	/**
+	 * 分页  所有复审信息
+	 */
+	public PageBean<CustomBaseInfo> findAllLastCheck(int pageSize, int page, Map<String, Object> map) {
+
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+		
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='3'";
+		
+		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
+			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='3'";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and cust.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and cust.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and cust.cust_name='"+custName+"'";
+		}
+		
+		///////////////////////////////////////////////////////
+		PageBean<CustomBaseInfo> pageBean = new PageBean<CustomBaseInfo>();
+		
+		int allRows = customBaseInfoDao.getAllRowCount(hql);
+		
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		
+		int currentPage = pageBean.getCurPage(page);
+		
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		List<CustomBaseInfo> list = customBaseInfoDao.queryByPage(hql, offset, pageSize);
+		for (CustomBaseInfo customBaseInfo :list) {
+			customBaseInfo.setCheckInfos(checkInfoDao.getByCustomId(customBaseInfo.getId()));
+			customBaseInfo.setCheckReceipts(checkReceiptsDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomStatus(customStatusDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomAccount(customAccountDao.getStrId(customBaseInfo.getId()));
+		}
+		pageBean.setList(list);
+		pageBean.setAllRows(allRows);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		return pageBean;
+	}
+
+	public PageBean<CustomBaseInfo> findNeedUpdateCustom(int pageSize, int page, Map<String, Object> map) {
+		String custName=(String) map.get("custName");
+		String phoneNum=(String) map.get("phoneNum");
+		String paperNum=(String) map.get("paperNum");
+		
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='6'";
+		
+		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
+			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='6'";
+		}else{
+			if (!"".equals(phoneNum))
+				hql=hql+" and cust.phone_num='"+phoneNum+"'";
+			if (!"".equals(paperNum)) 
+				hql=hql+" and cust.paper_num='"+paperNum+"'";
+			if (!"".equals(custName))
+				hql=hql+" and cust.cust_name='"+custName+"'";
+		}
+		
+		///////////////////////////////////////////////////////
+		PageBean<CustomBaseInfo> pageBean = new PageBean<CustomBaseInfo>();
+		
+		int allRows = customBaseInfoDao.getAllRowCount(hql);
+		
+		int totalPage = pageBean.getTotalPages(pageSize, allRows);
+		
+		int currentPage = pageBean.getCurPage(page);
+		
+		int offset = pageBean.getCurrentPageOffset(pageSize, currentPage);
+		
+		List<CustomBaseInfo> list = customBaseInfoDao.queryByPage(hql, offset, pageSize);
+		for (CustomBaseInfo customBaseInfo :list) {
+			customBaseInfo.setCheckInfos(checkInfoDao.getByCustomId(customBaseInfo.getId()));
+			customBaseInfo.setCheckReceipts(checkReceiptsDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomStatus(customStatusDao.getByStrId(customBaseInfo.getId()));
+			customBaseInfo.setCustomAccount(customAccountDao.getStrId(customBaseInfo.getId()));
 		}
 		pageBean.setList(list);
 		pageBean.setAllRows(allRows);

@@ -174,4 +174,11 @@ public class CustomBaseInfoDaoImpl implements CustomBaseInfoDao{
 	public void ReqFuyouResAPISsn(TFuyouTran tran) {
 			this.getCurrentSession().save(tran);
 	}
+
+	public List<CustomBaseInfo> findNeedUpdateCustom(String hql) {
+		List<CustomBaseInfo>customBaseInfos=new ArrayList<CustomBaseInfo>();
+		
+		customBaseInfos=this.getCurrentSession().createSQLQuery(hql).addEntity(CustomBaseInfo.class).list();
+		return customBaseInfos;
+	}
 }

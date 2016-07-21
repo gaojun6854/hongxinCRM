@@ -32,7 +32,7 @@ public class CustomStatusServiceImpl implements CustomStatusService {
 	}
 
 	public void saveOrUpdate(CustomStatus entity) {
-		customStatusDao.save(entity);
+		customStatusDao.saveOrUpdate(entity);
 		
 	}
 

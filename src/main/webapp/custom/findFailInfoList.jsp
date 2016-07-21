@@ -37,7 +37,7 @@ table.dataTable tr.marked { background-color: #FFD900; }
   <tbody>
    <c:forEach items="${customBaseInfos}" var="custom">
     <tr class="odd_row">
-      <td><input type="hidden"  readonly="readonly" id="checkme1" /><a href="addCustomInfo!getCustomInfo.action?id=${custom.id}&redirect=auditYN">${custom.custname}</a></td>
+      <td><input type="hidden"  readonly="readonly" id="checkme1" /><a href="addCustomInfo!getCustomInfo.action?id=${custom.id}&redirect=updateCustomInfo">${custom.custname}</a></td>
         <c:if test="${custom.custgender=='1'}">
       <td><input type="hidden" readonly="readonly" id="checkme1" />身份证</td>
       </c:if>

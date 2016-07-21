@@ -71,6 +71,10 @@ public class CustomAction extends ActionSupport{
 	private List<TBankCode>banks;
 	private List<TAreaCode>areas;
 	private String msg;
+	private String phoneNum;
+	private String custName;
+	private String paperNum;
+	private String redirect;
 	////////////////方法程序体////////////////////
 	/**
 	 * 程序主方法
@@ -147,6 +151,39 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String updateCustomInfo(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		/**
+		 * 验证需求-前台js提供验证
+		 * -->>赋值
+		 */
+		customBaseInfo.setCustname(request.getParameter("custname"));
+		customBaseInfo.setPhonenum(request.getParameter("phonenum"));
+		customBaseInfo.setPapernum(request.getParameter("papernum"));
+		customBaseInfo.setManagerId(request.getParameter("managerId"));
+		customBaseInfo.setEmail(request.getParameter("email"));
+		customBaseInfo.setPostAddr(request.getParameter("postAddr"));
+		
+		//客户状态信息
+		customStatus=customStatusService.getByStrId(customBaseInfo.getId());
+		customStatus.setCustStart('1');
+		customStatus.setCustCheckStart('1');
+		//通过手机号码或者身份证查找该用户信息是否存在
+		
+		try {
+			customStatusService.saveOrUpdate(customStatus);
+			customBaseInfoService.saveOrUpdate(customBaseInfo);;
+		} catch (Exception e) {
+			msg = "系统故障,稍后再试";
+		}
+		
+		//保存刚录取的用户信息置session方便事物
+		areas=areaCodeService.getProvinceList(null);//所有省份信息
+		banks=bankCodeService.findAll();//所有银行代码信息
+		customAccount=customAccountService.getStrId(customBaseInfo.getId());
+		List<TAreaCode>cityList=areaCodeService.getProvinceList(customAccount.getRemark1());
+		request.setAttribute("cityList", cityList);
+		return "updateCustomAccount";
+		/*
 		//如果客户是出于未初审信息，则直接修改客户信息
 		//CheckInfo cheCkInfo=checkInfoService.getByCustomId(customBaseInfo.getId());
 		CustomStatus customStatus=customStatusService.getByStrId(customBaseInfo.getId());
@@ -161,13 +198,49 @@ public class CustomAction extends ActionSupport{
 		List<CustomBaseInfo>  customs=customBaseInfoService.getByStrId(customBaseInfo.getId());
 		ServletActionContext.getRequest().setAttribute("custom", customs.get(0));
 		if (a==1) {//更新成功--更新参数信息
-			ServletActionContext.getRequest().setAttribute("flag", "用户信息修改成功");
+			msg= "用户信息修改成功";
 		}else{//失败--回到原参数信息
-			ServletActionContext.getRequest().setAttribute("flag", "系统错误");
+			msg="系统错误";
 		}
-		ServletActionContext.getRequest().setAttribute("redirect","updateCustomInfo");
-		return "getCustomInfo";
+		redirect="updateCustomInfo";
+		return "getCustomInfo";*/
 	}
+	
+	/**
+	 * 修改账户信息
+	 * @return
+	 */
+	public String updateCustomAccount(){
+		
+		//customAccount=customAccountService.getStrId(customAccount.getCustomId());
+		CustomAccount customAccountOld=customAccountService.getStrId(customAccount.getCustomId());
+		customAccountOld.setRemark1(customAccount.getRemark1());
+		customAccountOld.setRemark2(customAccount.getRemark2());
+		customAccountOld.setPayBank(customAccount.getPayBank());
+		customAccountOld.setPayBankName(customAccount.getPayBankName());
+		customAccountOld.setAccountBank(customAccount.getAccountBank());
+		try {
+			customAccountService.saveOrUpdate(customAccountOld);
+		} catch (Exception e) {
+			msg="系统异常,保存失败";
+		}
+		return findReceiptsInfo();
+	}
+	
+	/**
+	 * 查询身份证图片信息
+	 */
+	public String findReceiptsInfo(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String customId=request.getParameter("customId");
+		if (customId==null) {
+			customId=customAccount.getCustomId();
+		}
+		List<CheckReceipts>receipts=checkReceiptsService.getByStrIdType(customId, null);
+		request.setAttribute("receipts", receipts);
+		return "findReceiptsInfo";
+	}
+	
 	
 	/**
 	 * 单个用户信息查询
@@ -178,19 +251,19 @@ public class CustomAction extends ActionSupport{
 		String id=ServletActionContext.getRequest().getParameter("id");//客户编号
 		List<CustomBaseInfo>  customs=customBaseInfoService.getByStrId(id);
 		if (customs==null) {
-			ServletActionContext.getRequest().setAttribute("flag", "系统错误");
+			msg = "系统错误";
 		}else{
-			CustomBaseInfo cust=customs.get(0);
-			cust.setCheckReceipts(checkReceiptsService.getByStrIdType(cust.getId(),"1"));
-			ServletActionContext.getRequest().setAttribute("custom", cust);
+			customBaseInfo=customs.get(0);
+			customBaseInfo.setCheckReceipts(checkReceiptsService.getByStrIdType(customBaseInfo.getId(),"1"));
 		}
 		//辨别 ---》 1.修改客户信息 2.初审客户信息 3.复审客户信息
-		if ("auditYN".equals(redirect)) {//初审
-			ServletActionContext.getRequest().setAttribute("redirect","auditYN");
-		}else if("EditedInfoYN".equals(redirect)){//复审
-			ServletActionContext.getRequest().setAttribute("redirect","EditedInfoYN");
-		}else{
-			ServletActionContext.getRequest().setAttribute("redirect","updateCustomInfo");
+		if ("FirstCheckYN".equals(redirect)) {//初审
+			redirect = "FirstCheckYN";
+		}else if("LastCheckYN".equals(redirect)){//复审
+			redirect = "LastCheckYN";
+		}else if("updateCustomInfo".equals(redirect)){
+			
+			return "updateCustomInfo";
 		}
 		return "getCustomInfo";
 	}
@@ -199,41 +272,32 @@ public class CustomAction extends ActionSupport{
 	 * 查询全部初审客户信息
 	 * @return
 	 */
-	public String findAllFirstAudit(){
-		HttpServletRequest request=ServletActionContext.getRequest();
-		///////////----分页查询参数----///////////
-		String phoneNum=request.getParameter("phoneNum");
-		String custName=request.getParameter("custName");
-		String paperNum=request.getParameter("paperNum");
+	public String findAllFirstCheck(){
 		
 		Map<String, Object>map=new HashMap<String, Object>();
 		map.put("custName", custName==null?"":custName);
 		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
 		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
 		
-		request.setAttribute("custName", custName);
-		request.setAttribute("phoneNum", phoneNum);
-		request.setAttribute("paperNum", paperNum);
 		///////////----分页查询参数----///////////
 		
 		pageBean=customBaseInfoService.findAllFirstCheck(Constants.FEN_YE_SHU, page,map);
-		pageBean.setActionUrl("addCustomInfo!findAll.action");
+		pageBean.setActionUrl("addCustomInfo!findAllFirstCheck.action");
 		
-		customBaseInfos=customBaseInfoService.findAllFirstAudit();
-		return "findAllFirstAudit";
+		return "findAllFirstCheck";
 	}
 	
 	/**
 	 * 初审通过与不通过操作
 	 * @return
 	 */
-	public String auditYN(){
+	public String FirstCheckYN(){
 		int code=1;
 		String id=ServletActionContext.getRequest().getParameter("id");
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
 			msg = "非法参数";
-			return findAllFirstAudit();
+			return findAllFirstCheck();
 		}
 		String param=ServletActionContext.getRequest().getParameter("param");
 		if ("yes".equals(param)) 
@@ -251,38 +315,55 @@ public class CustomAction extends ActionSupport{
 			msg = "系统故障,稍后再试";
 		
 		//再次查询所有未初审通过信息
-		return findAllFirstAudit();
+		return findAllFirstCheck();
 	}
 	
 	/**
 	 * 查询复审信息
 	 * @return
 	 */
-	public String findAllAudited(){
-		customBaseInfos=customBaseInfoService.findAudited();
-		return "findAll";
+	public String findAllLastCheck(){
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		
+		///////////----分页查询参数----///////////
+		
+		pageBean=customBaseInfoService.findAllLastCheck(Constants.FEN_YE_SHU, page,map);
+		pageBean.setActionUrl("addCustomInfo!findAllLastCheck.action");
+		
+		return "findAllLastCheck";
 	}
 	
 	/**
-	 * 查询所有需要复审客户信息
+	 * 已签约客户信息待修改
 	 * @return
 	 */
-	public String findEditedInfo(){
-		customBaseInfos=customBaseInfoService.findEditedInfo();
-		return "findEditedInfo";
+	public String findNeedUpdateCustom(){
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("custName", custName==null?"":custName);
+		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
+		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
+		
+		///////////----分页查询参数----///////////
+		
+		pageBean=customBaseInfoService.findNeedUpdateCustom(Constants.FEN_YE_SHU, page,map);
+		pageBean.setActionUrl("addCustomInfo!findNeedUpdateCustom.action");
+		return "findNeedUpdateCustom";
 	}
 	
 	/**
 	 * 复审通过与不通过操作
 	 * @return
 	 */
-	public String EditedInfoYN(){
+	public String LastCheckYN(){
 		int code=1;
 		String id=ServletActionContext.getRequest().getParameter("id");
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
-			ServletActionContext.getRequest().setAttribute("flag", "非法参数");
-			return findEditedInfo();//回到复审查询界面
+			msg =  "非法参数";
+			return findAllLastCheck();//回到复审查询界面
 		}
 		CustomAccount customAccount=customAccountService.getStrId(customBaseInfo.getId());
 		String param=ServletActionContext.getRequest().getParameter("param");
@@ -312,7 +393,7 @@ public class CustomAction extends ActionSupport{
 		}else{ 
 			msg = "非法参数,请求失败";
 		}
-		return findEditedInfo();//回到复审查询界面
+		return findAllLastCheck();//回到复审查询界面
 	}
 	
 	/**
@@ -480,6 +561,38 @@ public class CustomAction extends ActionSupport{
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public String getPaperNum() {
+		return paperNum;
+	}
+
+	public void setPaperNum(String paperNum) {
+		this.paperNum = paperNum;
+	}
+
+	public String getRedirect() {
+		return redirect;
+	}
+
+	public void setRedirect(String redirect) {
+		this.redirect = redirect;
 	}
 	
 }

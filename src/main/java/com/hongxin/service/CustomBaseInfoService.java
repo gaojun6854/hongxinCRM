@@ -37,10 +37,6 @@ public interface CustomBaseInfoService
 
 	List<CustomBaseInfo> findAllFirstAudit();//查询全部初审客户信息
 
-	List<CustomBaseInfo> findAudited();//已完成初审信息
-
-	List<CustomBaseInfo> findEditedInfo();//查询已编辑了的客户信息的客户
-
 	PageBean<CustomBaseInfo> getPageBean(int i, int page, Map<String, Object> map);
 
 	PageBean<CustomBaseInfo> findBuyCust(int i, int page, Map<String, Object> map);
@@ -50,4 +46,8 @@ public interface CustomBaseInfoService
 	void ReqFuyouResAPISsn(TFuyouTran tran);//富有用户信息流水
 
 	PageBean<CustomBaseInfo> findAllFirstCheck(int fenYeShu, int page, Map<String, Object> map);
+
+	PageBean<CustomBaseInfo> findAllLastCheck(int fenYeShu, int page, Map<String, Object> map);
+
+	PageBean<CustomBaseInfo> findNeedUpdateCustom(int fenYeShu, int page, Map<String, Object> map);
 }

@@ -39,4 +39,6 @@ public interface CustomBaseInfoDao extends BaseDao<CustomBaseInfo, Integer>{
 
 	void ReqFuyouResAPISsn(TFuyouTran tran);
 
+	List<CustomBaseInfo> findNeedUpdateCustom(String hql);//可以更新客户信息用户---复审通过的客户
+
 }

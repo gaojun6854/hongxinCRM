@@ -32,7 +32,7 @@ public class CustomBaseInfo implements Serializable  {
 	private String custfrom;//客户来源信息
 	private String qqnum;//QQ号
 	private String weixin;//微信号
-	private String Email;//邮箱
+	private String email;//邮箱
 	private String curAddress;//当前地址
 	private String curAddrPost;//当前邮政编码
 	private String postAddr;//邮寄地址
@@ -264,13 +264,18 @@ public class CustomBaseInfo implements Serializable  {
 		this.weixin = weixin;
 	}
 
+
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
+
+
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
+
+
 
 	public String toString() {
 		return new ToStringBuilder(this)

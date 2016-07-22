@@ -44,7 +44,7 @@
 			</ul>
 		</div>
 		<span style="color: red;font-size: 15px;">${requestScope.msg}</span>
-		<form class="new_user_form inline-input" method="post" action="addCustomInfo!updateSuccessCustomInfo.action" onsubmit="return validate_form(this)">
+	<form class="new_user_form inline-input" method="post" action="addCustomInfo!updateSuccessCustomInfo.action" onsubmit="return validate_form(this)">
 			<div class="row-fluid form-wrapper">
 				<!-- left column -->
 				<div class="span9 with-sidebar">

@@ -44,7 +44,7 @@
 			</ul>
 		</div>
 		<span style="color: red;font-size: 15px;">${requestScope.msg}</span>
-		<form class="new_user_form inline-input" method="post" action="addCustomInfo!updateCustomInfo.action" onsubmit="return validate_form(this)">
+		<form class="new_user_form inline-input" method="post" action="addCustomInfo!updateSuccessCustomInfo.action" onsubmit="return validate_form(this)">
 			<div class="row-fluid form-wrapper">
 				<!-- left column -->
 				<div class="span9 with-sidebar">
@@ -54,7 +54,7 @@
 						<div class="span12 field-box">
 							<label style="color: red; ">*客户姓名:</label> <input class="span9" type="text" value="${customBaseInfo.custname}"
 								name="custname" />
-								<input class="span9" type="hidden" value="${customBaseInfo.id}"
+		c						<input class="span9" type="hidden" value="${customBaseInfo.id}"
 								name="customBaseInfo.id" />
 						</div>
 						<div class="span12 field-box">

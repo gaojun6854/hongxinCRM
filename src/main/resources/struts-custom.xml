@@ -14,7 +14,7 @@
              <result name="getCustomInfo">/custom/getCustomInfo.jsp</result><!-- 点击客户名进入查看所有客户信息 -->
              <result name="findAllFirstCheck">/custom/find_All_First_Check_List.jsp</result><!--查询所有初审信息 -->
              <result name="findAllLastCheck">/custom/find_All_Last_Check_List.jsp</result><!--查询所有复审信息 -->
-             <result name="findNeedUpdateCustom">/custom/find_Need_Update_Custom_List.jsp</result><!--查询所有需待修改客户信息 -->
+             <result name="findNeedUpdateSuccessCustom">/custom/find_Need_Update_Custom_List.jsp</result><!--查询所有需待修改客户信息 -->
              <result name="updateCustomInfo">/custom/to_Update_CustomBaseInfo.jsp</result><!--修改客户信息 -->
              
              <result name="updateCustomAccount">/custom/to_Update_CustomAccount.jsp</result><!--修改账户信息 -->

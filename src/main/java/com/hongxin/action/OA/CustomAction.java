@@ -262,8 +262,9 @@ public class CustomAction extends ActionSupport{
 		}else if("LastCheckYN".equals(redirect)){//复审
 			redirect = "LastCheckYN";
 		}else if("updateCustomInfo".equals(redirect)){
-			
 			return "updateCustomInfo";
+		}else if("findNeedUpdateSuccessCustom".equals(redirect)){
+			return "updateSuccessCustom";
 		}
 		return "getCustomInfo";
 	}
@@ -338,9 +339,10 @@ public class CustomAction extends ActionSupport{
 	
 	/**
 	 * 已签约客户信息待修改
+	 * 有权限控制
 	 * @return
 	 */
-	public String findNeedUpdateCustom(){
+	public String findNeedUpdateSuccessCustom(){
 		Map<String, Object>map=new HashMap<String, Object>();
 		map.put("custName", custName==null?"":custName);
 		map.put("phoneNum",phoneNum==null?"":phoneNum );//客户手机号
@@ -350,7 +352,7 @@ public class CustomAction extends ActionSupport{
 		
 		pageBean=customBaseInfoService.findNeedUpdateCustom(Constants.FEN_YE_SHU, page,map);
 		pageBean.setActionUrl("addCustomInfo!findNeedUpdateCustom.action");
-		return "findNeedUpdateCustom";
+		return "findNeedUpdateSuccessCustom";
 	}
 	
 	/**

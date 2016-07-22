@@ -211,7 +211,7 @@
 									<a class="btn-glow primary"
 										href="addCustomInfo!FirstCheckYN.action?param=yes&id=${customBaseInfo.id}">通过</a>
 									<a class="btn-glow primary"
-										href="addCustomInfo!EditedInfoYN.action?param=no&id=${customBaseInfo.id}">不通过</a>
+										href="addCustomInfo!FirstCheckYN.action?param=no&id=${customBaseInfo.id}">不通过</a>
 								</c:if>
 								<c:if test="${requestScope.redirect == 'LastCheckYN'}">
 									<a class="btn-glow primary"

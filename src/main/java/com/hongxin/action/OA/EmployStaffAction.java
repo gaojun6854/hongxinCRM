@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.struts2.ServletActionContext;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 
@@ -62,7 +61,6 @@ public class EmployStaffAction extends ActionSupport {
 	 * 
 	 * @throws IOException
 	 */
-	@Test
 	public void findById() throws IOException {
 		HttpServletResponse response = ServletActionContext.getResponse();
 		List<Organization> orgs = organizationService.findById(orgId);

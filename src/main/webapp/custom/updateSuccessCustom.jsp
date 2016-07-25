@@ -54,7 +54,7 @@
 						<div class="span12 field-box">
 							<label style="color: red; ">*客户姓名:</label> <input class="span9" type="text" value="${customBaseInfo.custname}"
 								name="custname" />
-		c						<input class="span9" type="hidden" value="${customBaseInfo.id}"
+								<input class="span9" type="hidden" value="${customBaseInfo.id}"
 								name="customBaseInfo.id" />
 						</div>
 						<div class="span12 field-box">

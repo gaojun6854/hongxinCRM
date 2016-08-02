@@ -128,4 +128,8 @@ public class ResourceBak implements java.io.Serializable
 		this.picUrl = picUrl;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

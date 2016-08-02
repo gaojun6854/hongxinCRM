@@ -1,6 +1,8 @@
 package com.hongxin.service;
 
 import java.util.List;
+
+import com.hongxin.entity.ActionFun;
 import com.hongxin.entity.ResourceBak;
 
 public interface MenuService 
@@ -20,4 +22,10 @@ public interface MenuService
 	void delete(Integer id);
 
 	void flush();
+
+	Integer save4parentSourceId(ResourceBak resourceBak);
+
+	List<ResourceBak> getallMenuList(Integer parentsourceId);
+
+	List<ActionFun> getFunctionList(String sourceId);
 }

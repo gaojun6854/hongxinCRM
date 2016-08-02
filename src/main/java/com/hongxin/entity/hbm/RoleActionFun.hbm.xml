@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-8-1 17:00:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.RoleActionFun" table="fl_role_action_fun" catalog="red_db" optimistic-lock="version">
+        <id name="roleFuncId" type="string">
+            <column name="role_func_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <property name="actionId" type="string">
+            <column name="action_id" length="40" not-null="true">
+                <comment>&#185;&#166;&#196;&#220;&#181;&#227;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="roleId" type="string">
+            <column name="role_id" length="40">
+                <comment>&#189;&#199;&#201;&#171;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

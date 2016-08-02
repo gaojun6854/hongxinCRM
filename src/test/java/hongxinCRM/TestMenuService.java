@@ -32,16 +32,16 @@ public class TestMenuService {
 		resourceBak.setSourceName("123");
 		
 		ResourceBak parentres=menuService.get(10010);
-		resourceBak.setParentResourceBak(parentres);
+		//resourceBak.setParentResourceBak(parentres);
 		menuService.save(resourceBak);
 	}
 	
 	@Test
 	public void findAll() {
 		List<ResourceBak> resourceBakList=menuService.findAll();
-		for (ResourceBak resourceBak : resourceBakList) {
+		/*for (ResourceBak resourceBak : resourceBakList) {
 			System.out.println(resourceBak.getSourceId());
-		}
+		}*/
 	}
 	
 }

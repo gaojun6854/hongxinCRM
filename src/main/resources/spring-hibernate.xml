@@ -67,7 +67,14 @@
 			<list>
 				<!-- 系统资源 -->
 				<value>com/hongxin/entity/hbm/ResourceBak.hbm.xml</value>	<!-- 菜单信息 -->
+				<value>com/hongxin/entity/hbm/ActionFun.hbm.xml</value>		<!-- 功能点 -->
 				<value>com/hongxin/entity/hbm/TSysHolidays.hbm.xml</value>	<!-- 节假日信息 -->
+				<value>com/hongxin/entity/hbm/RoleActionFun.hbm.xml</value>
+				<value>com/hongxin/entity/hbm/Role.hbm.xml</value>
+				<value>com/hongxin/entity/hbm/RoleSource.hbm.xml</value>
+				<value>com/hongxin/entity/hbm/UsrRole.hbm.xml</value>
+				<value>com/hongxin/entity/hbm/ActionFun.hbm.xml</value>
+				
 				<!-- 客户信息及合约 -->
 				<value>com/hongxin/entity/hbm/CustomBaseInfo.hbm.xml</value><!-- 客户信息 -->
 				<value>com/hongxin/entity/hbm/CheckInfo.hbm.xml</value>		<!-- 审核信息 -->

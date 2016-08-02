@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 所有用户信息  -->
+	<package name="pactPackage" extends="struts2" namespace="/pact">
+	<!--需要拦截登录拦截 让它们入 "struts2"-->
+		<action name="pactInfo" class="com.hongxin.action.OA.PactInfoAction">  
+            <result name="success">/pact/Can_Buy_Products_Custom.jsp</result><!-- 可以购买产品的客户 -->
+            <result name="buyProducts">/pact/Buy_Products.jsp</result>		 <!-- 购买产品 -->
+            <result name="firstCheckList">/pact/First_Check_List.jsp</result><!-- 初审列表 -->
+            <result name="lastCheckList">/pact/Last_Check_List.jsp</result>  <!-- 复审列表 -->
+            <result name="getMoneyList">/pact/All_getMoney_List.jsp</result> <!-- 到款列表 --> 
+            <result name="failPactList">/pact/Fail_Pact_List.jsp</result>	 <!-- 失败列表 -->
+           
+            <result name="getPactInfo4FitstCheck">/pact/getPactInfo_First_Check.jsp</result><!-- 初审合同信息 -->
+            <result name="getPactInfo4LastCheck">/pact/getPactInfo_Last_Check.jsp</result>	<!-- 复审合同信息 -->
+            <result name="getPactInfo4FailPactInfo">/pact/getPactInfo_Fail_Pact.jsp</result>	<!-- 失败合同 信息-->
+            <result name="getPactInfo4GetMoneyInfo">/pact/getPactInfo_getMoney.jsp</result>	<!-- 到款合同信息 -->
+            <result name="getPactInfo4FindPactInfo">/pact/getPactInfo_Find_Pact_Info.jsp</result>		<!-- 查询合同信息 -->
+        
+            <result name="redirectPicUpload">/uploadify/fileup.jsp</result>
+            <result name="findPactInfoList">/pact/Find_PactInfo_List.jsp</result><!-- 搜索合同 -->
+            <result name="HGPactInfo">/pact/HGPactInfo.jsp</result><!-- 回购页面 -->
+            
+            <result name="pactHGForPaymentNotice">/paymentNotice/pactHGForPaymentNotice.jsp</result><!-- 还款通知内的回购 -->
+            <result name="findCheckReceipt">/pact/findCheckReceipt.jsp</result><!-- 合同凭证信息 -->
+            
+            
+            <!-- 拦截器 -->
+            <interceptor-ref name="myStack"></interceptor-ref>
+            <interceptor-ref name="myLogStack"></interceptor-ref>
+            <!--如果不需要拦截 让它们已入 defaultStack-->
+        </action>
+	</package>
+</struts>  

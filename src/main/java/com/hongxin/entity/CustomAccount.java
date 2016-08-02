@@ -26,10 +26,32 @@ public class CustomAccount implements Serializable {
 	private String checkId;
 	private Integer checkIdSer;
 	private String checkIdDesc;
+	private String provinceCode;
+	private String areaCode;
 	private String remark1;
 	private String remark2;
 
 	public CustomAccount() {
+	}
+
+	public String getProvinceCode() {
+		return provinceCode;
+	}
+
+	public void setProvinceCode(String provinceCode) {
+		this.provinceCode = provinceCode;
+	}
+
+	public String getAreaCode() {
+		return areaCode;
+	}
+
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public CustomAccount(String customId, String phoneNum,

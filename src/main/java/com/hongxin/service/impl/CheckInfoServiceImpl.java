@@ -188,12 +188,22 @@ public class CheckInfoServiceImpl implements CheckInfoService {
 		
 		CustomStatus customStatus=customStatusDao.getByStrId(id);//客户状态
 		if (code==2) {
-			checkInfo.setCheckStart('1');//成功
-			customStatus.setCustStart('3');//进入复审阶段
+			//已经签约信息客户
+			if (customStatus.getCustStart()=='5') {
+				customStatus.setCustStart('7');//进入已经签约客户复审阶段
+			}else{
+				customStatus.setCustStart('3');//进入复审阶段
+			}
+			checkInfo.setCheckStart('1');
 			customStatus.setCustCheckStart('2');
 		}else{
+			//已经签约信息客户
+			if (customStatus.getCustStart()=='5') {
+				customStatus.setCustStart('6');//已经签约客户信息初审失败
+			}else{
+				customStatus.setCustStart('2');//正常初审失败
+			}
 			checkInfo.setCheckStart('2');//失败
-			customStatus.setCustStart('2');
 			customStatus.setCustCheckStart('3');
 		}
 		return checkInfoDao.auditYN(checkInfo,customStatus);
@@ -223,7 +233,7 @@ public class CheckInfoServiceImpl implements CheckInfoService {
 		CustomStatus customStatus=customStatusDao.getByStrId(id);//客户状态
 		if (code==2) {
 			checkInfo.setCheckStart('1');//成功
-			customStatus.setCustStart('6');//
+			customStatus.setCustStart('9');//
 			customStatus.setCustCheckStart('2');
 		}else{
 			checkInfo.setCheckStart('2');//失败

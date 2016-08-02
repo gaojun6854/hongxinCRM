@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-8-1 11:24:19 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.ActionFun" table="fl_action_fun"  optimistic-lock="version">
+        <id name="actionId" type="string">
+            <column name="action_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <property name="sourceId" type="string">
+            <column name="source_id" length="40" not-null="true">
+                <comment>&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="code" type="string">
+            <column name="code" length="40" not-null="true">
+                <comment>&#185;&#166;&#196;&#220;&#181;&#227;&#177;&#224;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="func" type="string">
+            <column name="func" length="40" not-null="true">
+                <comment>&#185;&#166;&#196;&#220;&#181;&#227;</comment>
+            </column>
+        </property>
+        <property name="funcName" type="string">
+            <column name="func_name" length="40" not-null="true">
+                <comment>&#185;&#166;&#196;&#220;&#181;&#227;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="funcUrl" type="string">
+            <column name="func_url" length="40" not-null="true">
+                <comment>&#185;&#166;&#196;&#220;&#181;&#227;URL</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

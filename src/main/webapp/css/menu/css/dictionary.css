@@ -1,0 +1,11 @@
+#tabMenu {margin:0;padding:0 0 0 15px;list-style:none;}
+#tabMenu li {float:left;height:3 2px;width:39px;cursor:pointer;cursor:hand}
+
+.box {width:100%;}
+.boxTop {height:11px;clear:both}
+.boxBody div.parent {display:none;}
+.boxBody div.show {display:block;}
+
+.boxBody div ul {margin:0 10px 0 25px;padding:0;}
+.boxBody div li {border-bottom:1px dotted #ffffff; padding:4px 0;cursor:hand;cursor:pointer}
+.boxBody div ul li.last {border-bottom:none}

@@ -1,17 +1,24 @@
 package com.hongxin.action.OA;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 /**
  * 客户信息
  */
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fuiou.data.CommonRspData;
+import com.fuiou.data.ModifyMobileReqData;
+import com.fuiou.data.ModifyMobileRsqData;
 import com.fuiou.data.RegReqData;
+import com.fuiou.service.FuiouRspParseService;
+import com.fuiou.util.SecurityUtils;
 import com.hongxin.entity.CheckInfo;
 import com.hongxin.entity.CheckReceipts;
 import com.hongxin.entity.CustomAccount;
@@ -31,10 +38,12 @@ import com.hongxin.service.CustomBaseInfoService;
 import com.hongxin.service.CustomStatusService;
 import com.hongxin.service.ErrorCodeService;
 import com.hongxin.service.FuiouService;
+import com.hongxin.utils.AjaxUtils;
 import com.hongxin.utils.Constants;
 import com.hongxin.utils.PageView;
 import com.hongxin.utils.TimeId;
 import com.opensymphony.xwork2.ActionSupport;
+
 
 public class CustomAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
@@ -75,6 +84,8 @@ public class CustomAction extends ActionSupport{
 	private String custName;
 	private String paperNum;
 	private String redirect;
+	private String id;
+	private String attr;
 	////////////////方法程序体////////////////////
 	/**
 	 * 程序主方法
@@ -111,12 +122,10 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String findAll(){
-		HttpServletRequest request=ServletActionContext.getRequest();
-		String attr=request.getParameter("attr");
 		Map<String, Object>map=new HashMap<String, Object>();
 		if (customBaseInfo==null) {
 			map.put("all", 1);
-			request.setAttribute("attr", "0");
+			attr="0";
 		}else {
 			map.put("attr", attr);
 			map.put("custName", customBaseInfo.getCustname());
@@ -126,7 +135,6 @@ public class CustomAction extends ActionSupport{
 		}
 		pageBean=customBaseInfoService.getPageBean(5, page,map);
 		pageBean.setActionUrl("addCustomInfo!findAll.action");
-		request.setAttribute("attr", attr);
 		for (CustomBaseInfo customBaseInfo : pageBean.getList()) {
 			customBaseInfo.setCheckInfos(checkInfoService.getByCustomId(customBaseInfo.getId()));
 			customBaseInfo.setCheckReceipts(checkReceiptsService.getByStrId(customBaseInfo.getId()));
@@ -136,8 +144,33 @@ public class CustomAction extends ActionSupport{
 		return "findAll";
 	}
 	
+	/**
+	 * 单个用户信息查询
+	 * @return
+	 */
+	public String getCustomInfo(){
+		List<CustomBaseInfo>  customs=customBaseInfoService.getByStrId(id);
+		if (customs==null) {
+			msg = "系统错误";
+		}else{
+			customBaseInfo=customs.get(0);
+			customBaseInfo.setCheckReceipts(checkReceiptsService.getByStrIdType(customBaseInfo.getId(),"1"));
+		}
+		//辨别 ---》 1.修改客户信息 2.初审客户信息 3.复审客户信息
+		if ("FirstCheckYN".equals(redirect)) {//初审
+			redirect = "FirstCheckYN";
+		}else if("LastCheckYN".equals(redirect)){//复审
+			redirect = "LastCheckYN";
+		}else if("updateCustomInfo".equals(redirect)){
+			return "updateCustomInfo";
+		}else if("findNeedUpdateSuccessCustom".equals(redirect)){
+			return "updateSuccessCustom";
+		}
+		return "getCustomInfo";
+	}
 	
 	/**
+	 * 客户信息维护
 	 * 查询需要更改的客户信息
 	 */
 	
@@ -146,16 +179,14 @@ public class CustomAction extends ActionSupport{
 		ServletActionContext.getRequest().setAttribute("customBaseInfos", customBaseInfos);
 		return "findFailInfoList";
 	}
+	
 	/**
+	 * 客户信息维护
 	 * 修改用户信息
 	 * @return
 	 */
 	public String updateCustomInfo(){
 		HttpServletRequest request=ServletActionContext.getRequest();
-		/**
-		 * 验证需求-前台js提供验证
-		 * -->>赋值
-		 */
 		customBaseInfo.setCustname(request.getParameter("custname"));
 		customBaseInfo.setPhonenum(request.getParameter("phonenum"));
 		customBaseInfo.setPapernum(request.getParameter("papernum"));
@@ -180,42 +211,59 @@ public class CustomAction extends ActionSupport{
 		areas=areaCodeService.getProvinceList(null);//所有省份信息
 		banks=bankCodeService.findAll();//所有银行代码信息
 		customAccount=customAccountService.getStrId(customBaseInfo.getId());
-		List<TAreaCode>cityList=areaCodeService.getProvinceList(customAccount.getRemark1());
+		List<TAreaCode>cityList=areaCodeService.getProvinceList(customAccount.getProvinceCode());
 		request.setAttribute("cityList", cityList);
 		return "updateCustomAccount";
-		/*
-		//如果客户是出于未初审信息，则直接修改客户信息
-		//CheckInfo cheCkInfo=checkInfoService.getByCustomId(customBaseInfo.getId());
-		CustomStatus customStatus=customStatusService.getByStrId(customBaseInfo.getId());
-		int a=0;
-		if ("1".equals(customStatus.getCustStart())||"2".equals(customStatus.getCustStart())) {//如果是初审或者初审失败则修改信西
-			int g=1;
-			a=customBaseInfoService.saveOrUpdateByStr(customBaseInfo,g);
-		}else{
-			int g=2;
-			a=customBaseInfoService.saveOrUpdateByStr(customBaseInfo,g);
-		}
-		List<CustomBaseInfo>  customs=customBaseInfoService.getByStrId(customBaseInfo.getId());
-		ServletActionContext.getRequest().setAttribute("custom", customs.get(0));
-		if (a==1) {//更新成功--更新参数信息
-			msg= "用户信息修改成功";
-		}else{//失败--回到原参数信息
-			msg="系统错误";
-		}
-		redirect="updateCustomInfo";
-		return "getCustomInfo";*/
 	}
 	
 	/**
+	 * 已签约客户信息维护
+	 * 对已签约成功客户信息进行修改
+	 */
+	public String updateSuccessCustomInfo(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		/**
+		 * 验证需求-前台js提供验证
+		 * -->>赋值
+		 */
+		customBaseInfo.setCustname(request.getParameter("custname"));
+		customBaseInfo.setPhonenum(request.getParameter("phonenum"));
+		customBaseInfo.setPapernum(request.getParameter("papernum"));
+		customBaseInfo.setManagerId(request.getParameter("managerId"));
+		customBaseInfo.setEmail(request.getParameter("email"));
+		customBaseInfo.setPostAddr(request.getParameter("postAddr"));
+		
+		//客户状态信息
+		customStatus=customStatusService.getByStrId(customBaseInfo.getId());
+		customStatus.setCustStart('5');
+		customStatus.setCustCheckStart('1');
+		//通过手机号码或者身份证查找该用户信息是否存在
+		
+		try {
+			customStatusService.saveOrUpdate(customStatus);
+			customBaseInfoService.saveOrUpdate(customBaseInfo);;
+		} catch (Exception e) {
+			msg = "系统故障,稍后再试";
+		}
+		//保存刚录取的用户信息置session方便事物
+		areas=areaCodeService.getProvinceList(null);//所有省份信息
+		banks=bankCodeService.findAll();//所有银行代码信息
+		customAccount=customAccountService.getStrId(customBaseInfo.getId());
+		List<TAreaCode>cityList=areaCodeService.getProvinceList(customAccount.getProvinceCode());
+		request.setAttribute("cityList", cityList);
+		return "updateSuccessCustomAccount";
+	}
+	
+	
+	/**
+	 * 客户信息维护
 	 * 修改账户信息
 	 * @return
 	 */
 	public String updateCustomAccount(){
-		
-		//customAccount=customAccountService.getStrId(customAccount.getCustomId());
 		CustomAccount customAccountOld=customAccountService.getStrId(customAccount.getCustomId());
-		customAccountOld.setRemark1(customAccount.getRemark1());
-		customAccountOld.setRemark2(customAccount.getRemark2());
+		customAccountOld.setProvinceCode(customAccount.getProvinceCode());
+		customAccountOld.setAreaCode(customAccount.getAreaCode());
 		customAccountOld.setPayBank(customAccount.getPayBank());
 		customAccountOld.setPayBankName(customAccount.getPayBankName());
 		customAccountOld.setAccountBank(customAccount.getAccountBank());
@@ -224,7 +272,7 @@ public class CustomAction extends ActionSupport{
 		} catch (Exception e) {
 			msg="系统异常,保存失败";
 		}
-		return findReceiptsInfo();
+		return findReceiptsInfo();//查询客户信息图片
 	}
 	
 	/**
@@ -241,33 +289,25 @@ public class CustomAction extends ActionSupport{
 		return "findReceiptsInfo";
 	}
 	
-	
 	/**
-	 * 单个用户信息查询
-	 * @return
+	 * 签约客户信息维护
+	 * 签约客户信息修改  账户信息修改
 	 */
-	public String getCustomInfo(){
-		String redirect=ServletActionContext.getRequest().getParameter("redirect");//从哪里来的审核
-		String id=ServletActionContext.getRequest().getParameter("id");//客户编号
-		List<CustomBaseInfo>  customs=customBaseInfoService.getByStrId(id);
-		if (customs==null) {
-			msg = "系统错误";
-		}else{
-			customBaseInfo=customs.get(0);
-			customBaseInfo.setCheckReceipts(checkReceiptsService.getByStrIdType(customBaseInfo.getId(),"1"));
+	public String updateSuccessCustomAccount(){
+		CustomAccount customAccountOld=customAccountService.getStrId(customAccount.getCustomId());
+		customAccountOld.setProvinceCode(customAccount.getProvinceCode());
+		customAccountOld.setAreaCode(customAccount.getAreaCode());
+		customAccountOld.setPayBank(customAccount.getPayBank());
+		customAccountOld.setPayBankName(customAccount.getPayBankName());
+		customAccountOld.setAccountBank(customAccount.getAccountBank());
+		try {
+			customAccountService.saveOrUpdate(customAccountOld);
+		} catch (Exception e) {
+			msg="系统异常,保存失败";
 		}
-		//辨别 ---》 1.修改客户信息 2.初审客户信息 3.复审客户信息
-		if ("FirstCheckYN".equals(redirect)) {//初审
-			redirect = "FirstCheckYN";
-		}else if("LastCheckYN".equals(redirect)){//复审
-			redirect = "LastCheckYN";
-		}else if("updateCustomInfo".equals(redirect)){
-			return "updateCustomInfo";
-		}else if("findNeedUpdateSuccessCustom".equals(redirect)){
-			return "updateSuccessCustom";
-		}
-		return "getCustomInfo";
+		return findNeedUpdateSuccessCustom();
 	}
+	
 	
 	/**
 	 * 查询全部初审客户信息
@@ -284,7 +324,6 @@ public class CustomAction extends ActionSupport{
 		
 		pageBean=customBaseInfoService.findAllFirstCheck(Constants.FEN_YE_SHU, page,map);
 		pageBean.setActionUrl("addCustomInfo!findAllFirstCheck.action");
-		
 		return "findAllFirstCheck";
 	}
 	
@@ -294,7 +333,6 @@ public class CustomAction extends ActionSupport{
 	 */
 	public String FirstCheckYN(){
 		int code=1;
-		String id=ServletActionContext.getRequest().getParameter("id");
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
 		if (customBaseInfo==null) {
 			msg = "非法参数";
@@ -330,15 +368,13 @@ public class CustomAction extends ActionSupport{
 		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
 		
 		///////////----分页查询参数----///////////
-		
 		pageBean=customBaseInfoService.findAllLastCheck(Constants.FEN_YE_SHU, page,map);
 		pageBean.setActionUrl("addCustomInfo!findAllLastCheck.action");
-		
 		return "findAllLastCheck";
 	}
 	
 	/**
-	 * 已签约客户信息待修改
+	 * 已签约客户信息待修改查询LIST
 	 * 有权限控制
 	 * @return
 	 */
@@ -349,7 +385,6 @@ public class CustomAction extends ActionSupport{
 		map.put("paperNum",paperNum==null?"":paperNum );//客户身份号
 		
 		///////////----分页查询参数----///////////
-		
 		pageBean=customBaseInfoService.findNeedUpdateCustom(Constants.FEN_YE_SHU, page,map);
 		pageBean.setActionUrl("addCustomInfo!findNeedUpdateCustom.action");
 		return "findNeedUpdateSuccessCustom";
@@ -360,9 +395,11 @@ public class CustomAction extends ActionSupport{
 	 * @return
 	 */
 	public String LastCheckYN(){
+		HttpServletRequest request=ServletActionContext.getRequest();
+		HttpServletResponse response=ServletActionContext.getResponse();
 		int code=1;
-		String id=ServletActionContext.getRequest().getParameter("id");
 		CustomBaseInfo customBaseInfo=customBaseInfoService.getByStrId(id).get(0);
+		customStatus=customStatusService.getByStrId(id);//客户状态
 		if (customBaseInfo==null) {
 			msg =  "非法参数";
 			return findAllLastCheck();//回到复审查询界面
@@ -370,32 +407,129 @@ public class CustomAction extends ActionSupport{
 		CustomAccount customAccount=customAccountService.getStrId(customBaseInfo.getId());
 		String param=ServletActionContext.getRequest().getParameter("param");
 		String resCode="";
-		if ("yes".equals(param)){ 
+		if ("yes".equals(param))
+		{ //如果是通过条件
+			
 			if (customBaseInfo.getOpenFyAcount().equals("1")) 
-				resCode=ORGCustom(customBaseInfo, customAccount, customBaseInfoService);
-			else if (customBaseInfo.getOpenFyAcount().equals("0")) 
+			{//选择富有开户
+				
+				if (customStatus.getCustStart()=='7') 
+				{//如果是已经签约的客户信息进修修改复审
+					try {
+						resCode=UPDATECUSTOM(customBaseInfo, customAccount, customBaseInfoService,request,response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				else if(customStatus.getCustStart()=='3')
+				{//正常客户信息进行复审
+					resCode=ORGCustom(customBaseInfo, customAccount, customBaseInfoService);
+				}
+			}
+			
+			else if (customBaseInfo.getOpenFyAcount().equals("0"))
+			{ //不选择开户
 				resCode="0000";
+			}
 			
 			code=2;
-			if ("0000".equals(resCode)){
+			
+			///////////////////返回码的中文化处理/////////////////
+			///////////////////返回码的中文化处理/////////////////
+			if ("0000".equals(resCode))
+			{
 				try {
 					checkInfoService.EditedInfoYN(id,code);
 					msg="复审客户:"+customBaseInfo.getCustname()+"成功";
 				} catch (Exception e) {
 					msg="系统异常";
 				}
-			}else{
+			}
+			else
+			{
 				TErrCode errorCode=new TErrCode(); 
 				errorCode=errorCodeService.get(resCode);
 				msg="复审客户:"+customBaseInfo.getCustname()+"失败,返回信息："+errorCode.getErrMsg();
 			}
-		}else if("no".equals(param)){
+		}
+		
+		else if("no".equals(param))
+		{//如果是不通过条件
 			code=3;
 			checkInfoService.EditedInfoYN(id,code);
-		}else{ 
+		}
+		else{//非法参数条件下 
 			msg = "非法参数,请求失败";
 		}
 		return findAllLastCheck();//回到复审查询界面
+	}
+	
+	private String UPDATECUSTOM(CustomBaseInfo custom, CustomAccount account,
+			CustomBaseInfoService customBaseInfoService2,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		//本地流水信息注册用户
+				TFuyouTran tran=new TFuyouTran();
+				tran.setFuyouTran("400101");
+				tran.setMchntCd(Constants.MCHNT_CD);//商户代码
+				tran.setMchntTxnSsn("REDFORTUNE"+TimeId.generateSequenceNo());//流水号
+				tran.setCustNm(custom.getCustname());
+				tran.setMobileNo(custom.getPhonenum());
+				tran.setCertifId(custom.getPapernum());
+				tran.setEmail(custom.getEmail());
+				tran.setCityId(account.getAreaCode());
+				tran.setParentBankId(account.getPayBank());
+				tran.setBankNm(account.getPayBankName());
+				tran.setOutCustNo(account.getAccountBank());
+				tran.setRemark1("签约成功用户信息修改");
+				
+				CommonRspData RspData=new CommonRspData();
+				ModifyMobileReqData modifyMobileReqData=new ModifyMobileReqData();
+				modifyMobileReqData.setMchnt_cd(Constants.MCHNT_CD);//商户代码
+				modifyMobileReqData.setMchnt_txn_ssn(tran.getMchntTxnSsn());//流水号
+				modifyMobileReqData.setLogin_id(custom.getPhonenum());
+				modifyMobileReqData.setPage_notify_url("https://jzh-test.fuiou.com/jzh/400101.action");
+				OutputStream out = response.getOutputStream();
+				FuiouService.p2p400101(modifyMobileReqData, response);
+				ModifyMobileRsqData modifyMobileRsqData=FuiouRspParseService.modifyMobileRspParse(request);
+				
+		return null;
+	}
+
+	
+	/**
+	 * 提交fuiou旧手机号码请求
+	 * @throws Exception
+	 */
+	public void UpdatePhoneNum() throws Exception{
+		HttpServletResponse response=ServletActionContext.getResponse();
+		ModifyMobileReqData modifyMobileReqData=new ModifyMobileReqData();
+		modifyMobileReqData.setMchnt_cd(Constants.MCHNT_CD);//商户代码
+		modifyMobileReqData.setMchnt_txn_ssn(TimeId.generateSequenceNo());//流水号
+		modifyMobileReqData.setLogin_id("15385538903");
+		modifyMobileReqData.setPage_notify_url("http://10.67.248.198:80/hongxinCRM/custom/returnModifyMobile.action");
+		try {
+			FuiouService.p2p400101(modifyMobileReqData, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 接受fuiou请求返回新手机号码
+	 * @throws Exception
+	 */
+	public void returnModifyMobile() throws Exception{
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setCharacterEncoding("UTF-8");
+		try {
+			ModifyMobileRsqData modifyMobileRsqData=new ModifyMobileRsqData();
+			modifyMobileRsqData=FuiouRspParseService.modifyMobileRspParse(request);
+			AjaxUtils.ajaxJSONResponse(modifyMobileRsqData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -413,7 +547,7 @@ public class CustomAction extends ActionSupport{
 		tran.setMobileNo(custom.getPhonenum());
 		tran.setCertifId(custom.getPapernum());
 		tran.setEmail(custom.getEmail());
-		tran.setCityId(account.getRemark2());
+		tran.setCityId(account.getAreaCode());
 		tran.setParentBankId(account.getPayBank());
 		tran.setBankNm(account.getPayBankName());
 		tran.setOutCustNo(account.getAccountBank());
@@ -595,6 +729,22 @@ public class CustomAction extends ActionSupport{
 
 	public void setRedirect(String redirect) {
 		this.redirect = redirect;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getAttr() {
+		return attr;
+	}
+
+	public void setAttr(String attr) {
+		this.attr = attr;
 	}
 	
 }

@@ -82,11 +82,7 @@
 	            <!--登录登出不需要拦截 让它们已入 defaultStack不然登录不上--> 
 	            <interceptor-ref name="defaultStack"></interceptor-ref>
 	        </action>
-	        <!-- 加载菜单 -->
-	        <action name="menu" class="com.hongxin.action.OA.MenuAction">  
-	            <result name="success">/main.jsp</result>  <!-- 日志不记录 -->
-	            <interceptor-ref name="defaultStack"></interceptor-ref>
-	        </action>
+	        
 	           
   		</package>
   		
@@ -110,4 +106,6 @@
 	<include file="struts-paymentNotice.xml"/>
 	<include file="struts-autoRepay.xml"/>	
 	<include file="struts-organization.xml"/>
+	<include file="struts-menu.xml"/>
+	<include file="struts-role.xml"/>
 </struts>

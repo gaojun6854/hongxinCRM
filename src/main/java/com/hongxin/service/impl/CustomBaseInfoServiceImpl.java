@@ -255,10 +255,10 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 		String phoneNum=(String) map.get("phoneNum");
 		String paperNum=(String) map.get("paperNum");
 		
-		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='1'";
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start in (1,5)";
 		
 		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
-			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='1'";
+			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start in (1,5)";
 		}else{
 			if (!"".equals(phoneNum))
 				hql=hql+" and cust.phone_num='"+phoneNum+"'";
@@ -301,10 +301,10 @@ public class CustomBaseInfoServiceImpl implements CustomBaseInfoService {
 		String phoneNum=(String) map.get("phoneNum");
 		String paperNum=(String) map.get("paperNum");
 		
-		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='3'";
+		String hql = "select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start in (3,7)";
 		
 		if ("".equals(custName)&&"".equals(phoneNum)&&"".equals(paperNum)) {
-			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start='3'";
+			hql="select cust.* from t_custom_base_info cust INNER JOIN t_custom_status sta on cust.custom_id=sta.custom_id where 1=1 and sta.cust_start in (3,7)";
 		}else{
 			if (!"".equals(phoneNum))
 				hql=hql+" and cust.phone_num='"+phoneNum+"'";

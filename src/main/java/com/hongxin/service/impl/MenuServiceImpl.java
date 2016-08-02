@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.hongxin.dao.ActionFunDao;
 import com.hongxin.dao.MenuDao;
+import com.hongxin.entity.ActionFun;
 import com.hongxin.entity.ResourceBak;
 import com.hongxin.service.MenuService;
 
@@ -13,6 +16,8 @@ public class MenuServiceImpl implements MenuService {
 
 	@Autowired
 	private MenuDao menuDao;
+	@Autowired
+	private ActionFunDao actionFunDao;
 
 	public ResourceBak load(Integer id) {
 		return null;
@@ -65,7 +70,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	public void saveOrUpdate(ResourceBak entity) {
-		menuDao.save(entity);
+		menuDao.saveOrUpdate(entity);
 		
 	}
 
@@ -75,6 +80,22 @@ public class MenuServiceImpl implements MenuService {
 
 	public void flush() {
 		menuDao.flush();
+	}
+
+	public Integer save4parentSourceId(ResourceBak resourceBak) {
+		return menuDao.save4parentSourceId(resourceBak);
+		
+	}
+
+	public List<ResourceBak> getallMenuList(Integer parentsourceId) {
+		return menuDao.getallMenuList(parentsourceId);
+	}
+
+	/**
+	 * 获取菜单的功能点列表信息
+	 */
+	public List<ActionFun> getFunctionList(String sourceId) {
+		return actionFunDao.getBySourceId(sourceId);
 	}
 
 }

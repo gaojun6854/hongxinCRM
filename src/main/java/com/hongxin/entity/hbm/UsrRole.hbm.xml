@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-8-1 17:27:52 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.UsrRole" table="fl_usr_role" catalog="red_db" optimistic-lock="version">
+        <id name="usrRoleId" type="string">
+            <column name="usr_role_id" length="40" />
+            <generator class="assigned" />
+        </id>
+        <property name="userId" type="string">
+            <column name="user_id" length="40">
+                <comment>&#211;&#195;&#187;&#167;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="roleId" type="string">
+            <column name="role_id" length="40">
+                <comment>&#189;&#199;&#201;&#171;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

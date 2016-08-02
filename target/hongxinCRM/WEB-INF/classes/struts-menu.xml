@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="menuPackage" extends="struts2" namespace="/menu">
+	<!-- 加载菜单 -->
+        <action name="menu" class="com.hongxin.action.OA.MenuAction">  
+            <result name="success">/menu/menuInfo.jsp</result> 
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        <!-- 所有的菜单信息 -->
+        <action name="menuList" class="com.hongxin.action.OA.MenuAction" method="menuList">  
+	            <result name="menuInfo">/menu/menuInfo.jsp</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 增加一级菜单 -->
+	    <action name="addMenu" class="com.hongxin.action.OA.MenuAction" method="addMenu">  
+	            <result name="addMenu">/menu/addMenu.jsp</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 保存一级菜单 -->
+	    <action name="saveMenu" class="com.hongxin.action.OA.MenuAction" method="saveMenu">  
+	            <result name="addMenu">/menu/addMenu.jsp</result>
+	            <result name="redirect_menuList" type= "redirectAction">menuList</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 更新菜单  -->
+	    <action name="updateMenu" class="com.hongxin.action.OA.MenuAction" method="updateMenu">  
+	            <result name="redirect_menuList" type= "redirectAction">menuList</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 删除该级别菜单 -->
+	    <action name="deleteMenu" class="com.hongxin.action.OA.MenuAction" method="deleteMenu">  
+	            <result name="redirect_menuList" type= "redirectAction">menuList</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action> 
+	</package>
+</struts>  

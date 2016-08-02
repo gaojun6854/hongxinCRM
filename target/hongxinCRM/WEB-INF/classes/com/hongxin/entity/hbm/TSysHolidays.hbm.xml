@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-16 13:21:36 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="com.hongxin.entity.TSysHolidays" table="t_sys_holidays" >
+        <id name="holidays" type="string">
+            <column name="holidays" length="8" />
+            <generator class="assigned" />
+        </id>
+        <property name="flags" type="char">
+            <column name="flags" length="1" not-null="true">
+                <comment>&#189;&#218;&#188;&#217;&#200;&#213;&#177;&#234;&#188;&#199;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="128" not-null="true">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

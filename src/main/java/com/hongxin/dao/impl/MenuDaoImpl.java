@@ -43,8 +43,18 @@ public class MenuDaoImpl implements MenuDao{
 		return (Integer) this.getCurrentSession().save(entity);
 	}
 
-	public void saveOrUpdate(ResourceBak entity) {
-		this.getCurrentSession().saveOrUpdate(entity);
+	public void saveOrUpdate(ResourceBak res) {
+		String sql="update resource_bak set ";
+		if (res.getParentSourceId()!=null) {sql+="parent_source_id='"+res.getParentSourceId()+"',"; }else{ sql+="parent_source_id = NULL,";}
+		if (res.getStyle()!=null) {sql+="style='"+res.getStyle()+"',";}else{sql+="style = NULL,";}
+		if (res.getPicUrl()!=null) {sql+="pic_url='"+res.getPicUrl()+"',";}else{sql+="pic_url = NULL,";}
+		if (res.getSourceUrl()!=null) {sql+="source_url='"+res.getSourceUrl()+"',";}else{sql+="source_url = NULL,";}
+		if (res.getSeq()!=null) {sql+="seq='"+res.getSeq()+"',";}else{sql+="seq = NULL,";}
+		if (res.getSourceName()!=null) {sql+="source_name='"+res.getSourceName()+"',";}else{sql+="source_name = NULL,";}
+		if (res.getSourceCode()!=null) {sql+="source_code='"+res.getSourceCode()+"'";}else{sql+="source_code = NULL";}
+		 //parent_source_id='"++"',seq='"+res.getSeq()+"',source_code='"+res.getSourceCode()+"',source_name='"+res.getSourceName()+"',source_url='"+res.getSourceUrl()+"',style='"+res.getStyle()+"',pic_url='"+res.getPicUrl()+"' where source_id='"+res.getSourceId()+"'";
+		sql+=" where source_id='"+res.getSourceId()+"'";
+		this.getCurrentSession().createSQLQuery(sql).executeUpdate();
 	}
 
 	public void delete(Integer id) {
@@ -90,5 +100,15 @@ public class MenuDaoImpl implements MenuDao{
 	public <T> QueryResult<T> getScrollData(Class<T> entityClass) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Integer save4parentSourceId(ResourceBak res) {
+		Integer resId=(Integer)this.getCurrentSession().save(res);
+		return resId;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ResourceBak> getallMenuList(Integer parentsourceId) {
+		return this.getCurrentSession().createQuery("from ResourceBak where parentSourceId='"+parentsourceId+"' order by seq ASC").list();
 	}
 }

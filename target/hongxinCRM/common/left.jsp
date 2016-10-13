@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="struts" uri="/struts-tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -47,20 +48,43 @@ a{text-decoration:none;}
 <jsp:forward page="index.jsp"/>
 </c:if>
 <body id="bg">
-
-<div class="container">
-	<div class="leftsidebar_box">
-		<div class="line"></div>
-		<c:forEach items="${menuList}" var="menu">
-		<dl class='${menu.style}'>
-			<dt  >${menu.sourceName}<img src="../images/left/${menu.style}.png"></dt>
-			<c:forEach items="${menu.childMenus}" var="childMenu">
-					<dd><a href="<%=basePath%>${childMenu.sourceUrl}" target="rightFrame">${childMenu.sourceName}</a></dd>
-			</c:forEach>
-		</dl>
-	</c:forEach>	
-	</div>
-</div>
+	<c:if test="${sessionScope.login_user.userName=='gaojun' }">
+		<c:forEach items="${menuList}" var="firstData">
+			<div class="container">
+				<div class="leftsidebar_box">
+					<div class="line"></div>
+					<c:forEach items="${menuList}" var="menu">
+					<dl class='${menu.style}'>
+						<dt  >${menu.sourceName}<img src="../images/left/${menu.style}.png"></dt>
+						<c:forEach items="${menu.childMenus}" var="childMenu">
+								<dd><a href="<%=basePath%>${childMenu.sourceUrl}" target="rightFrame">${childMenu.sourceName}</a></dd>
+						</c:forEach>
+					</dl>
+				</c:forEach>	
+				</div>
+			</div>
+		</c:forEach>
+	</c:if>
+	
+	<c:if test="${sessionScope.login_user.userName ne gaojun }">
+		<div class="container">
+			<div class="leftsidebar_box">
+				<div class="line"></div>
+				<c:forEach items="${menuList}" var="firstData">
+					<dl class='${firstData.style}'>
+						<c:if test="${fn:contains(sourceIdList ,firstData.sourceId)}">
+							<dt  >${firstData.sourceName}<img src="../images/left/${firstData.style}.png"></dt>
+						</c:if>
+							<c:forEach items="${firstData.childMenus}" var="secondData">
+									<c:if test="${fn:contains(sourceIdList ,secondData.sourceId)}">
+										<dd><a href="<%=basePath%>${secondData.sourceUrl}" target="rightFrame">${secondData.sourceName}</a></dd>
+									</c:if>
+							</c:forEach>
+					</dl>
+			</c:forEach>	
+			</div>
+		</div>
+	</c:if>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
 $(".leftsidebar_box dt").css({"background-color":"#3992d0"});

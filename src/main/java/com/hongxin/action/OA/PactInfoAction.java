@@ -10,14 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fuiou.data.AppTransReqData;
 import com.fuiou.data.AppTransRspData;
 import com.fuiou.data.CommonRspData;
 import com.fuiou.data.PreAuthReqData;
 import com.fuiou.data.PreAuthRspData;
 import com.fuiou.data.TransferBmuReqData;
-import com.fuiou.service.FuiouRspParseService;
 import com.hongxin.entity.CheckReceipts;
 import com.hongxin.entity.CustomAccount;
 import com.hongxin.entity.CustomBaseInfo;
@@ -31,6 +34,7 @@ import com.hongxin.service.AutoRepayService;
 import com.hongxin.service.CheckReceiptsService;
 import com.hongxin.service.CustomAccountService;
 import com.hongxin.service.CustomBaseInfoService;
+import com.hongxin.service.FuiouRspParseService;
 import com.hongxin.service.FuiouService;
 import com.hongxin.service.PactInfoService;
 import com.hongxin.service.ProductService;
@@ -38,8 +42,10 @@ import com.hongxin.service.ReBuyPactService;
 import com.hongxin.utils.AjaxUtils;
 import com.hongxin.utils.Constants;
 import com.hongxin.utils.Date2String8;
+import com.hongxin.utils.TimeId;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class PactInfoAction extends ActionSupport{
 
@@ -734,6 +740,37 @@ public class PactInfoAction extends ActionSupport{
 			a=0;
 		}
 		return a;
+	}
+	
+	
+	public void ceshi(){
+		HttpServletResponse response=ServletActionContext.getResponse();
+		AppTransReqData appreqData=new AppTransReqData();
+		appreqData.setMchnt_cd(Constants.MCHNT_CD);
+		appreqData.setMchnt_txn_ssn(TimeId.generateSequenceNo());
+		appreqData.setLogin_id("15385538970");
+		appreqData.setAmt("1000");
+		appreqData.setPage_notify_url("http://139.226.74.158/hongxinCRM/pact/ceshi2.action");
+		appreqData.setBack_notify_url("http://139.226.74.158/hongxinCRM/pact/ceshi2.action");
+		
+		try {
+			FuiouService.app500001(appreqData, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void ceshi2(){
+		System.out.println("-------------------------进来了--------------------");
+		HttpServletRequest req=ServletActionContext.getRequest();
+		AppTransRspData a=new AppTransRspData();
+		try {
+			a=FuiouRspParseService.appTransRspParse(req);
+			//AppTransRspData appData=FuiouRspParseService.appTransRspParse(req);
+			AjaxUtils.ajaxJSONResponse(a);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	////////////////////////////get----set//////////////////////

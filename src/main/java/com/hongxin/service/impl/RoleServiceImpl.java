@@ -51,4 +51,8 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.getByRoleId(roleId);
 	}
 
+	public int selectByName(String roleName) {
+		return roleDao.selectByName(roleName);
+	}
+
 }

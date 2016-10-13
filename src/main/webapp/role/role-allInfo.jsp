@@ -28,7 +28,7 @@
 					<div class="am-fl am-cf">
 						<div class="am-btn-toolbar am-fl">
 							<div class="am-btn-group am-btn-group-xs">
-								<button onclick="window.location.href='/jsp/role/add-role.jsp'" type="button" class="am-btn am-btn-default">
+								<button onclick="window.location.href='add-role.jsp'" type="button" class="am-btn am-btn-default">
 									<span class="am-icon-plus"></span>
 										新增
 								</button>
@@ -90,10 +90,11 @@
 							ids.push($(checks[i]).attr("data-id"));
 						}
 					}
-					var url = "/role/delroles"; 
+					var url = "deleteRole.action"; 
 					var param = "ids=" + ids;
+					//param=1019918,17837892这样的形式
 					$.post(url,param,function(){
-				 	window.location ="/role/allInfo"; 
+				 	window.location ="allInfo.action"; 
 						
 					});
 				}
@@ -102,7 +103,7 @@
 		$(function(){
 			$(".getLimit").bind("click",function(){
 				var roleId = $(this).attr("data-id");
-				window.location.href="resourceBakByroleId?roleId="+roleId;
+				window.location.href="resourceBakByroleId.action?roleId="+roleId;
 			});
 		});
 	$(function() {
@@ -113,7 +114,7 @@
 					if (shan) {
 						var ids = new Array();
 						ids.push($(this).attr("data-id"));
-						var url = "deleteRoles.action";
+						var url = "deleteRole.action";
 						var param = "ids=" + ids;
 						$.post(url, param, function(result) {
 							window.location.href = "allInfo.action";

@@ -71,7 +71,10 @@ public class MenuDaoImpl implements MenuDao{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ResourceBak> getSubMenuList(String sourceId) {
-		return this.getCurrentSession().createQuery("from Resource_Bak where parentSourceId='"+sourceId+"' order by seq asc").list();
+		if (sourceId==null)
+			return this.getCurrentSession().createSQLQuery("select * from resource_bak where parent_source_id is NULL").addEntity(ResourceBak.class).list();
+		else
+			return this.getCurrentSession().createQuery("from ResourceBak where parentSourceId='"+sourceId+"' order by seq asc").list();
 	}
 
 	public <T> QueryResult<T> getScrollData(Class<T> entityClass, int firstIndex, int maxResult, String wherejpql,
@@ -110,5 +113,11 @@ public class MenuDaoImpl implements MenuDao{
 	@SuppressWarnings("unchecked")
 	public List<ResourceBak> getallMenuList(Integer parentsourceId) {
 		return this.getCurrentSession().createQuery("from ResourceBak where parentSourceId='"+parentsourceId+"' order by seq ASC").list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ResourceBak> getMenuList() {
+		String sql="select * from resource_bak where parent_source_id is NULL";
+		return this.getCurrentSession().createSQLQuery(sql).addEntity(ResourceBak.class).list();
 	}
 }

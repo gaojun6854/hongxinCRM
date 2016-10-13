@@ -11,7 +11,7 @@
         </many-to-one>  
 		<property name="parentSourceId" column="parent_source_id" length="90" type="java.lang.Integer" update="false" insert="false" /> 
         <property name="sourceCode" column="source_code" length="90" type="string" />
-        <property name="seq" column="seq" length="90" type="string" />
+        <property name="seq" column="seq" length="90" type="java.lang.Integer" />
         <property name="sourceName" column="source_name" length="90" type="string" />
         <property name="sourceUrl" column="source_url" length="90" type="string" />
         <property name="style" column="style" length="90" type="string" />

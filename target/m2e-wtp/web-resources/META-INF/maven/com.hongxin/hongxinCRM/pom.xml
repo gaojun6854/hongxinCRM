@@ -14,6 +14,7 @@
 		<struts2.version>2.3.20</struts2.version>
 		<jackson.version>2.5.0</jackson.version>
 	</properties>
+	
   <dependencies>
 		<!-- junit -->
 		<dependency>
@@ -209,6 +210,11 @@
 		    <version>3.1</version>
 		</dependency>
 		
+		<dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils</artifactId>
+    <version>1.9.2</version>
+</dependency>
 		
 		
 		
@@ -284,14 +290,24 @@
 				<configuration>
 					<container>
 						<containerId>tomcat6x</containerId>
-						<home>D:\j2ee\apache-tomcat-7.0.56</home>
+						<home>E:\downBei\apache-tomcat-8.0.37</home>
 					</container>
 					<configuration>
 						<type>existing</type>
-						<home>D:\j2ee\apache-tomcat-7.0.56</home>
+						<home>E:\downBei\apache-tomcat-8.0.37</home>
 					</configuration>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <fork>true</fork>
+                <executable>C:\Program Files\Java\jdk1.8.0_102\bin</executable>
+            </configuration>
+        </plugin>
+			
 		</plugins>
   </build>
 </project>

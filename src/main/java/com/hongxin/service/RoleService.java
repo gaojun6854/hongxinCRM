@@ -23,4 +23,6 @@ public interface RoleService
 
 	List<Role> getByRoleId(String roleId);
 
+	int selectByName(String roleName);
+
 }

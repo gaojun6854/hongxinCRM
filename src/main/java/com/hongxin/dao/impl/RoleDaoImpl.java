@@ -94,4 +94,13 @@ public class RoleDaoImpl implements RoleDao {
 		return Role;
 	}
 
+	/**
+	 * 通过角色名查找是否已经存在
+	 */
+	@SuppressWarnings("unchecked")
+	public int selectByName(String roleName) {
+		List<Role> roles = this.getCurrentSession().createQuery("from Role where roleName='"+roleName+"'").list();
+		return roles.size();
+	}
+
 }

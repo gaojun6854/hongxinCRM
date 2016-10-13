@@ -24,7 +24,7 @@
 	<!-- 允许标签中使用表达式语法 -->
 	<constant name="struts.tag.altSyntax" value="true" />
 	
-<constant name="struts.multipart.saveDir" value="/uploads"/>  
+	<constant name="struts.multipart.saveDir" value="/uploads"/>  
 	
 	<!-- 对于WebLogic,Orion,OC4J此属性应该设置成true -->
 	<constant name="struts.dispatcher.parametersWorkaround" value="false" />
@@ -43,17 +43,20 @@
 		<default-interceptor-ref name="crudStack" />
 	</package>
 	
+	
+	
 	<!-- 自定义登录拦截器 -->
 	<package name="struts2" extends="struts-default">  
 		<!-- 定义一个拦截器 -->  
         <interceptors>  
+        	<!-- 登陆拦截器 -->
             <interceptor name="loginInterceptor" class="com.hongxin.action.Interceptor.LoginInterceptor"></interceptor>  
-            <!-- 拦截器栈 -->  
-            <interceptor-stack name="myStack">  
-                <interceptor-ref name="defaultStack" />
-                <interceptor-ref name="loginInterceptor" />  
+            <interceptor-stack name="myStack">  <!-- myStack 定义一个登陆拦截器-->
+                <interceptor-ref name="defaultStack" />	<!-- 使用默认拦截器 -->
+                <interceptor-ref name="loginInterceptor" />  <!-- 定义一份登陆拦截器栈 -->
             </interceptor-stack>  
             
+            <!-- 日志拦截器 -->
             <interceptor name="LogIntercept" class="com.hongxin.action.Interceptor.LogIntercept"></interceptor>
             <interceptor-stack name="myLogStack">
                 <interceptor-ref name="LogIntercept" />
@@ -61,7 +64,7 @@
             </interceptor-stack>
         </interceptors>
   
-  		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+  		<default-interceptor-ref name="myStack"></default-interceptor-ref><!--	使用拦截器  -->
   		
         <!-- 定义全局Result -->  
         <global-results>  
@@ -70,31 +73,37 @@
         </global-results>
         </package>
         
+        <!-- 用户登录系统 -->
         <package name="default" extends="struts2">
-        	<!-- 登录 -->
-        	<action name="index" class="com.hongxin.action.OA.UserLoginAction">  
-	            <result name="success" >/main.jsp</result>
-	            <!-- type= "redirectAction" -->  
+		    <!-- 用户登录 -->
+		    <action name="index" class="com.hongxin.action.OA.UserLoginAction" >  
+	            <result name="redirect_getLimit" type= "redirectAction">
+	              	<param name="actionName">getLimit</param>  
+	            	<param name="roleIdList">${roleIdList}</param>
+	         </result>
+	            <result name="redirect_getAllLimit" type= "redirectAction">getAllLimit</result>
 	            <interceptor-ref name="myLogStack"></interceptor-ref>
-	            <result name="error">/index.jsp</result>  
-	            <result name="input">/index.jsp</result>
-	            <result name="invalid.token">/token.jsp</result>
-	            <!--登录登出不需要拦截 让它们已入 defaultStack不然登录不上--> 
-	            <interceptor-ref name="defaultStack"></interceptor-ref>
 	        </action>
 	        
-	           
+	        <!-- 加载权限 -->
+	        <action name="getLimit" class="com.hongxin.action.OA.UserLoginAction" method="getLimit">  
+	            <result name="redirect_myInit" type= "redirectAction">myInit</result>
+	        </action>
+	        <action name="getAllLimit" class="com.hongxin.action.OA.UserLoginAction" method="getAllLimit">  
+	            <result name="redirect_init" type= "redirectAction">init</result>
+	        </action>
+	       
+	       <!-- 获取用户菜单 --> 
+	        <action name="init" class="com.hongxin.action.OA.UserLoginAction" method="init">  
+	            <result name="main">/main.jsp</result>
+	            <interceptor-ref name="myStack"></interceptor-ref>
+	        </action>
+	        <action name="myInit" class="com.hongxin.action.OA.UserLoginAction" method="myInit">  
+	            <result name="main">/main.jsp</result>
+	            <interceptor-ref name="myStack"></interceptor-ref>
+	        </action>
   		</package>
   		
-         <!-- 图片上传 -->
-	  <package name="upload" extends="struts2">  
-        <action name="uploadPicture" class="com.hongxin.action.OA.PictureAction">  
-            <param name="savePath">/uploads</param>  
-            <result name="success">/index.jsp</result> 
-          <interceptor-ref name="defaultStack"></interceptor-ref>
-        </action>  
-     </package>
-      
 	<!-- 使用Convention插件,实现约定大于配置的零配置文件风格. 特殊的Result路径在Action类中使用@Result设定. -->
 	<include file="struts-user.xml"/>
 	<include file="struts-custom.xml"/>

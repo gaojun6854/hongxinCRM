@@ -33,5 +33,12 @@
             <interceptor-ref name="myLogStack"></interceptor-ref>
             <!--如果不需要拦截 让它们已入 defaultStack-->
         </action>
+        
+        <action name="ceshi" class="com.hongxin.action.OA.PactInfoAction" method="ceshi">  
+        </action>
+        <action name="ceshi2" class="com.hongxin.action.OA.PactInfoAction" method="ceshi2">  
+        </action>
+        
+        
 	</package>
 </struts>  

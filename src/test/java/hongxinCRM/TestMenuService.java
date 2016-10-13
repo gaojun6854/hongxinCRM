@@ -1,5 +1,6 @@
 package hongxinCRM;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class TestMenuService {
 	@Test
 	public void save() {
 		ResourceBak resourceBak=new ResourceBak();
-		resourceBak.setSeq("1");
+		resourceBak.setSeq(1);
 		resourceBak.setPicUrl("hei");
 		resourceBak.setSourceUrl("/custom/baseinfo.action");
 		resourceBak.setSourceCode("111");
@@ -38,10 +39,24 @@ public class TestMenuService {
 	
 	@Test
 	public void findAll() {
-		List<ResourceBak> resourceBakList=menuService.findAll();
-		/*for (ResourceBak resourceBak : resourceBakList) {
-			System.out.println(resourceBak.getSourceId());
-		}*/
+		//一级菜单
+		List<ResourceBak> parentResourceBakList=menuService.getSubMenuList(null);
+		for (ResourceBak resourceBak : parentResourceBakList) {
+			System.out.println("--一级菜单开头--"+resourceBak.getSeq().toString()+resourceBak.getSourceName()+"--一级菜单开头--");
+			//二级菜单
+			List<ResourceBak> resourceBakList=menuService.getSubMenuList(Integer.toString(resourceBak.getSourceId()));
+			resourceBak.setChildMenus(resourceBakList);
+			
+			for (int i = 0; i < resourceBakList.size(); i++) {
+				System.out.println("--菜单--"+resourceBakList.get(i).getSeq().toString()+resourceBakList.get(i).getSourceName());
+			}
+			System.out.println("--一级菜单结束--"+resourceBak.getSeq().toString()+resourceBak.getSourceName()+"--一级菜单结束--");
+		}
+		
+		List lists=new ArrayList();
+		
+		
+		
 	}
 	
 }

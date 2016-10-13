@@ -10,12 +10,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<link rel="stylesheet" href="<%=basePath %>assets/css/amazeui.min.css" />
-<link rel="stylesheet" href="<%=basePath %>assets/css/admin.css">
-<script src="<%=basePath %>assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/jquery.validate.js"></script>
-<script type="text/javascript" src="<%=basePath%>js/jquery.validate.messages_cn.js"></script>
-<script src="<%=basePath %>assets/js/app.js"></script>
+	<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<script src="../assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/jquery.validate.js"></script>
+<script type="text/javascript" src="../js/jquery.validate.messages_cn.js"></script>
+<script src="../assets/js/app.js"></script>
 <style type="text/css">
 	.error{color:red;
 		font-size:13px;
@@ -29,11 +29,9 @@
 </head>
 <body>
 	<header class="am-topbar admin-header">
-	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-	</div>
-	</header><c:if test="${empty user }">
-	<jsp:forward page="/login.jsp" />
-</c:if>
+		<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		</div>
+	</header>
 	<div class="am-cf admin-main">
 		<div class="admin-content">
 			<div class="am-cf am-padding">
@@ -44,13 +42,12 @@
 			<div class="am-g" style="padding-left: 500px;">
 				<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
 				
-					<form class="am-form am-form-horizontal" action="/role/inser-role"
-						id="addUser" method="post">
-						<p>${requestScope.msg}</p> 
+					<form class="am-form am-form-horizontal" action="addRole.action" id="addRole" method="post">
+						<p>${msg}</p> 
 						<div class="am-form-group">
 							<label for="user-name" class="am-u-sm-3 am-form-label">名称</label>
 							<div class="am-u-sm-9">
-								<input type="text" id="roleName" placeholder="名称  "	name="roleName" value="">
+								<input type="text" id="roleName" placeholder="名称  "	name="role.roleName" value="">
 								<span class="roleName"></span>
 							</div>
 						</div>
@@ -58,7 +55,7 @@
 						<div class="am-form-group">
 							<label for="password" class="am-u-sm-3 am-form-label">备注</label>
 							<div class="am-u-sm-9">
-								<input type="text"   name="description"	placeholder="备注  " value="">
+								<input type="text"   name="role.description"	placeholder="备注  " value="">
 								<span class="description"></span>
 							</div>
 						</div>
@@ -75,16 +72,9 @@
 		</div>
 
 	</div>
-
-	<footer>
-	<hr>
-	<p class="am-padding-left" align="right">蜂鸟优服    © 2015 </p>
-	</footer>
-</body>
-</html>
 <script type="text/javascript">
    $(function () {
-       $("#addUser").validate(
+       $("#addRole").validate(
          {
              /*自定义验证规则*/
              rules: {
@@ -102,3 +92,5 @@
        );
    });
 </script>
+</body>
+</html>

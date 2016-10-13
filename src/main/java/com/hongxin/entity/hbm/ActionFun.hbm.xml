@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-8-1 11:24:19 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="com.hongxin.entity.ActionFun" table="fl_action_fun"  optimistic-lock="version">
+    <class name="com.hongxin.entity.ActionFun" table="fl_action_fun" >
         <id name="actionId" type="string">
             <column name="action_id" length="40" />
             <generator class="assigned" />
@@ -30,7 +30,6 @@
         </property>
         <property name="funcUrl" type="string">
             <column name="func_url" length="40" not-null="true">
-                <comment>&#185;&#166;&#196;&#220;&#181;&#227;URL</comment>
             </column>
         </property>
     </class>

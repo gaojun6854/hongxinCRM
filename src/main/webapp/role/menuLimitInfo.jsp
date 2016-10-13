@@ -9,12 +9,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="<%=basePath %>assets/css/admin.css" />
-<link href="<%=basePath %>css/style.css" rel="stylesheet" type="text/css" />
-<script src="<%=basePath%>js/jquery-1.8.0.min.js" type="text/javascript"></script>
-<title>无标题文档</title><c:if test="${empty user }">
-	<jsp:forward page="/login.jsp" />
-</c:if>
+<link rel="stylesheet" href="../assets/css/admin.css" />
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script src="../js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<title>无标题文档</title>
 <style>
 .one{
 	height:30px;
@@ -25,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
 </head>
 <body>
-${msg }
+${msg}
 	<div class="place">
 		<span>菜单管理：</span>
 		<ul class="placeul">
@@ -33,20 +31,20 @@ ${msg }
 		</ul>
 	</div>
 	<div class="rightinfo">
-	<form action="/role/addLimitToRole?roleId=${roleId }" method="post">
+	<form action="addLimitToRole.action?roleId=${roleId }" method="post">
 			<table class="tablelist">
 				<thead>
 					<tr>
 						<th>一级菜单</th>
 						<th>二级菜单</th>
-						<th>三级菜单 </th>
+						<th></th>
 						<th id="cz">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${resourceBakList}" var="firstData">
+					<c:forEach items="${menus}" var="firstData">
 						<tr>
-							<td>${firstData.sourcoName}</td>
+							<td>${firstData.sourceName}</td>
 			               	<td></td>
 			               	<td></td>
 							<td class="cz">
@@ -59,10 +57,10 @@ ${msg }
 							</c:forEach>
 						    </td>
 						</tr>
-						<c:forEach items="${firstData.resourceBakList}" var="secondData">
+						<c:forEach items="${firstData.childMenus}" var="secondData">
                 		<tr>
 	                		<td></td>
-	                		<td>${secondData.sourcoName}</td>
+	                		<td>${secondData.sourceName}</td>
 	                		<td></td>
 	                		<td class="cz">
 	                		<c:forEach var="two" items="${secondData.funlist }">
@@ -73,22 +71,6 @@ ${msg }
 								/>${two.funcName }
 							</c:forEach>
 	                   		 </td>
-                		<c:forEach items="${secondData.resourceBakList}" var="thirdData">
-                			<tr>
-	                			<td></td>
-	                			<td></td>
-		                		<td>${thirdData.sourcoName}</td>
-		                		<td  class="cz">
-			                    	<c:forEach var="two" items="${thirdData.funlist }">
-								<input style="margin-left: 50px;" type="checkbox" name="limit" value="${two.actionId }"
-								<c:forEach var="myroleLimit" items="${myroleactionList }">
-								<c:if test="${myroleLimit.actionId eq two.actionId }">checked</c:if> 
-								</c:forEach> 
-								/>${two.funcName }
-								</c:forEach>
-		                   		 </td>
-                   		 	</tr>
-                		</c:forEach>
                 		</tr>
                 		</c:forEach>
 					</c:forEach>
@@ -98,8 +80,8 @@ ${msg }
 			<input style="width:45px;height:20px;cursor:pointer;" type="button" value="返回" onclick="history.go(-1);" />
 		</form>
 	</div>
-</body>
-</html>
 <script type="text/javascript">
 		$('.tablelist tbody tr:odd').addClass('odd');
 </script>
+</body>
+</html>

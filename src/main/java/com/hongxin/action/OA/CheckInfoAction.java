@@ -65,13 +65,13 @@ public class CheckInfoAction extends ActionSupport implements ServletRequestAwar
 	public static void main(String[] args) {
 		CustomBaseInfo toAddCustomBaseInfo=new CustomBaseInfo();
 		toAddCustomBaseInfo.setCustname("测试用户1");
-		toAddCustomBaseInfo.setPapernum("340222198810022901");
-		toAddCustomBaseInfo.setPhonenum("15385538902");
+		toAddCustomBaseInfo.setPapernum("340222198810022902");
+		toAddCustomBaseInfo.setPhonenum("15385538980");
 		toAddCustomBaseInfo.setEmail("gaojun6854@126.com");
 		
 		CustomAccount toAddCustomAccount=new CustomAccount();
 		toAddCustomAccount.setPayBankName("招商银行股份有限公司上海安亭支行");
-		toAddCustomAccount.setAccountBank("6214831217827000");
+		toAddCustomAccount.setAccountBank("6214831217827056");
 		
 		CommonRspData comrsd=new CommonRspData();
 		RegReqData regData=new RegReqData();

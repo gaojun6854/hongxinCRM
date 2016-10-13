@@ -11,5 +11,5 @@ public class Constants {
 	public final static String IN_CUST_NO="user114";//商户名
 	public final static int FEN_YE_SHU=10;//分页数
 	public final static String sendMessageURL="http://139.196.175.125:4567";//发送短信邮件等请求地址
-	
+	public final static String saveLogPath="D://hongxinCRM_LOG";
 }

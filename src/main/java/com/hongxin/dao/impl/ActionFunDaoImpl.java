@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.hongxin.dao.ActionFunDao;
 import com.hongxin.entity.ActionFun;
+import com.hongxin.entity.ResourceBak;
 import com.hongxin.utils.QueryResult;
+
+
 
 @Repository("actionFunDao")
 public class ActionFunDaoImpl implements ActionFunDao {
@@ -94,6 +97,26 @@ public class ActionFunDaoImpl implements ActionFunDao {
 	@SuppressWarnings("unchecked")
 	public List<ActionFun> getBySourceId(String sourceId) {
 		return this.getCurrentSession().createQuery("from ActionFun where sourceId = '"+sourceId+"' ").list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ActionFun> getFunctionList(Integer sourceId) {
+		return this.getCurrentSession().createQuery("from ActionFun where sourceId = '"+sourceId+"' ").list();
+	}
+
+	/**
+	 * 通过PID查询菜单
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ResourceBak> getSubMenuList(String pID) {
+		if (pID==null) {
+			return this.getCurrentSession().createSQLQuery("select * from resource_bak where parent_source_id is null ORDER BY seq asc").addEntity(ResourceBak.class).list();
+		}
+		return this.getCurrentSession().createSQLQuery("select * from resource_bak where parent_source_id='"+pID+"' ORDER BY seq asc").addEntity(ResourceBak.class).list();
+	}
+
+	public List selectSourceIdByactionIds(String hql) {
+		return this.getCurrentSession().createSQLQuery(hql).list();
 	}
 
 }

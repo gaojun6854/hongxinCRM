@@ -21,4 +21,6 @@ public interface ActionFunService
 
 	void flush();
 
+	List selectSourceIdByactionIds(List<String> actionIdList);
+
 }

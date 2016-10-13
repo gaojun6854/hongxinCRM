@@ -12,4 +12,6 @@ public interface MenuDao extends BaseDao<ResourceBak, Integer>{
 
 	List<ResourceBak> getallMenuList(Integer parentsourceId);
 
+	List<ResourceBak> getMenuList();
+
 }

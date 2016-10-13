@@ -22,7 +22,7 @@ public class ResourceBak implements java.io.Serializable
     private String sourceCode;//菜单编码
 	
 	
-    private String seq;//排序
+    private Integer seq;//排序
 	
 	
     private String sourceName;//菜单名称
@@ -36,6 +36,9 @@ public class ResourceBak implements java.io.Serializable
 	private String picUrl;
     private  ResourceBak parentResourceBak;
     
+    private List<ActionFun> funlist;
+    private List<ResourceBak>resourceBakss;
+    
     private Set<ResourceBak>resourceBaks=new HashSet<ResourceBak>(0);
     private List<ResourceBak>childMenus=new ArrayList<ResourceBak>();
     
@@ -45,6 +48,22 @@ public class ResourceBak implements java.io.Serializable
 
 	public void setChildMenus(List<ResourceBak> childMenus) {
 		this.childMenus = childMenus;
+	}
+
+	public List<ActionFun> getFunlist() {
+		return funlist;
+	}
+
+	public void setFunlist(List<ActionFun> funlist) {
+		this.funlist = funlist;
+	}
+
+	public List<ResourceBak> getResourceBakss() {
+		return resourceBakss;
+	}
+
+	public void setResourceBakss(List<ResourceBak> resourceBakss) {
+		this.resourceBakss = resourceBakss;
 	}
 
 	public ResourceBak getParentResourceBak() {
@@ -87,11 +106,11 @@ public class ResourceBak implements java.io.Serializable
 		this.sourceCode = sourceCode;
 	}
     
-    public String getSeq() {
+    public Integer getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(Integer seq) {
 		this.seq = seq;
 	}
 	

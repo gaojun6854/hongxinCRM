@@ -877,7 +877,7 @@ System.out.println(result);
 				qb.setMchnt_cd(Constants.MCHNT_CD);
 				qb.setMchnt_txn_ssn(TimeId.generateSequenceNo());
 				qb.setMchnt_txn_dt("20160520");
-				qb.setCust_no("15385538972");
+				qb.setCust_no("15385538970");
 				QueryBalanceRspData result = balanceAction(qb);
 				System.out.println(result.getResults().get(0).getCt_balance());
 				} catch (Exception e) {

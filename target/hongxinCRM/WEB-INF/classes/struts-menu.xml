@@ -36,5 +36,42 @@
 	            <result name="redirect_menuList" type= "redirectAction">menuList</result>
 	            <interceptor-ref name="defaultStack"></interceptor-ref>
 	    </action> 
+	    <!-- 所有功能点信息 -->
+	    <action name="functionList" class="com.hongxin.action.OA.MenuAction" method="functionList">  
+	            <result name="funInfo">/menu/funInfo.jsp</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 新增功能点 -->
+	    <action name="addFun" class="com.hongxin.action.OA.MenuAction" method="addFun">  
+	            <result name="addFun">/menu/addFun.jsp</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    
+	    <!--保存功能点  -->
+	    <action name="saveFun" class="com.hongxin.action.OA.MenuAction" method="saveFun">  
+	            <result name="redirect_functionList" type= "redirectAction">functionList?sourceId=${sourceId}</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 编辑功能点 -->
+	    <action name="editFun" class="com.hongxin.action.OA.MenuAction" method="editFun">  
+	            <result name="addFun" >/menu/addFun.jsp</result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    <!-- 更新功能点 -->
+	    <action name="updateFun" class="com.hongxin.action.OA.MenuAction" method="updateFun">  
+	            <result name="redirect_functionList" type= "redirectAction">
+	              	<param name="actionName">functionList</param>  
+	            	<param name="sourceId">${sourceId}</param>
+	            </result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
+	    
+	    <action name="deleteFun" class="com.hongxin.action.OA.MenuAction" method="deleteFun">  
+	            <result name="redirect_functionList" type= "redirectAction">
+	              	<param name="actionName">functionList</param>  
+	            	<param name="sourceId">${sourceId}</param>
+	            </result>
+	            <interceptor-ref name="defaultStack"></interceptor-ref>
+	    </action>
 	</package>
 </struts>  

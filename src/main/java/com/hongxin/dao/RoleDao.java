@@ -9,4 +9,6 @@ import com.hongxin.entity.Role;
 public interface RoleDao extends BaseDao<Role, String>{
 
 	List<Role> getByRoleId(String roleId);
+
+	int selectByName(String roleName);
 }

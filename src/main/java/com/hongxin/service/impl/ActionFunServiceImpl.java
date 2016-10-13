@@ -46,5 +46,14 @@ public class ActionFunServiceImpl implements ActionFunService {
 		return null;
 	}
 
+	public List selectSourceIdByactionIds(List<String> actionIdList) {
+		String actionIds=""; 
+		for (int i = 0; i < actionIdList.size()-1; i++) {
+			actionIds+=actionIdList.get(i).toString()+",";
+		}
+		actionIds+=actionIdList.get(actionIdList.size()-1);
+		String hql="select source_id from fl_action_fun where action_id in ("+actionIds+")";
+		return actionFunDao.selectSourceIdByactionIds(hql);
+	}
 
 }

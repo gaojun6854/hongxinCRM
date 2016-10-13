@@ -59,7 +59,7 @@
 			<div class="cam"><img src="images/index/cam.png" class="img-responsive" alt="" /></div>
 			<form action="index.action" method="post">
 				<input type="text" name="id" class="text" value="" onfocus="this.value = '';" placeholder="用户" >
-				<input type="password" name="name"  class="text" value="" onfocus="this.value = '';" placeholder="密码">
+				<input type="password" name="passWord"  class="text" value="" onfocus="this.value = '';" placeholder="密码">
 				<div class="submit"><input type="submit"  value="登陆" ></div>
 				<div class="clear"></div>
 				<div class="buttons">

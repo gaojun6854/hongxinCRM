@@ -39,7 +39,7 @@ jQuery.validator.addMethod("goodsPrice", function(value, element) {
 
 
 jQuery.validator.addMethod("month", function(value, element) {   
-    var tel = /^[1-9]$)|(^[1][0-2]$)$/;
+    //var tel = /^[1-9]$)|(^[1][0-2]$)$/;
     return this.optional(element) || (tel.test(value));
 }, "月份输入不正确");
 jQuery.validator.addMethod("year", function(value, element) {   

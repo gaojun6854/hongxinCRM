@@ -28,4 +28,8 @@ public interface MenuService
 	List<ResourceBak> getallMenuList(Integer parentsourceId);
 
 	List<ActionFun> getFunctionList(String sourceId);
+
+	List<ResourceBak> getMenuListFunlist();
+
+	List<ResourceBak> getSubMenuList(String Id);
 }

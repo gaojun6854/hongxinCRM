@@ -10,17 +10,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="<%=basePath %>css/style.css" rel="stylesheet"
+<link href="../css/menu/css/style.css" rel="stylesheet"
 	type="text/css" />
-<script type="text/javascript" src="<%=basePath %>js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
 </head>
 <body>
 	<div class="place">
 		<span>位置：</span>
 		<ul class="placeul">
 			<li><a href="#">首页</a></li>
-			<li><a href="#">数据表</a></li>
-			<li><a href="#">基本内容</a></li>
+			<li><a href="<%=basePath%>menu/menuList.action">菜单管理</a></li>
+			<li><a href="#">功能点</a></li>
 		</ul>
 	</div>
 
@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 		<div class="tools">
 			<ul class="toolbar1">
-				<li class="click" style="cursor:pointer;"><span><img src="<%=basePath %>images/t05.png" /></span>新增功能点</li>
+				<li class="click" style="cursor:pointer;"><span><img src="../css/menu/images/t05.png" /></span>新增功能点</li>
 			</ul>
 
 		</div>
@@ -45,13 +45,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${requestScope.funList }" var="actionFun">
+				<c:forEach items="${funList}" var="actionFun">
 					<tr>
 						<td><input name="" type="checkbox" value="" /></td>
 						<td>${actionFun.code }</td>
 						<td>${actionFun.funcName }</td>
 						<td>${actionFun.funcUrl }</td>
-						<td><a href="/menu/edit/${actionFun.actionId }" class="tablelink">修改</a> <a href="/menu/delete/${actionFun.actionId }"
+						<td><a href="editFun.action?actionId=${actionFun.actionId}&method_=updateFun" class="tablelink">修改</a> <a href="deleteFun.action?actionId=${actionFun.actionId}&sourceId=${sourceId}"
 							class="tablelink2"> 删除</a>
 							
 							</td>
@@ -59,54 +59,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</c:forEach> 
 			</tbody>
 		</table>
-
-<!-- 
-		<div class="pagin">
-			<div class="message">
-				共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页
-			</div>
-			<ul class="paginList">
-				<li class="paginItem"><a href="javascript:;"><span
-						class="pagepre"></span></a></li>
-				<li class="paginItem"><a href="javascript:;">1</a></li>
-				<li class="paginItem current"><a href="javascript:;">2</a></li>
-				<li class="paginItem"><a href="javascript:;">3</a></li>
-				<li class="paginItem"><a href="javascript:;">4</a></li>
-				<li class="paginItem"><a href="javascript:;">5</a></li>
-				<li class="paginItem more"><a href="javascript:;">...</a></li>
-				<li class="paginItem"><a href="javascript:;">10</a></li>
-				<li class="paginItem"><a href="javascript:;"><span
-						class="pagenxt"></span></a></li>
-			</ul>
-		</div>
-
- -->
-<%-- 		<div class="tip">
-			<div class="tiptop">
-				<span>提示信息</span><a></a>
-			</div>
-
-			<div class="tipinfo">
-				<span><img src="images/ticon.png" /></span>
-				<div class="tipright">
-					<p>是否确认对信息的修改 ？</p>
-					<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-				</div>
-			</div>
-
-			<div class="tipbtn">
-				<input name="" type="button" class="sure" value="确定" />&nbsp; <input
-					name="" type="button" class="cancel" value="取消" />
-			</div>
-
-		</div> --%>
 	</div>
 	<script type="text/javascript">
 	$('.tablelist tbody tr:odd').addClass('odd');
 	
 	$(document).ready(function(){
 		  $(".click").click(function(){
-			location.href = '<%=basePath %>menu/addFun/${sourceId}';
+			location.href = 'addFun.action?sourceId=${sourceId}&method_=saveFun';
 		  });
 	});
 	

@@ -507,7 +507,7 @@ public class CustomAction extends ActionSupport{
 		modifyMobileReqData.setMchnt_cd(Constants.MCHNT_CD);//商户代码
 		modifyMobileReqData.setMchnt_txn_ssn(TimeId.generateSequenceNo());//流水号
 		modifyMobileReqData.setLogin_id("15385538903");
-		modifyMobileReqData.setPage_notify_url("http://10.67.248.198:80/hongxinCRM/custom/returnModifyMobile.action");
+		modifyMobileReqData.setPage_notify_url("http://gaojun6854.eicp.net:57420/hongxinCRM/custom/returnModifyMobile.action");
 		try {
 			FuiouService.p2p400101(modifyMobileReqData, response);
 		} catch (Exception e) {
@@ -522,7 +522,7 @@ public class CustomAction extends ActionSupport{
 	 */
 	public void returnModifyMobile() throws Exception{
 		HttpServletRequest request=ServletActionContext.getRequest();
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("ISO8859-1");
 		try {
 			ModifyMobileRsqData modifyMobileRsqData=new ModifyMobileRsqData();
 			modifyMobileRsqData=FuiouRspParseService.modifyMobileRspParse(request);

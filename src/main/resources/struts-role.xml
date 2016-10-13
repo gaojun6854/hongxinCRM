@@ -13,5 +13,43 @@
             <interceptor-ref name="defaultStack"></interceptor-ref>
         </action>
         
+        <!-- 新增角色信息 -->
+        <action name="addRole" class="com.hongxin.action.OA.RoleAction" method="addRole">  
+            <result name="forward_allInfo" type= "redirectAction">allInfo</result>
+            <result name="addRole">/role/add-role.jsp</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        <!-- 删除角色信息 -->
+        <action name="deleteRole" class="com.hongxin.action.OA.RoleAction" method="deleteRole">  
+            <result name="forward_allInfo" type= "redirectAction">allInfo</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        
+         <!-- 通过角色ID查询菜单列表 -->
+        <action name="resourceBakByroleId" class="com.hongxin.action.OA.RoleAction" method="selectResourceBakByroleId">  
+             <result name="forward_allResourceAndAction" type= "redirectAction">
+	              	<param name="actionName">allResourceAndAction</param>  
+	            	<param name="roleId">${roleId}</param>
+	         </result>
+	         
+             <result name="myresourceActionList">/role/myresourceActionList.jsp</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        
+         <!-- 通过角色ID查询菜单列表 -->
+        <action name="allResourceAndAction" class="com.hongxin.action.OA.RoleAction" method="allResourceAndAction">  
+             <result name="menuLimitInfo">/role/menuLimitInfo.jsp</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
+        
+        <!-- 权限分配给角色 -->
+        <action name="addLimitToRole" class="com.hongxin.action.OA.RoleAction" method="addLimitToRole">  
+             <result name="forward_resourceBakByroleId" type= "redirectAction">
+	              	<param name="actionName">resourceBakByroleId</param>  
+	            	<param name="roleId">${roleId}</param>
+	         </result>
+             <result name="myresourceActionList">/role/myresourceActionList.jsp</result>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+        </action>
 	</package>
 </struts>  

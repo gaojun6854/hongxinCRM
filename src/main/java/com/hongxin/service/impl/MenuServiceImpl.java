@@ -28,37 +28,14 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	public List<ResourceBak> findAll() {
-		List<ResourceBak> resourceBakList=menuDao.findAll();
-		for (ResourceBak resourceBak : resourceBakList) {
-			List<ResourceBak> menuChilds=new ArrayList<ResourceBak>();
-			for (ResourceBak resourceBak1 : resourceBak.getResourceBaks()) {
-				menuChilds.add(resourceBak1);//加个排序
-			}
-			//////////////////////////////////////////////
-			//插入排序  对下层子菜单进行排序
-			ResourceBak key;
-			int i;
-			int j;
-			for (j = 1; j < menuChilds.size(); j++) {
-				key=menuChilds.get(j);
-				i=j-1;
-				while (i>=0 && Integer.parseInt(menuChilds.get(i).getSeq())>Integer.parseInt(key.getSeq())) {
-					menuChilds.set(i+1, menuChilds.get(i));
-					i--;
-				}
-				menuChilds.set(i+1, key);
-			}
-			////////////////////////////////////////////排序结束
-			
-			resourceBak.setChildMenus(menuChilds);//添加到每个主菜单下作为子菜单的成员
+		
+		List<ResourceBak> parentResourceBakList=menuDao.getSubMenuList(null);
+		for (ResourceBak resourceBak : parentResourceBakList) {
+			//二级菜单
+			List<ResourceBak> resourceBakList=menuDao.getSubMenuList(Integer.toString(resourceBak.getSourceId()));
+			resourceBak.setChildMenus(resourceBakList);
 		}
-		List<ResourceBak> menus=new ArrayList<ResourceBak>();
-		for (ResourceBak resourceBak : resourceBakList) {
-			if (resourceBak.getParentSourceId()==null) {
-				menus.add(resourceBak);
-			}
-		}
-		return menus;
+		return parentResourceBakList;
 	}
 
 	public void persist(ResourceBak entity) {
@@ -96,6 +73,33 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	public List<ActionFun> getFunctionList(String sourceId) {
 		return actionFunDao.getBySourceId(sourceId);
+	}
+
+	public List<ResourceBak> getMenuListFunlist() {
+		List<ResourceBak> parentResourceBakList=menuDao.getSubMenuList(null);
+		for (ResourceBak resourceBak : parentResourceBakList) {
+			if(resourceBak!=null && parentResourceBakList.size()>0){
+				//一级的功能点
+				List<ActionFun> actionOneList = actionFunDao.getFunctionList(resourceBak.getSourceId());
+				resourceBak.setFunlist(actionOneList);
+			}
+			//二级菜单
+			List<ResourceBak> resourceBakList=menuDao.getSubMenuList(Integer.toString(resourceBak.getSourceId()));
+			resourceBak.setChildMenus(resourceBakList);
+			
+			for (ResourceBak resourceBak2 : resourceBak.getChildMenus()) {
+				if(resourceBak2!=null && resourceBak.getChildMenus().size()>0){
+					//二级的功能点
+					List<ActionFun> actionOneList = actionFunDao.getFunctionList(resourceBak2.getSourceId());
+					resourceBak2.setFunlist(actionOneList);
+				}
+			}
+		}
+		return parentResourceBakList;
+	}
+
+	public List<ResourceBak> getSubMenuList(String PID) {
+		return actionFunDao.getSubMenuList(PID);
 	}
 
 }
